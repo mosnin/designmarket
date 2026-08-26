@@ -28,8 +28,8 @@ export function RemixList(): ReactNode {
 
   if (remixes.length === 0) {
     return (
-      <div className="rounded-md border border-dashed border-border bg-surface-2/50 px-6 py-14 text-center">
-        <Icon name="remix" className="mx-auto size-6 text-subtle-foreground" strokeWidth={1.5} />
+      <div className="rounded-md border border-dashed border-border bg-muted/50 px-6 py-14 text-center">
+        <Icon name="remix" className="mx-auto size-6 text-foreground/50" strokeWidth={1.5} />
         <h2 className="mt-3 text-[15px] font-semibold">No remixes yet</h2>
         <p className="mx-auto mt-1.5 max-w-md text-[13px] leading-relaxed text-muted-foreground">
           Open any component, change its props until it looks like your app, and
@@ -48,7 +48,7 @@ export function RemixList(): ReactNode {
       {remixes.map((remix) => (
         <li
           key={remix.id}
-          className="flex items-center gap-3 rounded-md border border-border bg-surface p-3"
+          className="flex items-center gap-3 rounded-md border border-border bg-muted/50 p-3"
         >
           <div className="min-w-0 flex-1">
             <Link
@@ -59,7 +59,7 @@ export function RemixList(): ReactNode {
             >
               {remix.name}
             </Link>
-            <p className="mt-0.5 truncate font-mono text-[11px] text-subtle-foreground">
+            <p className="mt-0.5 truncate font-mono text-[11px] text-foreground/50">
               {remix.componentSlug} · saved {timeAgo(remix.updatedAt)}
             </p>
           </div>

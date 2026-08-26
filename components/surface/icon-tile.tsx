@@ -69,7 +69,7 @@ export function IconTileStack({
         />
       ))}
       {extra > 0 ? (
-        <span className="flex size-8 shrink-0 items-center justify-center rounded-[9px] bg-surface-2 text-[10px] font-medium text-muted-foreground">
+        <span className="flex size-8 shrink-0 items-center justify-center rounded-[9px] bg-muted text-[10px] font-medium text-muted-foreground">
           +{extra}
         </span>
       ) : null}

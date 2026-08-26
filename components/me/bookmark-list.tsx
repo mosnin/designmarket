@@ -50,7 +50,7 @@ export function BookmarkList(): ReactNode {
     return (
       <div className="flex flex-col gap-2">
         {[0, 1, 2, 3].map((i) => (
-          <Skeleton key={i} className="h-16 w-full rounded-xl" />
+          <Skeleton key={i} className="h-16 w-full rounded-sm" />
         ))}
       </div>
     );
@@ -58,7 +58,7 @@ export function BookmarkList(): ReactNode {
 
   if (saved.length === 0) {
     return (
-      <div className="rounded-2xl border border-dashed border-border px-6 py-14 text-center">
+      <div className="rounded-sm border border-dashed border-border px-6 py-14 text-center">
         <h2 className="text-[15px] font-semibold">Nothing saved yet</h2>
         <p className="mx-auto mt-1.5 max-w-md text-[13px] leading-relaxed text-muted-foreground">
           Saving is one tap and never asks where to put it. Sort it into boards
@@ -87,10 +87,10 @@ export function BookmarkList(): ReactNode {
               type="button"
               onClick={() => setFilter(tab.id)}
               data-active={filter === tab.id || undefined}
-              className="t-press rounded-full px-3 py-1.5 text-[13px] font-medium text-muted-foreground hover:bg-surface-2 data-active:bg-surface-2 data-active:text-foreground"
+              className="t-press rounded-full px-3 py-1.5 text-[13px] font-medium text-muted-foreground hover:bg-muted data-active:bg-muted data-active:text-foreground"
             >
               {tab.label}
-              <span className="ml-1.5 text-[11px] text-subtle-foreground">{count}</span>
+              <span className="ml-1.5 text-[11px] text-foreground/50">{count}</span>
             </button>
           );
         })}
@@ -100,7 +100,7 @@ export function BookmarkList(): ReactNode {
         {shown.map((item) => (
           <li
             key={item.id}
-            className="group flex items-center gap-3 rounded-xl px-2 py-2.5 transition-colors hover:bg-surface"
+            className="group flex items-center gap-3 rounded-sm px-2 py-2.5 transition-colors hover:bg-muted/50"
           >
             <IconTile monogram={item.monogram} color={item.color} />
             <div className="min-w-0 flex-1">
@@ -120,9 +120,9 @@ export function BookmarkList(): ReactNode {
                 {item.subtitle}
               </p>
             </div>
-            <div className="flex items-center gap-2 text-[12px] text-subtle-foreground">
+            <div className="flex items-center gap-2 text-[12px] text-foreground/50">
               {item.boardId ? (
-                <span className="hidden items-center gap-1 rounded-full bg-surface-2 px-2 py-0.5 sm:inline-flex">
+                <span className="hidden items-center gap-1 rounded-full bg-muted px-2 py-0.5 sm:inline-flex">
                   <Icon name="boards" size={12} />
                   {boardName.get(item.boardId) ?? "Board"}
                 </span>

@@ -47,14 +47,14 @@ export function AdminQueue(): ReactNode {
     <div>
       <StatRow stats={stats} />
 
-      <h2 className="mt-8 text-[11px] font-semibold uppercase tracking-[0.08em] text-subtle-foreground">
+      <h2 className="mt-8 text-xs font-medium uppercase tracking-wider text-foreground/40">
         Waiting for review
       </h2>
 
       {pending === undefined ? (
         <div className="mt-3 flex flex-col gap-2">
           {[0, 1].map((i) => (
-            <Skeleton key={i} className="h-24 w-full rounded-xl" />
+            <Skeleton key={i} className="h-24 w-full rounded-sm" />
           ))}
         </div>
       ) : pending.length === 0 ? (
@@ -62,7 +62,7 @@ export function AdminQueue(): ReactNode {
           Nothing waiting. Submissions land here the moment someone sends one.
         </p>
       ) : (
-        <ul className="mt-3 divide-y divide-border border-y border-border">
+        <ul className="mt-3 divide-y divide-foreground/10 border-y border-border">
           {pending.map((row) => (
             <li key={row.id} className="flex flex-wrap items-start gap-4 py-4">
               <IconTile monogram={row.name.slice(0, 2).toUpperCase()} color="#2563eb" />
@@ -75,7 +75,7 @@ export function AdminQueue(): ReactNode {
                 </div>
                 <p className="mt-0.5 text-[13px] text-muted-foreground">{row.tagline}</p>
 
-                <p className="mt-1.5 flex flex-wrap gap-x-3 gap-y-1 font-mono text-[11px] text-subtle-foreground">
+                <p className="mt-1.5 flex flex-wrap gap-x-3 gap-y-1 font-mono text-[11px] text-foreground/50">
                   {row.facts?.weeklyDownloads ? (
                     <span>{row.facts.weeklyDownloads.toLocaleString()}/wk</span>
                   ) : null}
@@ -179,14 +179,14 @@ function StatRow({
     : [];
 
   if (!stats) {
-    return <Skeleton className="h-16 w-full rounded-xl" />;
+    return <Skeleton className="h-16 w-full rounded-sm" />;
   }
 
   return (
     <dl className="grid grid-cols-2 gap-x-6 gap-y-4 border-y border-border py-4 sm:grid-cols-4 xl:grid-cols-7">
       {cells.map((cell) => (
         <div key={cell.label} title={cell.hint}>
-          <dt className="text-[11px] font-semibold uppercase tracking-[0.08em] text-subtle-foreground">
+          <dt className="text-xs font-medium uppercase tracking-wider text-foreground/40">
             {cell.label}
           </dt>
           <dd className="mt-1 font-mono text-[20px] leading-none tabular-nums">

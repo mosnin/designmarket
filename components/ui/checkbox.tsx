@@ -13,7 +13,7 @@ export function Checkbox({
   return (
     <CheckboxPrimitive.Root
       className={cn(
-        "peer size-4 shrink-0 rounded-[4px] border border-border-strong bg-surface transition-colors",
+        "peer size-4 shrink-0 rounded-[4px] border border-foreground/20 bg-muted/50 transition-colors",
         "data-[state=checked]:border-accent data-[state=checked]:bg-accent data-[state=checked]:text-accent-foreground",
         "data-[state=indeterminate]:border-accent data-[state=indeterminate]:bg-accent data-[state=indeterminate]:text-accent-foreground",
         "disabled:cursor-not-allowed disabled:opacity-50",

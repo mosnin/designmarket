@@ -43,12 +43,12 @@ export function AuthForm({ mode }: { mode: Mode }): ReactNode {
 
   if (!AUTH_ENABLED) {
     return (
-      <div className="rounded-md border border-border bg-surface-2 p-4 text-[13px] leading-relaxed text-muted-foreground">
+      <div className="rounded-md border border-border bg-muted p-4 text-[13px] leading-relaxed text-muted-foreground">
         <p className="font-medium text-foreground">Accounts aren&apos;t available yet</p>
         <p className="mt-1">
           This deployment has no Convex backend configured, so browsing works but
           sign-in doesn&apos;t. Run{" "}
-          <code className="rounded-xs bg-surface px-1 py-0.5 font-mono text-xs">
+          <code className="rounded-xs bg-muted/50 px-1 py-0.5 font-mono text-xs">
             npx convex dev
           </code>{" "}
           and set <code className="font-mono text-xs">NEXT_PUBLIC_CONVEX_URL</code>.
@@ -95,7 +95,7 @@ export function AuthForm({ mode }: { mode: Mode }): ReactNode {
 
   return (
     <div>
-      <h1 className="text-xl font-semibold tracking-tight">{text.title}</h1>
+      <h1 className="font-serif text-2xl font-medium">{text.title}</h1>
       <p className="mt-1.5 text-[13px] leading-relaxed text-muted-foreground">
         {text.blurb}
       </p>
@@ -117,7 +117,7 @@ export function AuthForm({ mode }: { mode: Mode }): ReactNode {
 
       <div className="my-5 flex items-center gap-3">
         <span className="h-px flex-1 bg-border" />
-        <span className="text-[11px] uppercase tracking-wider text-subtle-foreground">
+        <span className="text-[11px] uppercase tracking-wider text-foreground/50">
           or
         </span>
         <span className="h-px flex-1 bg-border" />

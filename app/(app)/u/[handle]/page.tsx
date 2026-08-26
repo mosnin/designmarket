@@ -54,7 +54,7 @@ export default async function ProfilePage({
   if (!AUTH_ENABLED) {
     return (
       <div className="mx-auto max-w-2xl px-5 py-20 text-center sm:px-8">
-        <h1 className="text-[22px] font-semibold tracking-tight">
+        <h1 className="font-serif text-[22px] font-medium">
           Profiles need a backend
         </h1>
         <p className="mx-auto mt-2 max-w-md text-[13px] leading-relaxed text-muted-foreground">
@@ -85,7 +85,7 @@ export default async function ProfilePage({
           <SectionHeading
             title={`Submitted ${profile.listings.length === 1 ? "listing" : "listings"}`}
             aside={
-              <span className="text-[13px] text-subtle-foreground">
+              <span className="text-[13px] text-foreground/50">
                 {profile.listings.length}
               </span>
             }
@@ -96,7 +96,7 @@ export default async function ProfilePage({
                 <li key={listing.slug}>
                   <Link
                     href={`${sectionForKind(listing.kind)?.href ?? "/explore"}/${listing.slug}`}
-                    className="t-press flex items-center gap-3 rounded-xl px-2 py-2.5 hover:bg-surface"
+                    className="t-press flex items-center gap-3 rounded-sm px-2 py-2.5 hover:bg-muted/50"
                   >
                     <IconTile monogram={listing.monogram} color={listing.color} />
                     <span className="min-w-0 flex-1">
@@ -110,7 +110,7 @@ export default async function ProfilePage({
                     <Icon
                       name="forward"
                       size={14}
-                      className="text-subtle-foreground"
+                      className="text-foreground/50"
                     />
                   </Link>
                 </li>
@@ -127,7 +127,7 @@ export default async function ProfilePage({
           <SectionHeading
             title="Public boards"
             aside={
-              <span className="text-[13px] text-subtle-foreground">
+              <span className="text-[13px] text-foreground/50">
                 {profile.boards.length}
               </span>
             }
@@ -137,7 +137,7 @@ export default async function ProfilePage({
               {profile.boards.map((board) => (
                 <li
                   key={board.slug}
-                  className="rounded-xl border border-border bg-surface p-3.5 dark:border-transparent"
+                  className="rounded-sm border border-border bg-muted/50 p-3.5 dark:border-transparent"
                 >
                   <p className="text-[14px] font-medium">{board.name}</p>
                   {board.description ? (
@@ -145,7 +145,7 @@ export default async function ProfilePage({
                       {board.description}
                     </p>
                   ) : null}
-                  <p className="mt-2 text-[11px] text-subtle-foreground">
+                  <p className="mt-2 text-[11px] text-foreground/50">
                     {board.itemCount} items · {timeAgo(board.updatedAt)}
                   </p>
                 </li>
@@ -166,14 +166,14 @@ function ProfileHeader({ profile }: { profile: NonNullable<Profile> }): ReactNod
   return (
     <header className="flex flex-wrap items-start gap-4">
       <span
-        className="flex size-16 items-center justify-center rounded-2xl text-[20px] font-semibold text-white ring-1 ring-inset ring-white/10"
+        className="flex size-16 items-center justify-center rounded-sm text-[20px] font-semibold text-white ring-1 ring-inset ring-white/10"
         style={{ background: `linear-gradient(140deg, #2a2a2a, #141414)` }}
       >
         {profile.displayName.slice(0, 2).toUpperCase()}
       </span>
       <div className="min-w-0 flex-1">
         <div className="flex flex-wrap items-center gap-2">
-          <h1 className="text-[24px] font-semibold tracking-tight">
+          <h1 className="font-serif text-[26px] font-medium">
             {profile.displayName}
           </h1>
           {profile.plan === "pro" ? (

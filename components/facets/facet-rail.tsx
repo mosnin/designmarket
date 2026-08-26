@@ -42,7 +42,7 @@ export function FacetRail({
   return (
     <aside className={cn("flex flex-col gap-5", className)} aria-label="Filters">
       <div className="flex items-center justify-between">
-        <h2 className="text-[11px] font-semibold uppercase tracking-wider text-subtle-foreground">
+        <h2 className="text-xs font-medium uppercase tracking-wider text-foreground/40">
           Works with
         </h2>
         {activeCount > 0 ? (
@@ -78,7 +78,7 @@ export function FacetRail({
                         isOn
                           ? "font-medium text-foreground"
                           : empty
-                            ? "text-subtle-foreground/60"
+                            ? "text-foreground/50/60"
                             : "text-muted-foreground hover:text-foreground"
                       )}
                     >
@@ -87,14 +87,14 @@ export function FacetRail({
                           "flex size-4 shrink-0 items-center justify-center rounded-[4px] border transition-colors",
                           isOn
                             ? "border-accent bg-accent text-accent-foreground"
-                            : "border-border-strong group-hover:border-accent"
+                            : "border-foreground/20 group-hover:border-accent"
                         )}
                       >
                         {isOn ? <Icon name="check" className="size-3" strokeWidth={3} /> : null}
                       </span>
                       <span className="min-w-0 flex-1 truncate">{option.label}</span>
                       {count !== undefined ? (
-                        <span className="shrink-0 font-mono text-[11px] tabular-nums text-subtle-foreground">
+                        <span className="shrink-0 font-mono text-[11px] tabular-nums text-foreground/50">
                           {count}
                         </span>
                       ) : null}

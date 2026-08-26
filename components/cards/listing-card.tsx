@@ -10,72 +10,81 @@ import type { Listing } from "@/lib/types";
 import { cn, compactNumber, formatBytes, pluralize } from "@/lib/utils";
 
 /**
- * A listing is a row, not a card.
+ * The theme's card, verbatim.
  *
- * It used to open with a tall gradient panel holding a two-letter monogram —
- * decoration occupying the space where a fact should be, which pushed the grid
- * down to three-across and gave every result a box of its own to sit in. The
- * reference does none of that: a small brand mark, a name, a line of grey, and
- * air. No fill, no outline, nothing nested inside anything.
+ * `bg-muted/50` body with a hairline that firms up to `foreground/20` on
+ * hover, `rounded-sm`, a serif title, and a `bg-background` well above it for
+ * the visual. That inversion — muted card, background well — is the theme's,
+ * and it is what stops a grid reading as a stack of floating slabs.
  *
- * The consequence is density. Four across at desktop width, and every pixel
- * spent is spent on something you could act on.
+ * The well holds a live render where there is one to hold. A listing with
+ * nothing to show doesn't get an empty box: it gets no well at all.
  */
 export function ListingCard({
   listing,
+  preview,
   className,
 }: {
   listing: Listing;
+  /** a live render of one of this listing's components, when we have one */
+  preview?: ReactNode;
   className?: string;
 }): ReactNode {
-  const meta = metaLine(listing);
-
   return (
     <article
       className={cn(
-        "group relative flex items-start gap-3 rounded-xl px-2.5 py-2.5 transition-colors hover:bg-surface",
+        "group relative flex flex-col overflow-hidden rounded-sm border border-border bg-muted/50",
+        "transition-[border-color,box-shadow] hover:border-foreground/20 hover:shadow-lg",
         className
       )}
     >
-      <IconTile monogram={listing.monogram} color={listing.color} />
+      {preview ? (
+        <div className="relative flex h-44 items-center justify-center overflow-hidden border-b border-border bg-background">
+          {preview}
+        </div>
+      ) : null}
 
-      <div className="min-w-0 flex-1">
-        <div className="flex items-center gap-1.5">
-          <h3 className="min-w-0 truncate text-[13.5px] font-semibold leading-snug tracking-tight">
-            <Link href={listingHref(listing)} className="after:absolute after:inset-0">
-              {listing.name}
-            </Link>
-          </h3>
-          {listing.verified ? (
-            <Icon
-              name="check"
-              className="size-3.5 shrink-0 text-accent"
-              aria-label="Verified by its maintainers"
-            />
-          ) : null}
+      <div className="flex flex-1 flex-col p-5">
+        <div className="flex items-start gap-3">
+          <IconTile monogram={listing.monogram} color={listing.color} />
+          <div className="min-w-0 flex-1">
+            <h3 className="flex items-center gap-1.5 font-serif text-[17px] font-medium leading-snug text-foreground">
+              <Link
+                href={listingHref(listing)}
+                className="min-w-0 truncate after:absolute after:inset-0"
+              >
+                {listing.name}
+              </Link>
+              {listing.verified ? (
+                <Icon
+                  name="check"
+                  className="size-3.5 shrink-0 text-accent"
+                  aria-label="Verified by its maintainers"
+                />
+              ) : null}
+            </h3>
+            <p className="mt-1 line-clamp-2 text-sm leading-relaxed text-muted-foreground">
+              {listing.tagline}
+            </p>
+          </div>
+          <span className="relative z-10 shrink-0">
+            <span className="group-hover:hidden">
+              <ShipScoreChip listing={listing} />
+            </span>
+            <span className="hidden group-hover:inline-flex">
+              <SaveButton
+                target={{ type: "listing", slug: listing.slug }}
+                size="icon-sm"
+                className="border-transparent"
+              />
+            </span>
+          </span>
         </div>
 
-        <p className="mt-0.5 truncate text-[12.5px] leading-snug text-muted-foreground">
-          {listing.tagline}
-        </p>
-
-        <p className="mt-1 truncate font-mono text-[11px] tabular-nums text-subtle-foreground">
-          {meta.join("  ·  ")}
+        <p className="mt-4 truncate border-t border-foreground/10 pt-3 font-mono text-xs tabular-nums text-foreground/50">
+          {metaLine(listing).join("  ·  ")}
         </p>
       </div>
-
-      <span className="relative z-10 shrink-0">
-        <span className="group-hover:hidden">
-          <ShipScoreChip listing={listing} />
-        </span>
-        <span className="hidden group-hover:inline-flex">
-          <SaveButton
-            target={{ type: "listing", slug: listing.slug }}
-            size="icon-sm"
-            className="border-transparent"
-          />
-        </span>
-      </span>
     </article>
   );
 }
@@ -102,20 +111,20 @@ function metaLine(listing: Listing): string[] {
       : kindLabel(listing.kind)
   );
 
-  // Four across means roughly forty characters of monospace. A fourth fact
-  // that arrives as an ellipsis is worse than no fourth fact.
-  return out.slice(0, 3);
+  return out.slice(0, 4);
 }
 
 export function ListingCardSkeleton(): ReactNode {
   return (
-    <div className="flex items-start gap-3 px-2.5 py-2.5">
-      <div className="size-10 shrink-0 animate-pulse rounded-[11px] bg-surface-2" />
-      <div className="flex flex-1 flex-col gap-1.5 pt-0.5">
-        <div className="h-3 w-2/3 animate-pulse rounded-xs bg-surface-2" />
-        <div className="h-3 w-full animate-pulse rounded-xs bg-surface-2" />
-        <div className="h-2.5 w-1/2 animate-pulse rounded-xs bg-surface-2" />
+    <div className="rounded-sm border border-border bg-muted/50 p-5">
+      <div className="flex items-start gap-3">
+        <div className="size-10 shrink-0 animate-pulse rounded-sm bg-foreground/10" />
+        <div className="flex flex-1 flex-col gap-2">
+          <div className="h-4 w-2/3 animate-pulse rounded-xs bg-foreground/10" />
+          <div className="h-3 w-full animate-pulse rounded-xs bg-foreground/10" />
+        </div>
       </div>
+      <div className="mt-4 h-3 w-1/2 animate-pulse rounded-xs bg-foreground/10" />
     </div>
   );
 }

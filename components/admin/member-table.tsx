@@ -44,11 +44,11 @@ export function AdminMemberTable({ role }: { role: string }): ReactNode {
       {members === undefined ? (
         <div className="mt-4 flex flex-col gap-1.5">
           {[0, 1, 2].map((i) => (
-            <Skeleton key={i} className="h-12 w-full rounded-xl" />
+            <Skeleton key={i} className="h-12 w-full rounded-sm" />
           ))}
         </div>
       ) : (
-        <ul className="mt-4 divide-y divide-border border-y border-border">
+        <ul className="mt-4 divide-y divide-foreground/10 border-y border-border">
           {members.map((member) => (
             <li key={member.id} className="flex flex-wrap items-center gap-3 py-3">
               <div className="min-w-0 flex-1">
@@ -86,7 +86,7 @@ export function AdminMemberTable({ role }: { role: string }): ReactNode {
                     className={`t-press rounded-full px-2.5 py-1 text-[12px] capitalize transition-colors disabled:pointer-events-none disabled:opacity-40 ${
                       member.role === option
                         ? "text-accent"
-                        : "text-subtle-foreground hover:text-foreground"
+                        : "text-foreground/50 hover:text-foreground"
                     }`}
                   >
                     {option}

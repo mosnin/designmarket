@@ -25,7 +25,7 @@ export function ListingRow({
     <Link
       href={listingHref(listing)}
       className={cn(
-        "t-press group flex items-center gap-3 rounded-xl px-2 py-2 hover:bg-surface",
+        "t-press group flex items-center gap-3 rounded-sm px-2 py-2 hover:bg-muted/50",
         className
       )}
     >

@@ -114,7 +114,7 @@ function RemixDialog({
           <Input value={name} onChange={(event) => setName(event.target.value)} />
         </label>
 
-        <pre className="max-h-32 overflow-auto scrollbar-thin rounded-sm border border-border bg-surface-2 p-2.5 font-mono text-[11px] text-muted-foreground">
+        <pre className="max-h-32 overflow-auto scrollbar-thin rounded-sm border border-border bg-muted p-2.5 font-mono text-[11px] text-muted-foreground">
           {JSON.stringify(props, null, 2)}
         </pre>
 

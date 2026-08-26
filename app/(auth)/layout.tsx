@@ -26,10 +26,10 @@ export default function AuthLayout({
       </div>
 
       {/* The value proposition, restated where the decision is being made. */}
-      <aside className="relative hidden overflow-hidden border-l border-border bg-surface-2 bg-grid lg:block">
+      <aside className="relative hidden overflow-hidden border-l border-border bg-muted bg-grid lg:block">
         <div className="flex h-full flex-col justify-center px-12">
           <LiveBadge />
-          <p className="mt-5 max-w-md font-display text-3xl leading-tight">
+          <p className="mt-5 max-w-md font-serif text-3xl font-medium leading-tight">
             Every component on this site is really running.
           </p>
           <p className="mt-4 max-w-md text-sm leading-relaxed text-muted-foreground">
@@ -49,7 +49,7 @@ export default function AuthLayout({
               </li>
             ))}
           </ul>
-          <p className="mt-10 max-w-md text-xs leading-relaxed text-subtle-foreground">
+          <p className="mt-10 max-w-md text-xs leading-relaxed text-foreground/50">
             Browsing never needs an account. Accounts are for keeping things.
           </p>
         </div>

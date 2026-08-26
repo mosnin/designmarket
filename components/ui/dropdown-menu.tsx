@@ -20,7 +20,7 @@ export function DropdownMenuContent({
       <DropdownMenuPrimitive.Content
         sideOffset={sideOffset}
         className={cn(
-          "z-50 min-w-48 overflow-hidden rounded-md border border-border bg-elevated p-1 shadow-pop",
+          "z-50 min-w-48 overflow-hidden rounded-md border border-border bg-background p-1 shadow-lg",
           "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95",
           className
         )}
@@ -39,7 +39,7 @@ export function DropdownMenuItem({
     <DropdownMenuPrimitive.Item
       className={cn(
         "relative flex cursor-pointer select-none items-center gap-2 rounded-xs px-2 py-1.5 text-[13px] outline-none transition-colors",
-        "focus:bg-surface-2 focus:text-foreground",
+        "focus:bg-muted focus:text-foreground",
         "data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:size-4 [&_svg]:text-muted-foreground",
         inset && "pl-8",
         className
@@ -59,7 +59,7 @@ export function DropdownMenuCheckboxItem({
     <DropdownMenuPrimitive.CheckboxItem
       checked={checked}
       className={cn(
-        "relative flex cursor-pointer select-none items-center gap-2 rounded-xs py-1.5 pl-8 pr-2 text-[13px] outline-none transition-colors focus:bg-surface-2",
+        "relative flex cursor-pointer select-none items-center gap-2 rounded-xs py-1.5 pl-8 pr-2 text-[13px] outline-none transition-colors focus:bg-muted",
         className
       )}
       {...props}
@@ -80,7 +80,7 @@ export function DropdownMenuLabel({
 }: ComponentProps<typeof DropdownMenuPrimitive.Label>): ReactNode {
   return (
     <DropdownMenuPrimitive.Label
-      className={cn("px-2 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-subtle-foreground", className)}
+      className={cn("px-2 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-foreground/50", className)}
       {...props}
     />
   );

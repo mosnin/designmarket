@@ -22,7 +22,7 @@ export function Pricing(): ReactNode {
   return (
     <div className="mx-auto max-w-[64rem] px-5 py-16 sm:px-8">
       <header className="max-w-2xl">
-        <h1 className="text-[34px] font-semibold leading-tight tracking-tight">
+        <h1 className="font-serif text-[34px] font-medium leading-tight">
           Free to read. Paid to automate.
         </h1>
         <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">
@@ -33,7 +33,7 @@ export function Pricing(): ReactNode {
         </p>
       </header>
 
-      <div className="mt-12 grid gap-px overflow-hidden rounded-2xl border border-border md:grid-cols-2">
+      <div className="mt-12 grid gap-px overflow-hidden rounded-sm border border-border md:grid-cols-2">
         <section className="bg-background p-7">
           <h2 className="text-[15px] font-semibold">Free</h2>
           <p className="mt-1 flex items-baseline gap-1.5">
@@ -54,7 +54,7 @@ export function Pricing(): ReactNode {
           </Button>
         </section>
 
-        <section className="bg-surface p-7">
+        <section className="bg-muted/50 p-7">
           <h2 className="text-[15px] font-semibold text-accent">Pro</h2>
           <p className="mt-1 flex items-baseline gap-1.5">
             <span className="font-mono text-[32px] font-semibold leading-none">
@@ -96,7 +96,7 @@ export function Pricing(): ReactNode {
           &ldquo;what is popular&rdquo; but &ldquo;what can I install into this
           project without breaking it&rdquo;.
         </p>
-        <dl className="mt-6 divide-y divide-border border-y border-border">
+        <dl className="mt-6 divide-y divide-foreground/10 border-y border-border">
           {[
             [
               "search_listings",
@@ -151,7 +151,7 @@ function Row({
       <Icon
         name="check"
         size={15}
-        className={`mt-0.5 shrink-0 ${accent ? "text-accent" : "text-subtle-foreground"}`}
+        className={`mt-0.5 shrink-0 ${accent ? "text-accent" : "text-foreground/50"}`}
       />
       {children}
     </li>

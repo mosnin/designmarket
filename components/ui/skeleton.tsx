@@ -5,7 +5,7 @@ export function Skeleton({ className, ...props }: ComponentProps<"div">): ReactN
   return (
     <div
       className={cn(
-        "shimmer relative overflow-hidden rounded-xs bg-surface-2",
+        "shimmer relative overflow-hidden rounded-xs bg-muted",
         className
       )}
       {...props}

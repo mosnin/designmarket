@@ -32,15 +32,15 @@ export function ComponentCard({
   return (
     <article
       className={cn(
-        "t-lift group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-surface shadow-card dark:border-transparent",
-        "hover:border-border-strong hover:shadow-pop",
+        "t-lift group relative flex flex-col overflow-hidden rounded-sm border border-border bg-muted/50  dark:border-transparent",
+        "hover:border-foreground/20 hover:shadow-lg",
         className
       )}
     >
       <div
         className={cn(
           "relative flex aspect-[16/10] items-center justify-center overflow-hidden border-b border-border",
-          component.gridBackdrop ? "bg-grid" : "bg-surface-2"
+          component.gridBackdrop ? "bg-grid" : "bg-muted"
         )}
       >
         {preview ?? (
@@ -53,7 +53,7 @@ export function ComponentCard({
             >
               {componentKindLabel(component.kind)}
             </span>
-            <span className="text-[11px] text-subtle-foreground">
+            <span className="text-[11px] text-foreground/50">
               {renderable ? "Preview loads on the detail page" : "Not vendored yet — links out"}
             </span>
           </div>
@@ -86,7 +86,7 @@ export function ComponentCard({
               {component.name}
             </Link>
           </h3>
-          <span className="shrink-0 font-mono text-[11px] text-subtle-foreground">
+          <span className="shrink-0 font-mono text-[11px] text-foreground/50">
             {componentKindLabel(component.kind)}
           </span>
         </div>
@@ -95,7 +95,7 @@ export function ComponentCard({
           {component.description}
         </p>
 
-        <div className="mt-auto flex items-center gap-2 pt-3 text-[11px] text-subtle-foreground">
+        <div className="mt-auto flex items-center gap-2 pt-3 text-[11px] text-foreground/50">
           <span
             className="inline-flex size-4 shrink-0 items-center justify-center rounded-[3px] font-mono text-[8px] font-semibold"
             style={{

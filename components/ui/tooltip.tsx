@@ -18,7 +18,7 @@ export function TooltipContent({
       <TooltipPrimitive.Content
         sideOffset={sideOffset}
         className={cn(
-          "z-50 max-w-64 rounded-sm border border-border bg-elevated px-2.5 py-1.5 text-xs text-foreground shadow-pop",
+          "z-50 max-w-64 rounded-sm border border-border bg-background px-2.5 py-1.5 text-xs text-foreground shadow-lg",
           "data-[state=delayed-open]:animate-in data-[state=delayed-open]:fade-in-0 data-[state=delayed-open]:zoom-in-95",
           className
         )}

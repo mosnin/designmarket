@@ -23,7 +23,7 @@ export function SectionHeading({
 }): ReactNode {
   return (
     <div className={cn("mb-5 flex items-end justify-between gap-4", className)}>
-      <h2 className="text-[22px] font-semibold leading-none tracking-tight">
+      <h2 className="font-serif text-[22px] font-medium leading-none">
         {title}
       </h2>
       <div className="flex shrink-0 items-center gap-2">
@@ -31,7 +31,7 @@ export function SectionHeading({
         {href ? (
           <Link
             href={href}
-            className="group inline-flex items-center gap-1.5 rounded-full border border-border px-3.5 py-1.5 text-[13px] text-muted-foreground transition-colors hover:border-border-strong hover:text-foreground"
+            className="group inline-flex items-center gap-1.5 rounded-full border border-border px-3.5 py-1.5 text-[13px] text-muted-foreground transition-colors hover:border-foreground/20 hover:text-foreground"
           >
             {linkLabel}
             <Icon

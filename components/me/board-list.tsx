@@ -77,11 +77,11 @@ export function BoardList(): ReactNode {
       {boards === undefined ? (
         <div className="mt-6 flex flex-col gap-2">
           {[0, 1].map((i) => (
-            <Skeleton key={i} className="h-20 w-full rounded-2xl" />
+            <Skeleton key={i} className="h-20 w-full rounded-sm" />
           ))}
         </div>
       ) : boards.length === 0 ? (
-        <div className="mt-6 rounded-2xl border border-dashed border-border px-6 py-14 text-center">
+        <div className="mt-6 rounded-sm border border-dashed border-border px-6 py-14 text-center">
           <h2 className="text-[15px] font-semibold">No boards yet</h2>
           <p className="mx-auto mt-1.5 max-w-md text-[13px] leading-relaxed text-muted-foreground">
             A board is a shelf for saves you already made. Make one when the
@@ -93,7 +93,7 @@ export function BoardList(): ReactNode {
           {boards.map((board) => (
             <li
               key={board.id}
-              className="group rounded-2xl border border-border bg-surface p-4 dark:border-transparent"
+              className="group rounded-sm border border-border bg-muted/50 p-4 dark:border-transparent"
             >
               <div className="flex items-start gap-3">
                 <div className="min-w-0 flex-1">

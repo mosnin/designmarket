@@ -10,7 +10,7 @@ export function Panel({ className, ...props }: ComponentProps<"div">): ReactNode
   return (
     <div
       className={cn(
-        "rounded-2xl border border-border bg-surface dark:border-transparent",
+        "rounded-sm border border-border bg-muted/50 dark:border-transparent",
         className
       )}
       {...props}

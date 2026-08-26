@@ -43,7 +43,7 @@ export function SortMenu({
             >
               <span className="flex min-w-0 flex-1 flex-col">
                 <span className="font-medium">{sort.label}</span>
-                <span className="truncate text-[11px] text-subtle-foreground">
+                <span className="truncate text-[11px] text-foreground/50">
                   {sort.hint}
                 </span>
               </span>

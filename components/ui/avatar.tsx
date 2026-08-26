@@ -11,7 +11,7 @@ export function Avatar({
   return (
     <AvatarPrimitive.Root
       className={cn(
-        "relative flex size-8 shrink-0 overflow-hidden rounded-full border border-border bg-surface-2",
+        "relative flex size-8 shrink-0 overflow-hidden rounded-full border border-border bg-muted",
         className
       )}
       {...props}

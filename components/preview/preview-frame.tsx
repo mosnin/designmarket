@@ -140,7 +140,7 @@ export function PreviewFrame({
 
       {!ready ? (
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className="flex items-center gap-2 text-[11px] font-mono uppercase tracking-widest text-subtle-foreground">
+          <span className="flex items-center gap-2 text-[11px] font-mono uppercase tracking-widest text-foreground/50">
             <span className="live-dot size-1.5 rounded-full bg-live" />
             starting
           </span>

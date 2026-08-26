@@ -118,10 +118,10 @@ function LiveSubmitFlow(): ReactNode {
   return (
     <div className="mx-auto max-w-[72rem] px-5 py-10 sm:px-8">
       <header className="max-w-2xl">
-        <p className="text-[11px] font-semibold uppercase tracking-wider text-accent">
+        <p className="text-xs font-medium uppercase tracking-wider text-foreground/40">
           Submit
         </p>
-        <h1 className="mt-2 text-[32px] font-semibold leading-tight tracking-tight">
+        <h1 className="mt-2 font-serif text-[32px] font-medium leading-tight">
           Paste a link. We&apos;ll read the rest.
         </h1>
         <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">
@@ -190,7 +190,7 @@ function LiveSubmitFlow(): ReactNode {
 function NoBackend(): ReactNode {
   return (
     <div className="mx-auto max-w-2xl px-5 py-24 text-center sm:px-8">
-      <h1 className="text-[22px] font-semibold tracking-tight">
+      <h1 className="font-serif text-[22px] font-medium">
         Submitting needs a backend
       </h1>
       <p className="mx-auto mt-2 max-w-md text-[13px] leading-relaxed text-muted-foreground">
@@ -307,7 +307,7 @@ function Draft({
         <div className="flex items-start gap-3.5">
           <IconTile monogram={draft.monogram} color="#0066ff" size="lg" />
           <div className="min-w-0">
-            <h2 className="text-[22px] font-semibold tracking-tight">{draft.name}</h2>
+            <h2 className="font-serif text-[22px] font-medium">{draft.name}</h2>
             <p className="mt-0.5 text-[14px] text-muted-foreground">
               {draft.tagline || "No description published"}
             </p>
@@ -321,8 +321,8 @@ function Draft({
         </div>
 
         {draft.unresolved.length ? (
-          <div className="mt-6 rounded-xl border border-border bg-surface p-4 dark:border-transparent">
-            <p className="text-[11px] font-semibold uppercase tracking-wider text-subtle-foreground">
+          <div className="mt-6 rounded-sm border border-border bg-muted/50 p-4 dark:border-transparent">
+            <p className="text-xs font-medium uppercase tracking-wider text-foreground/40">
               What we couldn&apos;t confirm
             </p>
             <ul className="mt-2 flex flex-col gap-1">
@@ -336,7 +336,7 @@ function Draft({
                 </li>
               ))}
             </ul>
-            <p className="mt-2.5 text-[12px] leading-relaxed text-subtle-foreground">
+            <p className="mt-2.5 text-[12px] leading-relaxed text-foreground/50">
               These stay empty rather than being filled in with something
               plausible. Fix them at the source and the listing updates on the
               next refresh.
@@ -362,7 +362,7 @@ function Draft({
             <div className="flex flex-col gap-4">
               {groups.map((group) => (
                 <div key={group.group.id}>
-                  <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-wider text-subtle-foreground">
+                  <p className="mb-1.5 text-xs font-medium uppercase tracking-wider text-foreground/40">
                     {group.group.name}
                   </p>
                   <div className="flex flex-wrap gap-1.5">
@@ -405,7 +405,7 @@ function Draft({
             value={description}
             rows={4}
             onChange={(event) => setDescription(event.target.value)}
-            className="rounded-xl"
+            className="rounded-sm"
           />
         </Field>
 
@@ -436,11 +436,11 @@ function Draft({
       </div>
 
       <aside className="lg:sticky lg:top-20 lg:self-start">
-        <h2 className="mb-2.5 text-[11px] font-semibold uppercase tracking-wider text-subtle-foreground">
+        <h2 className="mb-2.5 text-xs font-medium uppercase tracking-wider text-foreground/40">
           Your Ship Score, before you submit
         </h2>
         <ShipScorePanel listing={preview} />
-        <p className="mt-2.5 text-[12px] leading-relaxed text-subtle-foreground">
+        <p className="mt-2.5 text-[12px] leading-relaxed text-foreground/50">
           Computed from what we just read, by the same code that grades every
           live listing. Dimensions marked N/A aren&apos;t counted against you —
           they simply leave the score standing on less.
@@ -463,7 +463,7 @@ function Field({
     <section className="mt-8">
       <div className="mb-2.5 flex items-baseline gap-2">
         <h3 className="text-[13px] font-semibold tracking-tight">{label}</h3>
-        {hint ? <p className="text-[12px] text-subtle-foreground">{hint}</p> : null}
+        {hint ? <p className="text-[12px] text-foreground/50">{hint}</p> : null}
       </div>
       {children}
     </section>
@@ -488,7 +488,7 @@ function Chip({
         "t-press rounded-full border px-3 py-1.5 text-[13px] font-medium transition-colors",
         active
           ? "border-accent bg-accent text-accent-foreground"
-          : "border-border text-muted-foreground hover:border-border-strong hover:text-foreground"
+          : "border-border text-muted-foreground hover:border-foreground/20 hover:text-foreground"
       )}
     >
       {children}

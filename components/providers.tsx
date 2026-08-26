@@ -20,7 +20,7 @@ export function Providers({ children }: { children: ReactNode }): ReactNode {
           toastOptions={{
             classNames: {
               toast:
-                "!bg-elevated !border-border !text-foreground !shadow-pop !rounded-md",
+                "!bg-background !border-border !text-foreground !shadow-lg !rounded-md",
               description: "!text-muted-foreground",
             },
           }}

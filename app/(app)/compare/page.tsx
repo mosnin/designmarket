@@ -82,10 +82,10 @@ export default async function ComparePage({
   return (
     <div className="mx-auto max-w-[92rem] px-4 py-6 sm:px-6 lg:py-8">
       <header>
-        <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-wider text-accent">
+        <p className="mb-1.5 text-xs font-medium uppercase tracking-wider text-foreground/40">
           Compare
         </p>
-        <h1 className="text-2xl font-semibold tracking-tight">
+        <h1 className="font-serif text-3xl font-medium">
           {targetKind
             ? `${componentKindLabel(targetKind)} components, side by side`
             : "Put candidates side by side"}
@@ -102,7 +102,7 @@ export default async function ComparePage({
           <CompareCanvas pairs={pairs} />
         </div>
       ) : (
-        <div className="mt-6 rounded-md border border-dashed border-border bg-surface-2/50 px-6 py-12 text-center">
+        <div className="mt-6 rounded-md border border-dashed border-border bg-muted/50 px-6 py-12 text-center">
           <h2 className="text-[15px] font-semibold">Pick a kind to compare</h2>
           <p className="mx-auto mt-1.5 max-w-md text-[13px] leading-relaxed text-muted-foreground">
             Every kind with more than one implementation in the catalogue can be
@@ -135,7 +135,7 @@ export default async function ComparePage({
                   <Link
                     key={candidate.slug}
                     href={addHref(candidate.slug)}
-                    className="inline-flex items-center gap-2 rounded-full border border-border bg-surface py-1.5 pl-1.5 pr-3 text-[13px] transition-colors hover:border-border-strong"
+                    className="inline-flex items-center gap-2 rounded-full border border-border bg-muted/50 py-1.5 pl-1.5 pr-3 text-[13px] transition-colors hover:border-foreground/20"
                   >
                     <span
                       className="flex size-5 items-center justify-center rounded-full font-mono text-[8px] font-semibold"
@@ -147,10 +147,10 @@ export default async function ComparePage({
                       {parent?.monogram ?? "??"}
                     </span>
                     {candidate.name}
-                    <span className="text-[11px] text-subtle-foreground">
+                    <span className="text-[11px] text-foreground/50">
                       {parent?.name}
                     </span>
-                    <Icon name="plus" className="size-3.5 text-subtle-foreground" />
+                    <Icon name="plus" className="size-3.5 text-foreground/50" />
                   </Link>
                 );
               })}
@@ -165,7 +165,7 @@ export default async function ComparePage({
             ) : null}
           </div>
           {candidates.items.some((c) => !canRender(c)) ? (
-            <p className="mt-3 text-[11px] text-subtle-foreground">
+            <p className="mt-3 text-[11px] text-foreground/50">
               Only components the sandbox can actually run are offered here.
             </p>
           ) : null}

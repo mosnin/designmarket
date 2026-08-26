@@ -28,7 +28,7 @@ const STATUS: Record<string, { label: string; note: string; tone: string }> = {
     note: "It didn't make the index this time.",
     tone: "text-danger",
   },
-  draft: { label: "Draft", note: "Not submitted yet.", tone: "text-subtle-foreground" },
+  draft: { label: "Draft", note: "Not submitted yet.", tone: "text-foreground/50" },
 };
 
 export function SubmissionList(): ReactNode {
@@ -38,7 +38,7 @@ export function SubmissionList(): ReactNode {
     return (
       <div className="flex flex-col gap-2">
         {[0, 1].map((i) => (
-          <Skeleton key={i} className="h-20 w-full rounded-xl" />
+          <Skeleton key={i} className="h-20 w-full rounded-sm" />
         ))}
       </div>
     );
@@ -46,7 +46,7 @@ export function SubmissionList(): ReactNode {
 
   if (rows.length === 0) {
     return (
-      <div className="rounded-2xl border border-dashed border-border px-6 py-14 text-center">
+      <div className="rounded-sm border border-dashed border-border px-6 py-14 text-center">
         <h2 className="text-[15px] font-semibold">Nothing submitted yet</h2>
         <p className="mx-auto mt-1.5 max-w-md text-[13px] leading-relaxed text-muted-foreground">
           Submitting is one field. Paste a repo or a package and the importer
@@ -68,7 +68,7 @@ export function SubmissionList(): ReactNode {
           <li
             key={row.id}
             id={row.slug}
-            className="flex items-start gap-3 rounded-xl border border-border bg-surface p-4 dark:border-transparent"
+            className="flex items-start gap-3 rounded-sm border border-border bg-muted/50 p-4 dark:border-transparent"
           >
             <IconTile monogram={row.monogram} color={row.color} />
             <div className="min-w-0 flex-1">

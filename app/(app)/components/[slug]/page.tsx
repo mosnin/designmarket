@@ -74,7 +74,7 @@ export default async function ComponentPage({
               <Badge variant="success">Accessibility documented</Badge>
             ) : null}
           </div>
-          <h1 className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">
+          <h1 className="mt-2 font-serif text-3xl font-medium sm:text-4xl">
             {component.name}
           </h1>
           <p className="mt-2 max-w-2xl text-[15px] leading-relaxed text-muted-foreground">
@@ -85,7 +85,7 @@ export default async function ComponentPage({
         {listing ? (
           <Link
             href={listingHref(listing)}
-            className="flex shrink-0 items-center gap-3 rounded-md border border-border bg-surface p-3 shadow-card transition-colors hover:border-border-strong"
+            className="flex shrink-0 items-center gap-3 rounded-md border border-border bg-muted/50 p-3 transition-colors hover:border-foreground/20"
           >
             <span
               className="flex size-9 items-center justify-center rounded-sm font-mono text-[11px] font-semibold"
@@ -97,7 +97,7 @@ export default async function ComponentPage({
               {listing.monogram}
             </span>
             <span className="min-w-0">
-              <span className="block text-[11px] uppercase tracking-wider text-subtle-foreground">
+              <span className="block text-[11px] uppercase tracking-wider text-foreground/50">
                 From
               </span>
               <span className="block truncate text-[13px] font-semibold">
@@ -113,7 +113,7 @@ export default async function ComponentPage({
         <div className="min-w-0">
           <Suspense
             fallback={
-              <div className="h-96 animate-pulse rounded-md border border-border bg-surface-2" />
+              <div className="h-96 animate-pulse rounded-md border border-border bg-muted" />
             }
           >
             <Playground
@@ -126,10 +126,10 @@ export default async function ComponentPage({
         <aside className="flex flex-col gap-5">
           {listing ? (
             <section>
-              <h2 className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-subtle-foreground">
+              <h2 className="mb-2 text-xs font-medium uppercase tracking-wider text-foreground/40">
                 The library behind it
               </h2>
-              <dl className="flex flex-col divide-y divide-border rounded-md border border-border bg-surface text-[13px]">
+              <dl className="flex flex-col divide-y divide-foreground/10 rounded-md border border-border bg-muted/50 text-[13px]">
                 {[
                   { label: "Licence", value: listing.license },
                   {
@@ -172,7 +172,7 @@ export default async function ComponentPage({
 
           {alternatives.length ? (
             <section>
-              <h2 className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-subtle-foreground">
+              <h2 className="mb-2 text-xs font-medium uppercase tracking-wider text-foreground/40">
                 Other takes on this
               </h2>
               <ul className="flex flex-col gap-1.5">
@@ -182,7 +182,7 @@ export default async function ComponentPage({
                     <li key={alt.slug}>
                       <Link
                         href={`/components/${alt.slug}`}
-                        className="flex items-center gap-2.5 rounded-sm border border-border bg-surface px-2.5 py-2 transition-colors hover:border-border-strong"
+                        className="flex items-center gap-2.5 rounded-sm border border-border bg-muted/50 px-2.5 py-2 transition-colors hover:border-foreground/20"
                       >
                         <span
                           className="flex size-5 shrink-0 items-center justify-center rounded-[4px] font-mono text-[8px] font-semibold"
@@ -197,7 +197,7 @@ export default async function ComponentPage({
                           <span className="block truncate text-[13px] font-medium">
                             {alt.name}
                           </span>
-                          <span className="block truncate text-[11px] text-subtle-foreground">
+                          <span className="block truncate text-[11px] text-foreground/50">
                             {parent?.name ?? alt.listingSlug}
                           </span>
                         </span>

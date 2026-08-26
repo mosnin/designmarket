@@ -51,12 +51,12 @@ export function CompareCanvas({ pairs }: { pairs: ComparePair[] }): ReactNode {
   return (
     <div className="flex flex-col gap-5">
       {sharedProps.length ? (
-        <section className="rounded-md border border-border bg-surface p-3">
+        <section className="rounded-md border border-border bg-muted/50 p-3">
           <div className="mb-2.5 flex items-center gap-2">
-            <h2 className="text-[11px] font-semibold uppercase tracking-wider text-subtle-foreground">
+            <h2 className="text-xs font-medium uppercase tracking-wider text-foreground/40">
               Shared props
             </h2>
-            <p className="text-[11px] text-subtle-foreground">
+            <p className="text-[11px] text-foreground/50">
               wired across every column, so you compare the same state
             </p>
             <MorphControl className="ml-auto" />
@@ -91,7 +91,7 @@ export function CompareCanvas({ pairs }: { pairs: ComparePair[] }): ReactNode {
         {pairs.map(({ component, listing }) => (
           <article
             key={component.slug}
-            className="flex flex-col overflow-hidden rounded-md border border-border bg-surface shadow-card"
+            className="flex flex-col overflow-hidden rounded-md border border-border bg-muted/50 "
           >
             <header className="flex items-start gap-2 border-b border-border p-3">
               <span
@@ -127,7 +127,7 @@ export function CompareCanvas({ pairs }: { pairs: ComparePair[] }): ReactNode {
                   className="size-full"
                 />
               ) : (
-                <p className="px-4 text-center text-[12px] text-subtle-foreground">
+                <p className="px-4 text-center text-[12px] text-foreground/50">
                   Not vendored into the sandbox yet
                 </p>
               )}
@@ -138,7 +138,7 @@ export function CompareCanvas({ pairs }: { pairs: ComparePair[] }): ReactNode {
               <Link
                 href={`/compare?remove=${component.slug}`}
                 aria-label={`Remove ${component.name} from the comparison`}
-                className="ml-auto text-subtle-foreground transition-colors hover:text-danger"
+                className="ml-auto text-foreground/50 transition-colors hover:text-danger"
               >
                 <Icon name="close" className="size-3.5" />
               </Link>
@@ -148,8 +148,8 @@ export function CompareCanvas({ pairs }: { pairs: ComparePair[] }): ReactNode {
       </div>
 
       {/* ------------------------------------------------------------ facts */}
-      <section className="overflow-hidden rounded-md border border-border bg-surface">
-        <h2 className="border-b border-border px-3 py-2 text-[11px] font-semibold uppercase tracking-wider text-subtle-foreground">
+      <section className="overflow-hidden rounded-md border border-border bg-muted/50">
+        <h2 className="border-b border-border px-3 py-2 text-xs font-medium uppercase tracking-wider text-foreground/40">
           The facts
         </h2>
         <div className="overflow-x-auto scrollbar-thin">
@@ -204,7 +204,7 @@ export function CompareCanvas({ pairs }: { pairs: ComparePair[] }): ReactNode {
                       {value === true ? (
                         <Icon name="check" className="size-3.5 text-success" />
                       ) : value === false ? (
-                        <Icon name="minus" className="size-3.5 text-subtle-foreground" />
+                        <Icon name="minus" className="size-3.5 text-foreground/50" />
                       ) : (
                         value
                       )}
@@ -215,7 +215,7 @@ export function CompareCanvas({ pairs }: { pairs: ComparePair[] }): ReactNode {
             </tbody>
           </table>
         </div>
-        <p className="border-t border-border px-3 py-2 text-[11px] text-subtle-foreground">
+        <p className="border-t border-border px-3 py-2 text-[11px] text-foreground/50">
           Highlighted rows are where these actually differ — identical values are
           not a decision.
         </p>
@@ -346,7 +346,7 @@ function SharedPropControl({
           "inline-flex h-7 items-center gap-1.5 rounded-full border px-2.5 font-mono text-[11px] transition-colors",
           value
             ? "border-accent bg-accent-muted text-accent"
-            : "border-border text-muted-foreground hover:border-border-strong"
+            : "border-border text-muted-foreground hover:border-foreground/20"
         )}
         title={partial ? `Only ${appliesTo} of ${total} accept this prop` : undefined}
       >
@@ -359,7 +359,7 @@ function SharedPropControl({
   if (prop.type === "enum" && prop.options?.length) {
     return (
       <span className="inline-flex items-center gap-1 rounded-full border border-border px-1.5 py-0.5">
-        <span className="pl-1 font-mono text-[11px] text-subtle-foreground">
+        <span className="pl-1 font-mono text-[11px] text-foreground/50">
           {prop.name}
         </span>
         {prop.options.map((option) => (

@@ -27,7 +27,7 @@ export default async function DropPage({
   if (!drop) {
     return (
       <div className="mx-auto max-w-3xl px-4 py-16 text-center sm:px-6">
-        <h1 className="text-2xl font-semibold tracking-tight">The Drop</h1>
+        <h1 className="font-serif text-3xl font-medium">The Drop</h1>
         <p className="mt-2 text-sm text-muted-foreground">
           Nothing scheduled for that day.
         </p>
@@ -60,7 +60,7 @@ export default async function DropPage({
         <div className="flex items-center gap-2">
           <Badge variant="accent">{formatDate(Date.parse(drop.date))}</Badge>
         </div>
-        <h1 className="mt-3 font-display text-3xl leading-tight tracking-tight sm:text-4xl">
+        <h1 className="mt-3 font-serif text-3xl font-medium leading-tight sm:text-4xl">
           {drop.headline}
         </h1>
         <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-muted-foreground">
@@ -70,7 +70,7 @@ export default async function DropPage({
 
       {resolvedComponents.length ? (
         <section className="mt-8">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-subtle-foreground">
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-foreground/50">
             Components
           </h2>
           <div className="mt-3 grid gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
@@ -92,7 +92,7 @@ export default async function DropPage({
 
       {resolvedListings.length ? (
         <section className="mt-10">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-subtle-foreground">
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-foreground/50">
             Listings
           </h2>
           <div className="mt-3 grid gap-3.5 sm:grid-cols-2 lg:grid-cols-3">
@@ -105,10 +105,10 @@ export default async function DropPage({
 
       {recent.length > 1 ? (
         <section className="mt-12 border-t border-border pt-6">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-subtle-foreground">
+          <h2 className="text-sm font-semibold uppercase tracking-wider text-foreground/50">
             Previously
           </h2>
-          <ul className="mt-3 flex flex-col divide-y divide-border">
+          <ul className="mt-3 flex flex-col divide-y divide-foreground/10">
             {recent
               .filter((d) => d.date !== drop.date)
               .map((d) => (
@@ -117,7 +117,7 @@ export default async function DropPage({
                     href={`/drop?date=${d.date}`}
                     className="flex items-baseline gap-4 py-2.5 transition-colors hover:text-accent"
                   >
-                    <span className="w-28 shrink-0 font-mono text-[12px] tabular-nums text-subtle-foreground">
+                    <span className="w-28 shrink-0 font-mono text-[12px] tabular-nums text-foreground/50">
                       {formatDate(Date.parse(d.date))}
                     </span>
                     <span className="min-w-0 flex-1 truncate text-[14px]">

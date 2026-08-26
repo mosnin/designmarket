@@ -29,7 +29,7 @@ export default async function AdminLayout({
     <div className="mx-auto max-w-[86rem] px-5 py-8 sm:px-8">
       <header className="border-b border-border pb-4">
         <div className="flex flex-wrap items-baseline gap-3">
-          <h1 className="text-[24px] font-semibold tracking-tight">Admin</h1>
+          <h1 className="font-serif text-[26px] font-medium">Admin</h1>
           <p className="text-[13px] text-muted-foreground">
             Signed in as @{viewer?.handle} ·{" "}
             {viewer?.role === "admin" ? "Administrator" : "Moderator"}

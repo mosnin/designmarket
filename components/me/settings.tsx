@@ -29,7 +29,7 @@ function ProfileForm(): ReactNode {
   const update = useMutation(api.profiles.updateProfile);
   const [busy, setBusy] = useState(false);
 
-  if (!viewer) return <Skeleton className="h-40 w-full rounded-xl" />;
+  if (!viewer) return <Skeleton className="h-40 w-full rounded-sm" />;
 
   async function submit(event: FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault();
@@ -52,7 +52,7 @@ function ProfileForm(): ReactNode {
 
   return (
     <section>
-      <h2 className="text-[11px] font-semibold uppercase tracking-[0.08em] text-subtle-foreground">
+      <h2 className="text-xs font-medium uppercase tracking-wider text-foreground/40">
         Profile
       </h2>
       <form onSubmit={submit} className="mt-4 flex max-w-xl flex-col gap-4">
@@ -123,7 +123,7 @@ function ApiKeys(): ReactNode {
   return (
     <section>
       <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <h2 className="text-[11px] font-semibold uppercase tracking-[0.08em] text-subtle-foreground">
+        <h2 className="text-xs font-medium uppercase tracking-wider text-foreground/40">
           API keys
         </h2>
         <Link href="/mcp-connect" className="text-[12px] text-accent hover:underline">
@@ -132,7 +132,7 @@ function ApiKeys(): ReactNode {
       </div>
 
       {!isPro ? (
-        <div className="mt-4 max-w-xl rounded-xl border border-border p-5">
+        <div className="mt-4 max-w-xl rounded-sm border border-border p-5">
           <p className="text-[14px] font-medium">Keys are part of the Pro plan</p>
           <p className="mt-1.5 text-[13px] leading-relaxed text-muted-foreground">
             Everything you can read here stays free. A key is what lets an agent
@@ -158,7 +158,7 @@ function ApiKeys(): ReactNode {
             </Button>
           </div>
           {billing && !billing.billing ? (
-            <p className="mt-3 text-[12px] leading-relaxed text-subtle-foreground">
+            <p className="mt-3 text-[12px] leading-relaxed text-foreground/50">
               Checkout isn&apos;t configured on this deployment. An admin can
               grant Pro directly from the members table.
             </p>
@@ -167,7 +167,7 @@ function ApiKeys(): ReactNode {
       ) : (
         <>
           {fresh ? (
-            <div className="mt-4 max-w-2xl rounded-xl border border-accent/40 p-4">
+            <div className="mt-4 max-w-2xl rounded-sm border border-accent/40 p-4">
               <p className="text-[13px] font-medium text-accent">
                 Copy {fresh.label} now — this is the only time it&apos;s shown
               </p>
@@ -177,7 +177,7 @@ function ApiKeys(): ReactNode {
                 </code>
                 <CopyButton value={fresh.key} size="icon" label="Copy API key" />
               </div>
-              <p className="mt-2 text-[12px] leading-relaxed text-subtle-foreground">
+              <p className="mt-2 text-[12px] leading-relaxed text-foreground/50">
                 We store a hash, not the key. If you lose it, revoke it and make
                 another — there is no way for us to show it again.
               </p>
@@ -213,13 +213,13 @@ function ApiKeys(): ReactNode {
           </form>
 
           {keys === undefined ? (
-            <Skeleton className="mt-4 h-24 w-full rounded-xl" />
+            <Skeleton className="mt-4 h-24 w-full rounded-sm" />
           ) : keys.length === 0 ? (
             <p className="mt-4 text-[13px] text-muted-foreground">
               No keys yet.
             </p>
           ) : (
-            <ul className="mt-5 divide-y divide-border border-y border-border">
+            <ul className="mt-5 divide-y divide-foreground/10 border-y border-border">
               {keys.map((key) => (
                 <li key={key.id} className="flex flex-wrap items-center gap-3 py-3">
                   <div className="min-w-0 flex-1">
@@ -231,7 +231,7 @@ function ApiKeys(): ReactNode {
                         </span>
                       ) : null}
                     </p>
-                    <p className="mt-0.5 font-mono text-[11.5px] text-subtle-foreground">
+                    <p className="mt-0.5 font-mono text-[11.5px] text-foreground/50">
                       {key.prefix}…{"  ·  "}
                       {key.callCount} {key.callCount === 1 ? "call" : "calls"}
                       {"  ·  "}
@@ -258,7 +258,7 @@ function ApiKeys(): ReactNode {
               ))}
             </ul>
           )}
-          <p className="mt-3 text-[12px] leading-relaxed text-subtle-foreground">
+          <p className="mt-3 text-[12px] leading-relaxed text-foreground/50">
             Revoked keys stay listed. The row is what proves a key existed and
             what it did — the usage count is the only way to tell a leaked key
             from an unused one after the fact.
@@ -282,7 +282,7 @@ function Field({
     <label className="flex flex-col gap-1.5">
       <span className="flex items-baseline gap-2">
         <span className="text-[13px] font-medium">{label}</span>
-        {hint ? <span className="text-[12px] text-subtle-foreground">{hint}</span> : null}
+        {hint ? <span className="text-[12px] text-foreground/50">{hint}</span> : null}
       </span>
       {children}
     </label>

@@ -21,13 +21,13 @@ export default async function MeLayout({
   if (!AUTH_ENABLED) {
     return (
       <div className="mx-auto max-w-2xl px-4 py-16 text-center sm:px-6">
-        <h1 className="text-xl font-semibold tracking-tight">
+        <h1 className="font-serif text-2xl font-medium">
           Accounts aren&apos;t available on this deployment
         </h1>
         <p className="mx-auto mt-2 max-w-md text-[13px] leading-relaxed text-muted-foreground">
           Browsing, searching and rendering components all work without a
           backend. Saving things needs one — run{" "}
-          <code className="rounded-xs bg-surface-2 px-1 py-0.5 font-mono text-xs">
+          <code className="rounded-xs bg-muted px-1 py-0.5 font-mono text-xs">
             npx convex dev
           </code>
           .
@@ -42,7 +42,7 @@ export default async function MeLayout({
   return (
     <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 lg:py-8">
       <header className="border-b border-border pb-4">
-        <h1 className="text-2xl font-semibold tracking-tight">
+        <h1 className="font-serif text-3xl font-medium">
           {viewer?.displayName ?? "Your account"}
         </h1>
         {viewer ? (
@@ -55,7 +55,7 @@ export default async function MeLayout({
             <Link
               key={tab.href}
               href={tab.href}
-              className="rounded-sm px-3 py-1.5 text-[13px] font-medium text-muted-foreground transition-colors hover:bg-surface-2 hover:text-foreground"
+              className="rounded-sm px-3 py-1.5 text-[13px] font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
             >
               {tab.label}
             </Link>

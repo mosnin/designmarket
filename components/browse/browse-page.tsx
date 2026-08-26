@@ -62,11 +62,11 @@ export function BrowsePage({
     <div className="mx-auto max-w-[92rem] px-4 py-6 sm:px-6 lg:py-8">
       <header>
         {eyebrow ? (
-          <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-wider text-accent">
+          <p className="mb-1.5 text-xs font-medium uppercase tracking-wider text-foreground/40">
             {eyebrow}
           </p>
         ) : null}
-        <h1 className="text-2xl font-semibold tracking-tight">{title}</h1>
+        <h1 className="font-serif text-3xl font-medium">{title}</h1>
         {description ? (
           <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-muted-foreground">
             {description}

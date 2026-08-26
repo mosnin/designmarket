@@ -22,7 +22,7 @@ export function ShipScorePanel({ listing }: { listing: Listing }): ReactNode {
 
   return (
     <section>
-      <h2 className="text-[10.5px] font-semibold uppercase tracking-[0.08em] text-subtle-foreground">
+      <h2 className="text-xs font-medium uppercase tracking-wider text-foreground/40">
         Ship Score
       </h2>
 
@@ -37,7 +37,7 @@ export function ShipScorePanel({ listing }: { listing: Listing }): ReactNode {
           {score.grade}
         </span>
         {score.provisional ? (
-          <span className="text-[11px] leading-none text-subtle-foreground">
+          <span className="text-[11px] leading-none text-foreground/50">
             provisional
           </span>
         ) : null}
@@ -57,7 +57,7 @@ export function ShipScorePanel({ listing }: { listing: Listing }): ReactNode {
         )}
       </p>
 
-      <dl className="mt-4 divide-y divide-border border-y border-border">
+      <dl className="mt-4 divide-y divide-foreground/10 border-y border-border">
         {score.dimensions.map((dimension) => {
           const applies = dimension.points !== null;
           return (
@@ -66,7 +66,7 @@ export function ShipScorePanel({ listing }: { listing: Listing }): ReactNode {
                 <dt
                   className={cn(
                     "text-[13px]",
-                    applies ? "text-foreground" : "text-subtle-foreground"
+                    applies ? "text-foreground" : "text-foreground/50"
                   )}
                 >
                   {dimension.label}
@@ -75,14 +75,14 @@ export function ShipScorePanel({ listing }: { listing: Listing }): ReactNode {
                   {applies ? (
                     <>
                       <span className="text-foreground">{dimension.points}</span>
-                      <span className="text-subtle-foreground">/{dimension.max}</span>
+                      <span className="text-foreground/50">/{dimension.max}</span>
                     </>
                   ) : (
-                    <span className="text-subtle-foreground">N/A</span>
+                    <span className="text-foreground/50">N/A</span>
                   )}
                 </dd>
               </div>
-              <p className="mt-0.5 text-[11.5px] leading-relaxed text-subtle-foreground">
+              <p className="mt-0.5 text-[11.5px] leading-relaxed text-foreground/50">
                 {dimension.note}
               </p>
             </div>
@@ -90,7 +90,7 @@ export function ShipScorePanel({ listing }: { listing: Listing }): ReactNode {
         })}
       </dl>
 
-      <p className="mt-2.5 text-[11px] leading-relaxed text-subtle-foreground">
+      <p className="mt-2.5 text-[11px] leading-relaxed text-foreground/50">
         Computed from fetched facts, never from votes.
         {listing.facts.fetchedAt
           ? ` Refreshed ${timeAgo(listing.facts.fetchedAt)}.`

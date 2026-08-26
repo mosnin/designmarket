@@ -65,8 +65,8 @@ export function MorphControl({ className }: { className?: string }): ReactNode {
                 type="button"
                 onClick={() => applyPreset(p.id)}
                 className={cn(
-                  "flex w-full items-center gap-2.5 rounded-xs px-2 py-2 text-left transition-colors hover:bg-surface-2",
-                  isActive && "bg-surface-2"
+                  "flex w-full items-center gap-2.5 rounded-xs px-2 py-2 text-left transition-colors hover:bg-muted",
+                  isActive && "bg-muted"
                 )}
               >
                 <Swatches preset={p} />
@@ -85,7 +85,7 @@ export function MorphControl({ className }: { className?: string }): ReactNode {
         <div className="border-t border-border p-3">
           <label
             htmlFor="morph-css"
-            className="mb-1.5 block text-[11px] font-semibold uppercase tracking-wide text-subtle-foreground"
+            className="mb-1.5 block text-[11px] font-semibold uppercase tracking-wide text-foreground/50"
           >
             Paste your tokens
           </label>
@@ -129,7 +129,7 @@ export function MorphControl({ className }: { className?: string }): ReactNode {
               <Icon name="reset" />
             </Button>
           </div>
-          <p className="mt-2 text-[11px] leading-relaxed text-subtle-foreground">
+          <p className="mt-2 text-[11px] leading-relaxed text-foreground/50">
             Works with a shadcn/ui <code className="font-mono">globals.css</code> pasted
             straight in — HSL triples included.
           </p>

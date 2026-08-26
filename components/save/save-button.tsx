@@ -105,7 +105,7 @@ function LiveSaveButton({
             <DropdownMenuItem key={board.id} onSelect={() => void state.save(board.id)}>
               <Icon name="boards" size={14} />
               <span className="truncate">{board.name}</span>
-              <span className="ml-auto text-[11px] text-subtle-foreground">
+              <span className="ml-auto text-[11px] text-foreground/50">
                 {board.itemCount}
               </span>
             </DropdownMenuItem>
@@ -128,7 +128,7 @@ function LiveSaveButton({
  * not a pill. Detail pages have one of these; grids have the pill.
  */
 const RAIL_CLASS =
-  "flex w-full items-center gap-2.5 rounded-lg px-2 py-2 text-left text-[13px] text-muted-foreground transition-colors hover:bg-surface hover:text-foreground";
+  "flex w-full items-center gap-2.5 rounded-sm px-2 py-2 text-left text-[13px] text-muted-foreground transition-colors hover:bg-muted/50 hover:text-foreground";
 
 export function SaveRailItem({ target }: { target: SaveTarget }): ReactNode {
   if (!AUTH_ENABLED) {

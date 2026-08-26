@@ -193,19 +193,19 @@ export async function ListingDetail({ slug }: { slug: string }): Promise<ReactNo
         <Link href="/" className="hover:text-foreground">
           Home
         </Link>
-        <span className="text-subtle-foreground">/</span>
+        <span className="text-foreground/50">/</span>
         <Link href={section?.href ?? "/explore"} className="hover:text-foreground">
           {section?.label ?? "Explore"}
         </Link>
         {primaryCategory ? (
           <>
-            <span className="text-subtle-foreground">/</span>
+            <span className="text-foreground/50">/</span>
             <Link href={`/c/${primaryCategory.slug}`} className="hover:text-foreground">
               {primaryCategory.name}
             </Link>
           </>
         ) : null}
-        <span className="text-subtle-foreground">/</span>
+        <span className="text-foreground/50">/</span>
         <span className="text-foreground">{listing.name}</span>
       </nav>
 
@@ -247,7 +247,7 @@ export async function ListingDetail({ slug }: { slug: string }): Promise<ReactNo
                   <Link
                     key={component.slug}
                     href={`/components/${component.slug}`}
-                    className="group relative block overflow-hidden rounded-2xl border border-border bg-surface dark:border-transparent"
+                    className="group relative block overflow-hidden rounded-sm border border-border bg-muted/50 dark:border-transparent"
                   >
                     <div className="absolute left-3 top-3 z-10">
                       <LiveBadge />
@@ -271,9 +271,9 @@ export async function ListingDetail({ slug }: { slug: string }): Promise<ReactNo
           ) : null}
 
           {/* -------------------------------------------- about + meta */}
-          <div className="mt-5 grid rounded-2xl border border-border bg-surface dark:border-transparent lg:grid-cols-[minmax(0,1fr)_15rem]">
+          <div className="mt-5 grid rounded-sm border border-border bg-muted/50 dark:border-transparent lg:grid-cols-[minmax(0,1fr)_15rem]">
             <div className="min-w-0 p-6 lg:p-7">
-              <h2 className="text-[11px] font-semibold uppercase tracking-wider text-subtle-foreground">
+              <h2 className="text-xs font-medium uppercase tracking-wider text-foreground/40">
                 About
               </h2>
               <p className="mt-3 text-[19px] font-medium leading-snug tracking-tight">
@@ -285,7 +285,7 @@ export async function ListingDetail({ slug }: { slug: string }): Promise<ReactNo
 
               {bullets.length ? (
                 <>
-                  <h2 className="mt-7 text-[11px] font-semibold uppercase tracking-wider text-subtle-foreground">
+                  <h2 className="mt-7 text-xs font-medium uppercase tracking-wider text-foreground/40">
                     What you get
                   </h2>
                   <ul className="mt-3 grid gap-x-8 gap-y-2.5 sm:grid-cols-2">
@@ -294,7 +294,7 @@ export async function ListingDetail({ slug }: { slug: string }): Promise<ReactNo
                         <Icon
                           name="forward"
                           size={13}
-                          className="mt-1 shrink-0 text-subtle-foreground"
+                          className="mt-1 shrink-0 text-foreground/50"
                         />
                         <span>{bullet}</span>
                       </li>
@@ -305,7 +305,7 @@ export async function ListingDetail({ slug }: { slug: string }): Promise<ReactNo
 
               {installCommand ? (
                 <>
-                  <h2 className="mt-7 text-[11px] font-semibold uppercase tracking-wider text-subtle-foreground">
+                  <h2 className="mt-7 text-xs font-medium uppercase tracking-wider text-foreground/40">
                     Install
                   </h2>
                   <div className="mt-2 max-w-md">
@@ -314,7 +314,7 @@ export async function ListingDetail({ slug }: { slug: string }): Promise<ReactNo
                 </>
               ) : null}
 
-              <h2 className="mt-7 text-[11px] font-semibold uppercase tracking-wider text-subtle-foreground">
+              <h2 className="mt-7 text-xs font-medium uppercase tracking-wider text-foreground/40">
                 Categories
               </h2>
               <div className="mt-2 flex flex-wrap gap-1.5">
@@ -325,7 +325,7 @@ export async function ListingDetail({ slug }: { slug: string }): Promise<ReactNo
                     <Link
                       key={categorySlug}
                       href={`/c/${categorySlug}`}
-                      className="rounded-full border border-border px-3 py-1.5 text-[12px] text-muted-foreground transition-colors hover:border-border-strong hover:text-foreground"
+                      className="rounded-full border border-border px-3 py-1.5 text-[12px] text-muted-foreground transition-colors hover:border-foreground/20 hover:text-foreground"
                     >
                       {category.name}
                     </Link>
@@ -338,7 +338,7 @@ export async function ListingDetail({ slug }: { slug: string }): Promise<ReactNo
               <dl className="flex flex-col gap-5">
                 {meta.map((row) => (
                   <div key={row.label}>
-                    <dt className="text-[11px] font-semibold uppercase tracking-wider text-subtle-foreground">
+                    <dt className="text-xs font-medium uppercase tracking-wider text-foreground/40">
                       {row.label}
                     </dt>
                     <dd className="mt-1 text-[13px] leading-relaxed">{row.value}</dd>
@@ -346,7 +346,7 @@ export async function ListingDetail({ slug }: { slug: string }): Promise<ReactNo
                 ))}
 
                 <div>
-                  <dt className="text-[11px] font-semibold uppercase tracking-wider text-subtle-foreground">
+                  <dt className="text-xs font-medium uppercase tracking-wider text-foreground/40">
                     Links
                   </dt>
                   <dd className="mt-1.5 flex flex-col gap-1.5">
@@ -378,7 +378,7 @@ export async function ListingDetail({ slug }: { slug: string }): Promise<ReactNo
           {components.items.length ? (
             <section className="mt-12">
               <div className="mb-4 flex items-center gap-2">
-                <h2 className="text-[22px] font-semibold tracking-tight">
+                <h2 className="font-serif text-[22px] font-medium">
                   Components we index
                 </h2>
                 <LiveBadge />
@@ -403,7 +403,7 @@ export async function ListingDetail({ slug }: { slug: string }): Promise<ReactNo
           {/* ------------------------------------------------ more in section */}
           {more.length ? (
             <section className="mt-12">
-              <h2 className="mb-4 text-[22px] font-semibold tracking-tight">
+              <h2 className="mb-4 font-serif text-[22px] font-medium">
                 More in {section?.label ?? "the catalogue"}
               </h2>
               <div className="grid gap-x-8 gap-y-1 sm:grid-cols-2 xl:grid-cols-4">
@@ -411,7 +411,7 @@ export async function ListingDetail({ slug }: { slug: string }): Promise<ReactNo
                   <Link
                     key={item.slug}
                     href={listingHref(item)}
-                    className="flex items-center gap-3 rounded-xl px-2 py-2 transition-colors hover:bg-surface"
+                    className="flex items-center gap-3 rounded-sm px-2 py-2 transition-colors hover:bg-muted/50"
                   >
                     <IconTile
                       monogram={item.monogram}
@@ -446,7 +446,7 @@ export async function ListingDetail({ slug }: { slug: string }): Promise<ReactNo
               <li key={action.label}>
                 <Link
                   href={action.href}
-                  className="flex items-center gap-2.5 rounded-lg px-2 py-2 text-[13px] text-muted-foreground transition-colors hover:bg-surface hover:text-foreground"
+                  className="flex items-center gap-2.5 rounded-sm px-2 py-2 text-[13px] text-muted-foreground transition-colors hover:bg-muted/50 hover:text-foreground"
                 >
                   <Icon name={action.icon} size={15} />
                   {action.label}
@@ -467,7 +467,7 @@ export async function ListingDetail({ slug }: { slug: string }): Promise<ReactNo
                   <li key={item.slug}>
                     <Link
                       href={listingHref(item)}
-                      className="flex items-center gap-2.5 rounded-lg px-2 py-1.5 transition-colors hover:bg-surface"
+                      className="flex items-center gap-2.5 rounded-sm px-2 py-1.5 transition-colors hover:bg-muted/50"
                     >
                       <IconTile
                         monogram={item.monogram}
@@ -489,7 +489,7 @@ export async function ListingDetail({ slug }: { slug: string }): Promise<ReactNo
               Kind
             </h2>
             <Badge variant="outline">{kindLabel(listing.kind)}</Badge>
-            <p className="mt-2 text-[12px] leading-relaxed text-subtle-foreground">
+            <p className="mt-2 text-[12px] leading-relaxed text-foreground/50">
               Facts on this page were last refreshed{" "}
               {listing.facts.fetchedAt ? timeAgo(listing.facts.fetchedAt) : "never"}.
             </p>

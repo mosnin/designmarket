@@ -37,7 +37,7 @@ export function Pagination({
         aria-disabled={page === 1}
         className={cn(
           base,
-          "border-border text-muted-foreground hover:border-border-strong hover:text-foreground",
+          "border-border text-muted-foreground hover:border-foreground/20 hover:text-foreground",
           page === 1 && "pointer-events-none opacity-40"
         )}
         aria-label="Previous page"
@@ -47,7 +47,7 @@ export function Pagination({
 
       {numbers.map((n, i) =>
         n === "gap" ? (
-          <span key={`gap-${i}`} className="px-1 text-subtle-foreground">
+          <span key={`gap-${i}`} className="px-1 text-foreground/50">
             …
           </span>
         ) : (
@@ -59,7 +59,7 @@ export function Pagination({
               base,
               n === page
                 ? "border-accent bg-accent-muted font-medium text-accent"
-                : "border-border text-muted-foreground hover:border-border-strong hover:text-foreground"
+                : "border-border text-muted-foreground hover:border-foreground/20 hover:text-foreground"
             )}
           >
             {n}
@@ -72,7 +72,7 @@ export function Pagination({
         aria-disabled={page === pages}
         className={cn(
           base,
-          "border-border text-muted-foreground hover:border-border-strong hover:text-foreground",
+          "border-border text-muted-foreground hover:border-foreground/20 hover:text-foreground",
           page === pages && "pointer-events-none opacity-40"
         )}
         aria-label="Next page"

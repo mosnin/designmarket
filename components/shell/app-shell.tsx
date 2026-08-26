@@ -51,7 +51,7 @@ export function AppShell({
   return (
     <div className="min-h-dvh">
       <div className="flex">
-        <aside className="sticky top-0 hidden h-dvh w-[15.5rem] shrink-0 border-r border-border bg-surface lg:block">
+        <aside className="sticky top-0 hidden h-dvh w-[15.5rem] shrink-0 border-r border-border bg-muted/50 lg:block">
           <div className="flex h-[var(--header-h)] items-center border-b border-border px-4">
             <Link href="/" aria-label="Vitrine home">
               <Wordmark />

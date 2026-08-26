@@ -21,10 +21,10 @@ export default async function StacksPage(): Promise<ReactNode> {
   return (
     <div className="mx-auto max-w-[86rem] px-5 py-8 sm:px-8">
       <header className="max-w-2xl">
-        <p className="text-[11px] font-semibold uppercase tracking-wider text-accent">
+        <p className="text-xs font-medium uppercase tracking-wider text-foreground/40">
           Stacks
         </p>
-        <h1 className="mt-2 text-[32px] font-semibold leading-tight tracking-tight">
+        <h1 className="mt-2 font-serif text-[32px] font-medium leading-tight">
           Collections that do something
         </h1>
         <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">
@@ -46,7 +46,7 @@ export default async function StacksPage(): Promise<ReactNode> {
               <Link
                 key={stack.slug}
                 href={`/stacks/${stack.slug}`}
-                className="t-lift flex h-full flex-col rounded-2xl border border-border bg-surface p-5 hover:bg-surface-2 dark:border-transparent"
+                className="t-lift flex h-full flex-col rounded-sm border border-border bg-muted/50 p-5 hover:bg-muted dark:border-transparent"
               >
                 <IconTileStack items={tiles} />
                 <h2 className="mt-5 text-[18px] font-semibold leading-snug tracking-tight">
@@ -55,7 +55,7 @@ export default async function StacksPage(): Promise<ReactNode> {
                 <p className="mt-2 line-clamp-3 text-[14px] leading-relaxed text-muted-foreground">
                   {stack.description}
                 </p>
-                <p className="mt-auto pt-5 text-right text-[13px] text-subtle-foreground">
+                <p className="mt-auto pt-5 text-right text-[13px] text-foreground/50">
                   {stack.items.length} items
                 </p>
               </Link>

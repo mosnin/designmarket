@@ -32,7 +32,7 @@ export function CodeBlock({
       )}
     >
       <figcaption className="flex items-center gap-2 border-b border-border px-3 py-1.5">
-        <span className="font-mono text-[11px] text-subtle-foreground">
+        <span className="font-mono text-[11px] text-foreground/50">
           {filename ?? language}
         </span>
         <CopyButton value={code} className="ml-auto" />
@@ -58,7 +58,7 @@ export function CommandLine({
         className
       )}
     >
-      <span aria-hidden className="select-none font-mono text-[12px] text-subtle-foreground">
+      <span aria-hidden className="select-none font-mono text-[12px] text-foreground/50">
         $
       </span>
       <code className="min-w-0 flex-1 overflow-x-auto scrollbar-none whitespace-nowrap font-mono text-[12px] text-foreground">

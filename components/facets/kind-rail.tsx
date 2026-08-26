@@ -39,7 +39,7 @@ export function KindRail({
 
   return (
     <div className="mb-6">
-      <h2 className="mb-1.5 text-[11px] font-semibold uppercase tracking-wider text-subtle-foreground">
+      <h2 className="mb-1.5 text-xs font-medium uppercase tracking-wider text-foreground/40">
         Component kind
       </h2>
       <ul className="flex flex-col">
@@ -54,7 +54,7 @@ export function KindRail({
             )}
           >
             <span className="min-w-0 flex-1 truncate">All kinds</span>
-            <span className="font-mono text-[11px] tabular-nums text-subtle-foreground">
+            <span className="font-mono text-[11px] tabular-nums text-foreground/50">
               {Object.values(counts).reduce((a, b) => a + b, 0)}
             </span>
           </Link>
@@ -73,7 +73,7 @@ export function KindRail({
               <span className="min-w-0 flex-1 truncate">
                 {componentKindLabel(kind)}
               </span>
-              <span className="font-mono text-[11px] tabular-nums text-subtle-foreground">
+              <span className="font-mono text-[11px] tabular-nums text-foreground/50">
                 {count}
               </span>
             </Link>
@@ -99,7 +99,7 @@ export function KindRail({
                   <span className="min-w-0 flex-1 truncate">
                     {componentKindLabel(kind)}
                   </span>
-                  <span className="font-mono text-[11px] tabular-nums text-subtle-foreground">
+                  <span className="font-mono text-[11px] tabular-nums text-foreground/50">
                     {count}
                   </span>
                 </Link>

@@ -51,7 +51,7 @@ export function LiveBadge({ className }: { className?: string }): ReactNode {
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 whitespace-nowrap text-[11px] text-subtle-foreground",
+        "inline-flex items-center gap-1.5 whitespace-nowrap text-[11px] text-foreground/50",
         className
       )}
     >

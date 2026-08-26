@@ -61,7 +61,7 @@ export function NavSidebar({
         <button
           type="button"
           onClick={onOpenSearch}
-          className="flex w-full items-center gap-2.5 rounded-sm border border-border bg-surface px-2.5 py-2 text-[13px] text-subtle-foreground transition-colors hover:border-border-strong hover:text-foreground"
+          className="flex w-full items-center gap-2.5 rounded-sm border border-border bg-muted/50 px-2.5 py-2 text-[13px] text-foreground/50 transition-colors hover:border-foreground/20 hover:text-foreground"
         >
           <Icon name="search" className="size-4" />
           <span>Search everything</span>
@@ -95,9 +95,9 @@ export function NavSidebar({
       <div className="shrink-0 border-t border-border p-2">
         <Link
           href="/submit"
-          className="t-press flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-[13px] text-muted-foreground transition-colors hover:bg-surface-2 hover:text-foreground"
+          className="t-press flex items-center gap-2.5 rounded-sm px-2.5 py-2 text-[13px] text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
         >
-          <Icon name="submit" className="size-4 shrink-0 text-subtle-foreground" />
+          <Icon name="submit" className="size-4 shrink-0 text-foreground/50" />
           Submit a listing
         </Link>
       </div>
@@ -121,7 +121,7 @@ function RootMenu({ pathname }: { pathname: string }): ReactNode {
         </li>
       </ul>
 
-      <p className="px-4 pb-1 pt-4 text-[11px] font-semibold uppercase tracking-wider text-subtle-foreground">
+      <p className="px-4 pb-1 pt-4 text-xs font-medium uppercase tracking-wider text-foreground/40">
         Markets
       </p>
       <ul className="px-2">
@@ -139,7 +139,7 @@ function RootMenu({ pathname }: { pathname: string }): ReactNode {
         ))}
       </ul>
 
-      <p className="px-4 pb-1 pt-4 text-[11px] font-semibold uppercase tracking-wider text-subtle-foreground">
+      <p className="px-4 pb-1 pt-4 text-xs font-medium uppercase tracking-wider text-foreground/40">
         Tools
       </p>
       <ul className="px-2">
@@ -182,7 +182,7 @@ function SectionMenu({
             event.stopPropagation();
             onBack();
           }}
-          className="flex w-full items-center gap-1.5 rounded-sm px-2 py-1.5 text-[12px] font-medium text-muted-foreground transition-colors hover:bg-surface-2 hover:text-foreground"
+          className="flex w-full items-center gap-1.5 rounded-sm px-2 py-1.5 text-[12px] font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
         >
           <Icon name="back" className="size-3.5" />
           All markets
@@ -220,7 +220,7 @@ function SectionMenu({
 
       {groups.map((entry) => (
         <div key={entry.group.id}>
-          <p className="px-4 pb-1 pt-4 text-[11px] font-semibold uppercase tracking-wider text-subtle-foreground">
+          <p className="px-4 pb-1 pt-4 text-xs font-medium uppercase tracking-wider text-foreground/40">
             {entry.group.name}
           </p>
           <ul className="px-2">
@@ -270,21 +270,18 @@ function NavRow({
       href={href}
       aria-current={active ? "page" : undefined}
       className={cn(
-        "t-press group relative flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-[13px]",
+        "t-press group relative flex items-center gap-2.5 rounded-sm px-2.5 py-2 text-[13px]",
         active
-          ? "bg-surface-2 font-medium text-foreground"
-          : "text-muted-foreground hover:bg-surface-2 hover:text-foreground"
+          ? "bg-foreground/5 font-medium text-foreground"
+          : "text-foreground/70 hover:bg-foreground/5 hover:text-foreground"
       )}
     >
-      {active ? (
-        <span className="absolute inset-y-1.5 left-0 w-0.5 rounded-full bg-accent" />
-      ) : null}
       {icon ? (
         <CategoryIcon
           name={icon}
           className={cn(
             "size-4 shrink-0",
-            active ? "text-accent" : "text-subtle-foreground group-hover:text-foreground"
+            active ? "text-foreground" : "text-foreground/40 group-hover:text-foreground"
           )}
         />
       ) : null}
@@ -293,12 +290,12 @@ function NavRow({
         <span className="live-dot size-1.5 shrink-0 rounded-full bg-live" />
       ) : null}
       {count !== undefined ? (
-        <span className="shrink-0 font-mono text-[11px] tabular-nums text-subtle-foreground">
+        <span className="shrink-0 font-mono text-[11px] tabular-nums text-foreground/50">
           {count}
         </span>
       ) : null}
       {chevron ? (
-        <Icon name="forward" className="size-3.5 shrink-0 text-subtle-foreground transition-transform group-hover:translate-x-0.5" />
+        <Icon name="forward" className="size-3.5 shrink-0 text-foreground/50 transition-transform group-hover:translate-x-0.5" />
       ) : null}
     </Link>
   );

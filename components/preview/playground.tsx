@@ -90,7 +90,7 @@ export function Playground({
 
   if (!entry) {
     return (
-      <div className="rounded-md border border-dashed border-border bg-surface-2/50 p-8 text-center">
+      <div className="rounded-md border border-dashed border-border bg-muted/50 p-8 text-center">
         <Badge variant="outline">Not vendored yet</Badge>
         <p className="mx-auto mt-3 max-w-md text-[13px] leading-relaxed text-muted-foreground">
           We haven&apos;t vendored{" "}
@@ -111,11 +111,11 @@ export function Playground({
   }
 
   return (
-    <div className="overflow-hidden rounded-md border border-border bg-surface">
+    <div className="overflow-hidden rounded-md border border-border bg-muted/50">
       {/* ------------------------------------------------------------ toolbar */}
       <div className="flex flex-wrap items-center gap-2 border-b border-border px-3 py-2">
         <LiveBadge />
-        <span className="hidden text-[11px] text-subtle-foreground sm:inline">
+        <span className="hidden text-[11px] text-foreground/50 sm:inline">
           running from{" "}
           <code className="font-mono">{component.deps[0] ?? "the sandbox"}</code>
         </span>
@@ -124,7 +124,7 @@ export function Playground({
           <div
             role="radiogroup"
             aria-label="Preview width"
-            className="flex items-center gap-0.5 rounded-sm border border-border bg-surface-2 p-0.5"
+            className="flex items-center gap-0.5 rounded-sm border border-border bg-muted p-0.5"
           >
             {VIEWPORTS.map((option) => (
               <Hint key={option.id} label={`${option.label}${option.width ? ` · ${option.width}px` : ""}`}>
@@ -137,8 +137,8 @@ export function Playground({
                   className={cn(
                     "flex size-6 items-center justify-center rounded-xs transition-colors",
                     viewport === option.id
-                      ? "bg-surface text-foreground shadow-card"
-                      : "text-subtle-foreground hover:text-foreground"
+                      ? "bg-muted/50 text-foreground "
+                      : "text-foreground/50 hover:text-foreground"
                   )}
                 >
                   <span className="text-[10px] font-medium">{option.label.slice(0, 2)}</span>
@@ -187,7 +187,7 @@ export function Playground({
       {/* ------------------------------------------------------------- stage */}
       <div className="bg-grid p-4 sm:p-6">
         <div
-          className="mx-auto overflow-hidden rounded-md border border-border bg-surface shadow-card transition-[max-width] duration-300"
+          className="mx-auto overflow-hidden rounded-md border border-border bg-muted/50 transition-[max-width] duration-300"
           style={{ maxWidth: active.width ? `${active.width}px` : "100%" }}
         >
           <PreviewFrame
@@ -198,7 +198,7 @@ export function Playground({
           />
         </div>
         {active.width ? (
-          <p className="mt-2 text-center font-mono text-[11px] text-subtle-foreground">
+          <p className="mt-2 text-center font-mono text-[11px] text-foreground/50">
             {active.width}px — the frame is resized, so container queries inside
             respond for real
           </p>
@@ -261,7 +261,7 @@ export function Playground({
           )}
           {component.deps.length ? (
             <div className="mt-3">
-              <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-wider text-subtle-foreground">
+              <p className="mb-1.5 text-xs font-medium uppercase tracking-wider text-foreground/40">
                 Brings with it
               </p>
               <div className="flex flex-wrap gap-1.5">
@@ -304,12 +304,12 @@ function PropControl({
     return (
       <label
         htmlFor={id}
-        className="flex cursor-pointer items-center justify-between gap-3 rounded-sm border border-border bg-surface-2 px-3 py-2"
+        className="flex cursor-pointer items-center justify-between gap-3 rounded-sm border border-border bg-muted px-3 py-2"
       >
         <span className="min-w-0">
           <span className="block font-mono text-[12px] font-medium">{prop.name}</span>
           {prop.description ? (
-            <span className="block text-[11px] text-subtle-foreground">
+            <span className="block text-[11px] text-foreground/50">
               {prop.description}
             </span>
           ) : null}
@@ -327,7 +327,7 @@ function PropControl({
 
   if (prop.type === "enum" && prop.options?.length) {
     return (
-      <div className="rounded-sm border border-border bg-surface-2 px-3 py-2">
+      <div className="rounded-sm border border-border bg-muted px-3 py-2">
         <label htmlFor={id} className="block font-mono text-[12px] font-medium">
           {prop.name}
         </label>
@@ -341,7 +341,7 @@ function PropControl({
                 "rounded-xs border px-2 py-0.5 font-mono text-[11px] transition-colors",
                 value === option
                   ? "border-accent bg-accent-muted text-accent"
-                  : "border-border text-muted-foreground hover:border-border-strong hover:text-foreground"
+                  : "border-border text-muted-foreground hover:border-foreground/20 hover:text-foreground"
               )}
             >
               {option}
@@ -354,10 +354,10 @@ function PropControl({
 
   if (prop.type === "number") {
     return (
-      <div className="rounded-sm border border-border bg-surface-2 px-3 py-2">
+      <div className="rounded-sm border border-border bg-muted px-3 py-2">
         <label htmlFor={id} className="flex items-baseline justify-between gap-2">
           <span className="font-mono text-[12px] font-medium">{prop.name}</span>
-          <span className="font-mono text-[11px] tabular-nums text-subtle-foreground">
+          <span className="font-mono text-[11px] tabular-nums text-foreground/50">
             {String(value ?? "")}
           </span>
         </label>
@@ -375,7 +375,7 @@ function PropControl({
   }
 
   return (
-    <div className="rounded-sm border border-border bg-surface-2 px-3 py-2">
+    <div className="rounded-sm border border-border bg-muted px-3 py-2">
       <label htmlFor={id} className="block font-mono text-[12px] font-medium">
         {prop.name}
       </label>
@@ -384,7 +384,7 @@ function PropControl({
         type="text"
         value={String(value ?? "")}
         onChange={(event) => onChange(event.target.value)}
-        className="mt-1.5 h-7 w-full rounded-xs border border-border bg-surface px-2 text-[12px] outline-none focus-visible:border-accent"
+        className="mt-1.5 h-7 w-full rounded-xs border border-border bg-muted/50 px-2 text-[12px] outline-none focus-visible:border-accent"
       />
     </div>
   );

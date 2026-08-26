@@ -6,9 +6,9 @@ export function Input({ className, type, ...props }: ComponentProps<"input">): R
     <input
       type={type}
       className={cn(
-        "flex h-9 w-full rounded-sm border border-border bg-surface px-3 py-1 text-sm text-foreground shadow-sm transition-colors",
-        "placeholder:text-subtle-foreground",
-        "hover:border-border-strong",
+        "flex h-9 w-full rounded-sm border border-border bg-muted/50 px-3 py-1 text-sm text-foreground shadow-sm transition-colors",
+        "placeholder:text-foreground/50",
+        "hover:border-foreground/20",
         "focus-visible:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/25",
         "disabled:cursor-not-allowed disabled:opacity-50",
         "file:border-0 file:bg-transparent file:text-sm file:font-medium",
@@ -23,8 +23,8 @@ export function Textarea({ className, ...props }: ComponentProps<"textarea">): R
   return (
     <textarea
       className={cn(
-        "flex min-h-20 w-full rounded-sm border border-border bg-surface px-3 py-2 text-sm text-foreground shadow-sm transition-colors",
-        "placeholder:text-subtle-foreground hover:border-border-strong",
+        "flex min-h-20 w-full rounded-sm border border-border bg-muted/50 px-3 py-2 text-sm text-foreground shadow-sm transition-colors",
+        "placeholder:text-foreground/50 hover:border-foreground/20",
         "focus-visible:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/25",
         "disabled:cursor-not-allowed disabled:opacity-50",
         className

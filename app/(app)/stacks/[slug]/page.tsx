@@ -53,7 +53,7 @@ export default async function StackPage({
       </Link>
 
       <header className="mt-4 max-w-3xl">
-        <h1 className="text-[32px] font-semibold leading-tight tracking-tight">
+        <h1 className="font-serif text-[32px] font-medium leading-tight">
           {stack.name}
         </h1>
         <p className="mt-3 text-[16px] leading-relaxed text-muted-foreground">
@@ -63,7 +63,7 @@ export default async function StackPage({
 
       <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_22rem]">
         <div className="min-w-0">
-          <h2 className="text-[11px] font-semibold uppercase tracking-wider text-subtle-foreground">
+          <h2 className="text-xs font-medium uppercase tracking-wider text-foreground/40">
             What&apos;s in it
           </h2>
           <ul className="mt-3 flex flex-col gap-1">
@@ -71,7 +71,7 @@ export default async function StackPage({
               <li key={listing.slug}>
                 <Link
                   href={listingHref(listing)}
-                  className="t-press flex items-start gap-3 rounded-xl px-2 py-2.5 hover:bg-surface"
+                  className="t-press flex items-start gap-3 rounded-sm px-2 py-2.5 hover:bg-muted/50"
                 >
                   <IconTile monogram={listing.monogram} color={listing.color} />
                   <span className="min-w-0 flex-1">
@@ -92,7 +92,7 @@ export default async function StackPage({
 
           {components.length ? (
             <>
-              <h2 className="mt-8 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-subtle-foreground">
+              <h2 className="mt-8 flex items-center gap-2 text-xs font-medium uppercase tracking-wider text-foreground/40">
                 Components
                 <LiveBadge />
               </h2>
@@ -101,7 +101,7 @@ export default async function StackPage({
                   <Link
                     key={component.slug}
                     href={`/components/${component.slug}`}
-                    className="t-lift overflow-hidden rounded-2xl border border-border bg-surface dark:border-transparent"
+                    className="t-lift overflow-hidden rounded-sm border border-border bg-muted/50 dark:border-transparent"
                   >
                     <div className="flex h-40 items-center justify-center bg-grid">
                       {canRender(component) && component.registryKey ? (
@@ -110,7 +110,7 @@ export default async function StackPage({
                           fitHeight={140}
                         />
                       ) : (
-                        <span className="text-[12px] text-subtle-foreground">
+                        <span className="text-[12px] text-foreground/50">
                           links out
                         </span>
                       )}
@@ -131,7 +131,7 @@ export default async function StackPage({
         {/* ------------------------------------------------- the install plan */}
         <aside className="flex flex-col gap-6">
           <section>
-            <h2 className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-subtle-foreground">
+            <h2 className="mb-2 text-xs font-medium uppercase tracking-wider text-foreground/40">
               Install the whole stack
             </h2>
             <div className="flex flex-col gap-2">
@@ -140,8 +140,8 @@ export default async function StackPage({
               ))}
             </div>
             {plan.manual.length ? (
-              <div className="mt-3 rounded-xl border border-border bg-surface p-3 dark:border-transparent">
-                <p className="text-[11px] font-semibold uppercase tracking-wider text-subtle-foreground">
+              <div className="mt-3 rounded-sm border border-border bg-muted/50 p-3 dark:border-transparent">
+                <p className="text-xs font-medium uppercase tracking-wider text-foreground/40">
                   Not installable from a terminal
                 </p>
                 <ul className="mt-1.5 flex flex-col gap-1">
@@ -153,7 +153,7 @@ export default async function StackPage({
                 </ul>
               </div>
             ) : null}
-            <p className="mt-2 text-[11px] leading-relaxed text-subtle-foreground">
+            <p className="mt-2 text-[11px] leading-relaxed text-foreground/50">
               Generated from what each listing actually publishes. Nothing here
               is guessed — a listing with no package says so instead of getting
               an invented command.
@@ -161,7 +161,7 @@ export default async function StackPage({
           </section>
 
           <section>
-            <h2 className="mb-2 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-subtle-foreground">
+            <h2 className="mb-2 flex items-center gap-2 text-xs font-medium uppercase tracking-wider text-foreground/40">
               Agent manifest
               <Badge variant="accent" size="sm">
                 MCP
@@ -172,7 +172,7 @@ export default async function StackPage({
               filename={`${stack.slug}.json`}
               language="json"
             />
-            <p className="mt-2 text-[11px] leading-relaxed text-subtle-foreground">
+            <p className="mt-2 text-[11px] leading-relaxed text-foreground/50">
               This is what an agent receives when it asks for this stack over
               MCP — packages, licences, peer requirements and install method,
               already resolved.

@@ -14,7 +14,7 @@ const InlinePreview = dynamic(
   {
     ssr: false,
     loading: () => (
-      <span className="font-mono text-[10px] uppercase tracking-widest text-subtle-foreground">
+      <span className="font-mono text-[10px] uppercase tracking-widest text-foreground/50">
         loading
       </span>
     ),

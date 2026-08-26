@@ -42,7 +42,7 @@ export function AdminListingTable(): ReactNode {
             type="button"
             onClick={() => setStatus(option)}
             data-active={status === option || undefined}
-            className="t-press rounded-full px-3 py-1.5 text-[13px] font-medium capitalize text-muted-foreground hover:text-foreground data-active:bg-surface data-active:text-foreground"
+            className="t-press rounded-full px-3 py-1.5 text-[13px] font-medium capitalize text-muted-foreground hover:text-foreground data-active:bg-muted/50 data-active:text-foreground"
           >
             {option}
           </button>
@@ -58,7 +58,7 @@ export function AdminListingTable(): ReactNode {
       {rows === undefined ? (
         <div className="mt-4 flex flex-col gap-1.5">
           {[0, 1, 2, 3].map((i) => (
-            <Skeleton key={i} className="h-14 w-full rounded-xl" />
+            <Skeleton key={i} className="h-14 w-full rounded-sm" />
           ))}
         </div>
       ) : rows.length === 0 ? (
@@ -66,7 +66,7 @@ export function AdminListingTable(): ReactNode {
           Nothing here{q ? ` matching “${q}”` : ""}.
         </p>
       ) : (
-        <ul className="mt-4 divide-y divide-border border-y border-border">
+        <ul className="mt-4 divide-y divide-foreground/10 border-y border-border">
           {rows.map((row) => {
             return (
               <li key={row.id} className="flex flex-wrap items-center gap-3 py-2.5">
@@ -89,7 +89,7 @@ export function AdminListingTable(): ReactNode {
                 </div>
 
                 <span
-                  className="shrink-0 font-mono text-[11px] text-subtle-foreground"
+                  className="shrink-0 font-mono text-[11px] text-foreground/50"
                   title={
                     row.fetchedAt
                       ? `Facts refreshed ${timeAgo(row.fetchedAt)}`
@@ -186,7 +186,7 @@ function Toggle({
       onClick={onClick}
       aria-pressed={on}
       className={`t-press rounded-full px-2.5 py-1 text-[12px] transition-colors ${
-        on ? "text-accent" : "text-subtle-foreground hover:text-foreground"
+        on ? "text-accent" : "text-foreground/50 hover:text-foreground"
       }`}
     >
       {label}

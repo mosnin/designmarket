@@ -29,7 +29,7 @@ export default function ConnectPage(): ReactNode {
 
   return (
     <div className="mx-auto max-w-[52rem] px-5 py-14 sm:px-8">
-      <h1 className="text-[30px] font-semibold leading-tight tracking-tight">
+      <h1 className="font-serif text-[30px] font-medium leading-tight">
         Connect the MCP server
       </h1>
       <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">
@@ -115,7 +115,7 @@ export default function ConnectPage(): ReactNode {
         </p>
       </section>
 
-      <p className="mt-10 text-[13px] text-subtle-foreground">
+      <p className="mt-10 text-[13px] text-foreground/50">
         Keys are scoped to read and rate-limited per account. Revoking one in{" "}
         <Link href="/me/settings" className="text-accent hover:underline">
           settings
@@ -147,7 +147,7 @@ function Step({
   return (
     <section className="mt-10">
       <h2 className="mb-3 flex items-baseline gap-2.5 text-[17px] font-semibold tracking-tight">
-        <span className="font-mono text-[13px] text-subtle-foreground">{n}</span>
+        <span className="font-mono text-[13px] text-foreground/50">{n}</span>
         {title}
       </h2>
       {children}
