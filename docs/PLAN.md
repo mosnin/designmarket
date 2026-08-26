@@ -153,7 +153,7 @@ events           analytics: views, renders, copies, installs
 
 - **Next.js 16 (App Router) + React 19 + TypeScript strict + Tailwind v4** — inherited from the supplied theme, which also donates its token system, motion helpers, and dark/light switch.
 - **Convex** for database, realtime queries, auth (`@convex-dev/auth`: password + GitHub OAuth), scheduled jobs, and HTTP actions.
-- **Render Layer:** first-party registry components render inside `/preview/*` routes loaded in a sandboxed `<iframe>` — full React, full Tailwind, zero runtime compilation, no CDN dependency. Tokens are pushed in via `postMessage` for Theme Morph. **User-submitted** source is compiled at runtime inside a hard-sandboxed frame (Phase 6) with strict limits.
+- **Render Layer:** registry components render inside `/preview/*` routes loaded in a sandboxed `<iframe>` — full React, full Tailwind, zero runtime compilation, no CDN dependency. Tokens are pushed in via `postMessage` for Theme Morph. Card grids render the same components inline instead, because a grid of iframes is a grid of documents. **User-submitted** source is compiled at runtime inside a hard-sandboxed frame; that lands with the submission flow in Phase 9, where user code first enters the system, rather than being built before there is any to run.
 - **Graceful degradation:** when `NEXT_PUBLIC_CONVEX_URL` is unset, `lib/data.ts` serves a bundled seed dataset, so the app builds, previews, and deploys before a Convex deployment exists.
 - **Billing:** Stripe Checkout + a Convex HTTP webhook that flips `users.plan`. Entirely env-gated.
 - **MCP:** JSON-RPC over Streamable HTTP served from a Convex HTTP action, authenticated by `vt_live_*` API keys.
@@ -168,10 +168,10 @@ events           analytics: views, renders, copies, installs
 | 3 | Auth & accounts | Sign in/up, session, logged-out browsing |
 | 4 | Explore, search & categories | Feed, facets, category pages, ⌘K, The Drop |
 | 5 | Render Layer I | Sandbox, registry, playground, Theme Morph |
-| 6 | Render Layer II | Compare, remix, compiled user code |
+| 6 | Render Layer II | Compare canvas, remixes |
 | 7 | Listing pages & Ship Score | Detail pages, grading, compat matrix, reviews |
 | 8 | Bookmarks, boards & profiles | Saves, boards, public profiles |
-| 9 | Submit flow & moderation | `/submit`, URL importer, queue, `/me/submissions` |
+| 9 | Submit flow & moderation | `/submit`, URL importer, queue, `/me/submissions`, compiled previews for submitted source |
 | 10 | Admin dashboard | Manual listing/component editors, drops, users, roles |
 | 11 | Stacks | Installable collections, install plans, manifests |
 | 12 | Pro, Stripe & MCP | Pricing, checkout, API keys, MCP server |

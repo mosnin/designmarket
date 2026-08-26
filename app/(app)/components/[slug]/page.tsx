@@ -2,7 +2,7 @@ import { ArrowLeft, ExternalLink } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import type { ReactNode } from "react";
+import { Suspense, type ReactNode } from "react";
 import { ComponentCard } from "@/components/cards/component-card";
 import { CardPreview } from "@/components/preview/card-preview";
 import { Playground } from "@/components/preview/playground";
@@ -110,10 +110,16 @@ export default async function ComponentPage({
 
       <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_17rem]">
         <div className="min-w-0">
-          <Playground
-            component={component}
-            {...(listing ? { listingName: listing.name } : {})}
-          />
+          <Suspense
+            fallback={
+              <div className="h-96 animate-pulse rounded-md border border-border bg-surface-2" />
+            }
+          >
+            <Playground
+              component={component}
+              {...(listing ? { listingName: listing.name } : {})}
+            />
+          </Suspense>
         </div>
 
         <aside className="flex flex-col gap-5">

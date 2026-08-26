@@ -23,6 +23,7 @@ export function InlinePreview({
   className,
   scale,
   fitHeight,
+  interactive = false,
 }: {
   registryKey: string;
   props?: Record<string, unknown>;
@@ -30,6 +31,11 @@ export function InlinePreview({
   scale?: number;
   /** Shrink the component so its natural height fits this many pixels. */
   fitHeight?: number;
+  /**
+   * Cards are thumbnails and stay inert; the compare canvas is the opposite —
+   * half the point of putting two components side by side is opening both.
+   */
+  interactive?: boolean;
 }): ReactNode {
   const entry = getRegistryEntry(registryKey);
   const { tokens } = useThemeMorph();
@@ -50,8 +56,7 @@ export function InlinePreview({
 
   return (
     <div
-      aria-hidden
-      inert
+      {...(interactive ? {} : { "aria-hidden": true, inert: true })}
       style={
         {
           ...vars,
@@ -65,7 +70,8 @@ export function InlinePreview({
         } as React.CSSProperties
       }
       className={cn(
-        "pointer-events-none flex w-full items-center justify-center overflow-hidden bg-pv-background p-4 text-pv-foreground",
+        "flex w-full items-center justify-center overflow-hidden bg-pv-background p-4 text-pv-foreground",
+        interactive ? "" : "pointer-events-none",
         className
       )}
     >

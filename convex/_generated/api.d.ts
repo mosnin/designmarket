@@ -17,6 +17,7 @@ import type * as ingest from "../ingest.js";
 import type * as ingestData from "../ingestData.js";
 import type * as listings from "../listings.js";
 import type * as profiles from "../profiles.js";
+import type * as remixes from "../remixes.js";
 import type * as seed from "../seed.js";
 
 import type {
@@ -35,6 +36,7 @@ declare const fullApi: ApiFromModules<{
   ingestData: typeof ingestData;
   listings: typeof listings;
   profiles: typeof profiles;
+  remixes: typeof remixes;
   seed: typeof seed;
 }>;
 

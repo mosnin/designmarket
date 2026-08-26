@@ -9,11 +9,13 @@ import {
   Smartphone,
   Tablet,
 } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 import { useCallback, useMemo, useState, type ReactNode } from "react";
 import { toast } from "sonner";
 import { getRegistryEntry } from "@/components/registry";
 import { CodeBlock, CommandLine } from "@/components/preview/code-panel";
 import { PreviewFrame } from "@/components/preview/preview-frame";
+import { SaveRemix } from "@/components/preview/save-remix";
 import { MorphControl } from "@/components/theme-morph/morph-control";
 import { Badge, LiveBadge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -59,8 +61,23 @@ export function Playground({
     ? getRegistryEntry(component.registryKey)
     : null;
 
+  const searchParams = useSearchParams();
   const initial = useMemo(() => defaultProps(component.props), [component.props]);
-  const [props, setProps] = useState<Record<string, unknown>>(initial);
+
+  // A shared link or a saved remix arrives as ?p=<encoded json>, so opening
+  // one lands on exactly the configuration that was saved.
+  const opened = useMemo<Record<string, unknown>>(() => {
+    const raw = searchParams.get("p");
+    if (!raw) return initial;
+    try {
+      const parsed = JSON.parse(decodeURIComponent(raw)) as Record<string, unknown>;
+      return { ...initial, ...parsed };
+    } catch {
+      return initial;
+    }
+  }, [searchParams, initial]);
+
+  const [props, setProps] = useState<Record<string, unknown>>(opened);
   const [viewport, setViewport] = useState<(typeof VIEWPORTS)[number]["id"]>("full");
 
   const active = VIEWPORTS.find((v) => v.id === viewport) ?? VIEWPORTS[3];
@@ -138,6 +155,12 @@ export function Playground({
           </div>
 
           <MorphControl />
+
+          <SaveRemix
+            componentSlug={component.slug}
+            componentName={component.name}
+            props={props}
+          />
 
           <Hint label="Copy a link that reopens these exact props">
             <Button variant="ghost" size="icon-sm" onClick={shareLink} aria-label="Copy link to this configuration">

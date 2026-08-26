@@ -43,11 +43,24 @@ const PIE_COLORS = [
   "color-mix(in oklab, var(--pv-primary) 22%, var(--pv-background))",
 ];
 
+/** Compact ticks, because "9.4k" fits where "9400" gets clipped. */
+function compactTick(value: number): string {
+  if (Math.abs(value) >= 1_000_000) return `${(value / 1_000_000).toFixed(1)}m`;
+  if (Math.abs(value) >= 1_000) return `${(value / 1_000).toFixed(value % 1_000 === 0 ? 0 : 1)}k`;
+  return String(value);
+}
+
 const axisProps = {
   stroke: "var(--pv-muted-foreground)",
   fontSize: 11,
   tickLine: false,
   axisLine: false,
+} as const;
+
+const yAxisProps = {
+  ...axisProps,
+  width: 38,
+  tickFormatter: compactTick,
 } as const;
 
 function ChartTooltip(): ReactNode {
@@ -112,7 +125,7 @@ export const chartRegistry = {
       const stacked = bool(p, "stacked", false);
       return (
         <Frame>
-          <AreaChart data={SERIES} margin={{ top: 8, right: 8, bottom: 0, left: -18 }}>
+          <AreaChart data={SERIES} margin={{ top: 8, right: 8, bottom: 0, left: 0 }}>
             <defs>
               <linearGradient id="pv-area-a" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="var(--pv-primary)" stopOpacity={0.35} />
@@ -123,7 +136,7 @@ export const chartRegistry = {
               <CartesianGrid stroke="var(--pv-border)" strokeDasharray="3 3" vertical={false} />
             ) : null}
             <XAxis dataKey="label" {...axisProps} />
-            <YAxis {...axisProps} width={44} />
+            <YAxis {...yAxisProps} />
             {ChartTooltip()}
             <Area
               type={curve}
@@ -162,18 +175,18 @@ export const chartRegistry = {
           <BarChart
             data={SERIES}
             layout={horizontal ? "vertical" : "horizontal"}
-            margin={{ top: 8, right: 8, bottom: 0, left: horizontal ? 4 : -18 }}
+            margin={{ top: 8, right: 8, bottom: 0, left: 0 }}
           >
             <CartesianGrid stroke="var(--pv-border)" strokeDasharray="3 3" vertical={horizontal} horizontal={!horizontal} />
             {horizontal ? (
               <>
-                <XAxis type="number" {...axisProps} />
+                <XAxis type="number" {...axisProps} tickFormatter={compactTick} />
                 <YAxis type="category" dataKey="label" width={36} {...axisProps} />
               </>
             ) : (
               <>
                 <XAxis dataKey="label" {...axisProps} />
-                <YAxis width={44} {...axisProps} />
+                <YAxis {...yAxisProps} />
               </>
             )}
             {ChartTooltip()}
@@ -202,10 +215,10 @@ export const chartRegistry = {
       const dots = bool(p, "dots", false);
       return (
         <Frame>
-          <LineChart data={SERIES} margin={{ top: 8, right: 8, bottom: 0, left: -18 }}>
+          <LineChart data={SERIES} margin={{ top: 8, right: 8, bottom: 0, left: 0 }}>
             <CartesianGrid stroke="var(--pv-border)" strokeDasharray="3 3" vertical={false} />
             <XAxis dataKey="label" {...axisProps} />
-            <YAxis width={44} {...axisProps} />
+            <YAxis {...yAxisProps} />
             {ChartTooltip()}
             <Legend
               wrapperStyle={{ fontSize: 12, color: "var(--pv-muted-foreground)" }}
