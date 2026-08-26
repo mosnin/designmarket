@@ -34,6 +34,47 @@ Vitrine's bet is that the marketplace itself should be the evaluation environmen
 - **The Drop** — one curated daily set (Toolfolio's "Tools Daily", but with live previews). Retention loop.
 - **Provenance** — license, repo, last commit, maintainer, npm downloads, and "who added this" on every card. Trust is a feature.
 
+### No invented data
+
+The catalogue indexes **third-party platforms**, not our own products, and it
+never shows a number it cannot source.
+
+- Descriptive fields — name, tagline, description, categories, stack facets,
+  licence — are authored and verifiable.
+- Every **figure** is fetched: `scripts/fetch-facts.mjs` populates
+  `lib/seed/facts.generated.json` from the npm registry, the npm downloads API
+  and bundlephobia; `convex/ingest.ts` refreshes the same fields at runtime and
+  adds GitHub stars, last push and open issues. A daily cron keeps them fresh.
+- A figure we cannot confirm is **absent**, not estimated. Ship Score marks
+  that dimension N/A and drops it from the denominator; the UI says "not
+  fetched yet" and shows `fetchedAt` so you know how old the rest is.
+- On-site engagement — views, saves, votes — starts at zero and is earned from
+  real events. Trending therefore leans on off-site adoption and release
+  recency until the site has traffic of its own, rather than on seeded numbers.
+
+### How things get into the catalogue
+
+Two paths, one pipeline. Both write to the same `listings`/`components` tables;
+they differ only in who is trusted and what happens on save.
+
+| | **Submit** (`/submit`) | **Admin** (`/admin`) |
+| --- | --- | --- |
+| Who | Anyone with a free account | `role: admin` or `moderator` |
+| Saves as | `status: pending` — invisible to the public | `status: live` immediately, or draft |
+| Flow | Guided multi-step form: identity → categories → stack facets → components → preview | Full editor, every field, no hand-holding |
+| Assist | Paste a GitHub or npm URL and the form pre-fills name, licence, stars, downloads, last commit, dependency count and TypeScript support | Same importer, plus bulk paste |
+| Ship Score | Computed live as you fill the form, so contributors can see what's missing | Same, plus an override note field |
+| After save | Lands in `/admin/queue`; submitter tracks it at `/me/submissions` | Live |
+
+The admin dashboard is also the operational surface: schedule The Drop, promote
+things to featured, verify a listing, change a user's role or plan, and revoke
+API keys.
+
+**Role model.** `profiles.role` is `member | moderator | admin`. Moderators can
+approve, reject and edit listings. Admins additionally manage users, roles,
+plans and drops. The first account to sign up on a fresh deployment is
+bootstrapped to `admin`; after that it is granted explicitly.
+
 ### Audience & access
 
 - **Logged out:** browse, search, filter, render every component, copy code. No wall. This is how the market gets seeded.
@@ -60,10 +101,22 @@ Vitrine's bet is that the marketplace itself should be the evaluation environmen
 /stacks/[slug]          Stack detail + install plan + agent manifest
 /u/[handle]             Public profile
 /me/*                   Bookmarks, boards, remixes, submissions, settings
-/submit                 Multi-step submission flow
 /pricing                Free vs Pro
 /mcp                    MCP connect docs + API keys
 /preview/*              Sandbox render target (framed, no chrome)
+
+/submit                 Public submission flow — anyone with a free account
+/submit/[kind]          Library · component · AI tool · resource
+/me/submissions         Your submissions and their moderation state
+
+/admin                  Owner/moderator dashboard (role-gated)
+/admin/listings         All listings, any status, bulk actions
+/admin/listings/new     Create a listing by hand
+/admin/listings/[slug]  Full editor — facts, facets, categories, components
+/admin/components       Component records and their preview mode
+/admin/queue            Submission moderation queue
+/admin/drops            Schedule The Drop
+/admin/users            Roles, plans, API keys
 ```
 
 ## 3. Categories (Product-Hunt breadth, design-first depth)
@@ -117,8 +170,10 @@ events           analytics: views, renders, copies, installs
 | 5 | Render Layer I | Sandbox, registry, playground, Theme Morph |
 | 6 | Render Layer II | Compare, remix, compiled user code |
 | 7 | Listing pages & Ship Score | Detail pages, grading, compat matrix, reviews |
-| 8 | Bookmarks, boards & submissions | Saves, boards, profiles, submit flow |
-| 9 | Stacks | Installable collections, install plans, manifests |
-| 10 | Pro, Stripe & MCP | Pricing, checkout, API keys, MCP server |
-| 11 | Marketing, SEO & polish | Landing, OG, a11y, states, mobile |
-| 12 | Ship | Vercel config, docs, green build, PR |
+| 8 | Bookmarks, boards & profiles | Saves, boards, public profiles |
+| 9 | Submit flow & moderation | `/submit`, URL importer, queue, `/me/submissions` |
+| 10 | Admin dashboard | Manual listing/component editors, drops, users, roles |
+| 11 | Stacks | Installable collections, install plans, manifests |
+| 12 | Pro, Stripe & MCP | Pricing, checkout, API keys, MCP server |
+| 13 | Marketing, SEO & polish | Landing, OG, a11y, states, mobile |
+| 14 | Ship | Vercel config, docs, green build, PR |

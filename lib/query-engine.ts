@@ -137,19 +137,33 @@ function componentSearchScore(c: UIComponent, tokens: string[]): number {
 export function trendingScore(listing: Listing, now: number): number {
   const ageDays = Math.max(1, (now - listing.createdAt) / DAY);
   const freshness = 1 / Math.log10(ageDays + 9);
+
+  // On-site attention, which starts at zero and is earned from real events.
   const attention = listing.views / 100 + listing.saves / 4 + listing.votes / 2;
-  const updated = listing.facts.lastCommit
-    ? Math.max(0, 1 - (now - listing.facts.lastCommit) / (180 * DAY))
+
+  // Off-site signal, so a brand new catalogue still ranks sensibly on day one.
+  const downloads = listing.facts.weeklyDownloads ?? 0;
+  const adoption = downloads > 0 ? Math.max(0, Math.log10(downloads) - 2) * 6 : 0;
+
+  const shipped = listing.facts.lastPublish ?? listing.facts.lastCommit;
+  const recentlyShipped = shipped
+    ? Math.max(0, 1 - (now - shipped) / (180 * DAY)) * 24
     : 0;
-  const quality = computeShipScore(listing).score / 20;
-  return attention * freshness + updated * 30 + quality;
+
+  const quality = computeShipScore(listing).score / 4;
+
+  return attention * freshness + adoption + recentlyShipped + quality;
 }
 
 function sortListings(items: Listing[], sort: SortKey, now: number): Listing[] {
   const copy = [...items];
   switch (sort) {
     case "newest":
-      return copy.sort((a, b) => b.createdAt - a.createdAt);
+      return copy.sort(
+        (a, b) =>
+          b.createdAt - a.createdAt ||
+          (b.facts.firstRelease ?? 0) - (a.facts.firstRelease ?? 0)
+      );
     case "ship-score":
       return copy.sort(
         (a, b) => computeShipScore(b).score - computeShipScore(a).score || b.views - a.views
@@ -157,6 +171,12 @@ function sortListings(items: Listing[], sort: SortKey, now: number): Listing[] {
     case "stars":
       return copy.sort(
         (a, b) => (b.facts.githubStars ?? 0) - (a.facts.githubStars ?? 0)
+      );
+    case "updated":
+      return copy.sort(
+        (a, b) =>
+          (b.facts.lastPublish ?? b.facts.lastCommit ?? 0) -
+          (a.facts.lastPublish ?? a.facts.lastCommit ?? 0)
       );
     case "downloads":
       return copy.sort(

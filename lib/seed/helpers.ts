@@ -1,27 +1,28 @@
+import generated from "./facts.generated.json";
 import type { Listing, ListingFacts, StackProfile } from "@/lib/types";
-import { stableHash } from "@/lib/utils";
 
 /**
- * Seed content.
+ * Seed content is a catalogue of real third-party projects. The descriptive
+ * fields are authored; every *number* comes from `facts.generated.json`, which
+ * `scripts/fetch-facts.mjs` populates from the npm registry, the npm downloads
+ * API and bundlephobia.
  *
- * These records describe real projects, but the *numbers* (stars, downloads,
- * bundle size, last commit) are illustrative seed values chosen to be
- * plausible, not scraped. `convex/ingest.ts` refreshes them from the GitHub
- * and npm APIs once a deployment exists; until then they exist so the app has
- * something honest-shaped to render.
+ * Nothing is invented. A project we could not fetch a figure for simply has no
+ * figure — Ship Score marks that dimension N/A rather than guessing, and the UI
+ * says "not fetched yet" rather than showing a plausible-looking number.
  *
- * Everything derived from them — Ship Score especially — therefore moves as
- * soon as real data lands, which is the point: the score is a function of
- * facts, not a hand-written number.
+ * GitHub stars and last-commit need a token to fetch reliably, so they are
+ * absent here and collected at runtime by `convex/ingest.ts`.
  */
 
-/** Fixed clock so every derived value is deterministic across builds. */
-export const SEED_NOW = Date.UTC(2026, 7, 20);
-export const DAY = 86_400_000;
+type GeneratedFacts = {
+  fetchedAt: number;
+  facts: Record<string, Partial<ListingFacts> & { npmLicense?: string }>;
+};
 
-export function daysAgo(n: number): number {
-  return SEED_NOW - n * DAY;
-}
+const generatedFacts = generated as GeneratedFacts;
+
+export const FACTS_FETCHED_AT = generatedFacts.fetchedAt;
 
 type StackInput = Partial<StackProfile>;
 
@@ -39,33 +40,29 @@ export function stack(input: StackInput): StackProfile {
 
 export type SeedListing = Omit<
   Listing,
-  "_id" | "createdAt" | "updatedAt" | "views" | "saves" | "votes" | "componentCount"
-> & {
-  createdAt?: number;
-  componentCount?: number;
-};
+  | "_id" | "createdAt" | "updatedAt" | "views" | "saves" | "votes"
+  | "componentCount" | "facts"
+>;
 
-/**
- * Counters are derived from a stable hash of the slug rather than stored, so
- * seed data has no hand-authored vanity numbers and never drifts between the
- * server render and the client.
- */
 export function hydrate(seed: SeedListing): Listing {
-  const h = stableHash(seed.slug);
-  const h2 = stableHash(`${seed.slug}:v`);
-  const popularity =
-    (seed.facts.githubStars ?? 0) / 1000 + (seed.facts.weeklyDownloads ?? 0) / 50_000;
-  const createdAt = seed.createdAt ?? daysAgo(30 + Math.floor(h * 600));
+  const fetched = generatedFacts.facts[seed.slug] ?? {};
+  const facts: ListingFacts = {
+    ...fetched,
+    hasDocs: Boolean(seed.docs),
+    fetchedAt: FACTS_FETCHED_AT,
+  };
+
   return {
     ...seed,
     _id: `listing:${seed.slug}`,
-    componentCount: seed.componentCount ?? 0,
-    createdAt,
-    updatedAt: seed.facts.lastCommit ?? createdAt,
-    views: Math.round(400 + h * 9_000 + popularity * 120),
-    saves: Math.round(20 + h2 * 700 + popularity * 14),
-    votes: Math.round(8 + h2 * 320 + popularity * 9),
+    facts,
+    componentCount: 0,
+    // "Added to the catalogue" — the seed load is when these entered it.
+    createdAt: FACTS_FETCHED_AT,
+    updatedAt: facts.lastPublish ?? FACTS_FETCHED_AT,
+    // Engagement is earned, never seeded. These climb from real events.
+    views: 0,
+    saves: 0,
+    votes: 0,
   };
 }
-
-export const facts = (f: ListingFacts): ListingFacts => f;

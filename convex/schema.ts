@@ -28,16 +28,21 @@ const stackProfile = v.object({
   install: v.array(v.string()),
 });
 
+/** Every field is fetched by convex/ingest.ts. Absent means unverified. */
 const listingFacts = v.object({
   githubStars: v.optional(v.number()),
-  weeklyDownloads: v.optional(v.number()),
-  bundleBytes: v.optional(v.number()),
-  dependencies: v.optional(v.number()),
   lastCommit: v.optional(v.number()),
-  version: v.optional(v.string()),
-  firstRelease: v.optional(v.number()),
-  hasDocs: v.optional(v.boolean()),
   contributors: v.optional(v.number()),
+  openIssues: v.optional(v.number()),
+  weeklyDownloads: v.optional(v.number()),
+  version: v.optional(v.string()),
+  lastPublish: v.optional(v.number()),
+  firstRelease: v.optional(v.number()),
+  dependencies: v.optional(v.number()),
+  npmLicense: v.optional(v.string()),
+  bundleBytes: v.optional(v.number()),
+  hasDocs: v.optional(v.boolean()),
+  fetchedAt: v.optional(v.number()),
 });
 
 const componentProp = v.object({

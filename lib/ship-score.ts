@@ -82,17 +82,22 @@ function licenseScore(listing: Listing): ScoreDimension {
 
 function maintenanceScore(listing: Listing): ScoreDimension {
   const max = 20;
-  const last = listing.facts.lastCommit;
+  // The publish date is what a consumer actually feels; a commit that never
+  // shipped does not help them.
+  const published = listing.facts.lastPublish;
+  const committed = listing.facts.lastCommit;
+  const last = published ?? committed;
   if (!last) {
-    return na("maintenance", "Maintenance", max, "No commit history available");
+    return na("maintenance", "Maintenance", max, "No release or commit data fetched yet");
   }
+  const kind = published ? "Released" : "Committed";
   const age = Date.now() - last;
   const table: [number, number, string][] = [
-    [30 * DAY, 20, "Active — committed within the last month"],
-    [90 * DAY, 16, "Committed within the last quarter"],
-    [180 * DAY, 11, "Committed within six months"],
-    [365 * DAY, 6, "Quiet for over six months"],
-    [Infinity, 2, "No commits in over a year"],
+    [30 * DAY, 20, `${kind} within the last month`],
+    [90 * DAY, 16, `${kind} within the last quarter`],
+    [180 * DAY, 11, `${kind} within six months`],
+    [365 * DAY, 6, `Quiet — last ${kind.toLowerCase()} over six months ago`],
+    [Infinity, 2, `Dormant — nothing ${kind.toLowerCase()} in over a year`],
   ];
   for (const [limit, points, note] of table) {
     if (age < limit) {
@@ -109,7 +114,7 @@ function adoptionScore(listing: Listing): ScoreDimension {
   const stars = listing.facts.githubStars ?? 0;
   const signal = Math.max(downloads, stars * 20);
   if (signal === 0) {
-    return na("adoption", "Adoption", max, "No public usage signal yet");
+    return na("adoption", "Adoption", max, "No published package to measure");
   }
   // 1k signal -> ~5, 100k -> ~10, 10m -> 15
   const points = Math.max(
@@ -199,7 +204,7 @@ function docsScore(listing: Listing): ScoreDimension {
   const max = 5;
   return listing.facts.hasDocs
     ? { id: "docs", label: "Documentation", points: max, max, note: "Dedicated docs site" }
-    : { id: "docs", label: "Documentation", points: 1, max, note: "README only" };
+    : { id: "docs", label: "Documentation", points: 1, max, note: "No docs site listed" };
 }
 
 export function computeShipScore(listing: Listing): ShipScore {

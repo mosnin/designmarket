@@ -1,5 +1,5 @@
 import type { Collection, Drop } from "@/lib/types";
-import { daysAgo, SEED_NOW } from "./helpers";
+import { FACTS_FETCHED_AT } from "./helpers";
 
 /**
  * Stacks are the differentiating half of collections: a curated set that can
@@ -24,7 +24,7 @@ const rawStacks: Omit<Collection, "_id" | "saves" | "createdAt" | "updatedAt">[]
       { type: "listing", slug: "resend", note: "Transactional email as React" },
       { type: "listing", slug: "posthog", note: "Know whether anyone used it" },
       { type: "component", slug: "shadcn-form", note: "Validation wired up correctly the first time" },
-      { type: "component", slug: "vt-empty-state", note: "The screen you'll otherwise design at 3am" },
+      { type: "component", slug: "shadcn-card", note: "The surface everything else sits on" },
     ],
   },
   {
@@ -37,10 +37,10 @@ const rawStacks: Omit<Collection, "_id" | "saves" | "createdAt" | "updatedAt">[]
     curated: true,
     color: "#d97757",
     items: [
-      { type: "component", slug: "vt-prompt-input", note: "Composer with model picker and token count" },
+      { type: "component", slug: "shadcn-command", note: "The palette every agent UI ends up needing" },
       { type: "component", slug: "mp-text-shimmer", note: "Honest loading state for streamed tokens" },
-      { type: "component", slug: "vt-model-badge", note: "Which model, which context window" },
-      { type: "component", slug: "vt-diff-view", note: "Show what the agent changed" },
+      { type: "component", slug: "shadcn-badge", note: "Model and status chips" },
+      { type: "component", slug: "shadcn-data-table", note: "Show what the agent touched, row by row" },
       { type: "listing", slug: "vercel-ai-sdk", note: "One API across providers" },
       { type: "listing", slug: "langfuse", note: "Traces before you need them" },
     ],
@@ -75,7 +75,7 @@ const rawStacks: Omit<Collection, "_id" | "saves" | "createdAt" | "updatedAt">[]
       { type: "listing", slug: "tremor", note: "Analytics-shaped defaults" },
       { type: "listing", slug: "tanstack-table", note: "Table logic, your markup" },
       { type: "component", slug: "recharts-area", note: "The chart you'll use most" },
-      { type: "component", slug: "vt-stat-tile", note: "Tiles that don't go ragged" },
+      { type: "component", slug: "tremor-kpi-card", note: "Metric tiles that already look designed" },
       { type: "component", slug: "shadcn-data-table", note: "Sorting and selection already wired" },
     ],
   },
@@ -115,32 +115,32 @@ const rawStacks: Omit<Collection, "_id" | "saves" | "createdAt" | "updatedAt">[]
   },
 ];
 
-export const seedCollections: Collection[] = rawStacks.map((c, i) => ({
+export const seedCollections: Collection[] = rawStacks.map((c) => ({
   ...c,
   _id: `collection:${c.slug}`,
-  saves: 40 + i * 37,
-  createdAt: daysAgo(120 - i * 9),
-  updatedAt: daysAgo(3 + i),
+  saves: 0,
+  createdAt: FACTS_FETCHED_AT,
+  updatedAt: FACTS_FETCHED_AT,
 }));
 
 /** The Drop — one curated set a day. Retention loop, and the front page's pulse. */
 export const seedDrops: Drop[] = [
   {
-    date: new Date(SEED_NOW).toISOString().slice(0, 10),
+    date: new Date(FACTS_FETCHED_AT).toISOString().slice(0, 10),
     headline: "Composers, diffs, and the UI of agents",
     note: "Every AI product ends up rebuilding the same four components. Today's set is those four, plus the SDK underneath them.",
     listingSlugs: ["vercel-ai-sdk", "model-context-protocol", "langfuse"],
-    componentSlugs: ["vt-prompt-input", "vt-diff-view", "mp-text-shimmer", "vt-model-badge"],
+    componentSlugs: ["shadcn-command", "mp-text-shimmer", "shadcn-badge", "shadcn-progress"],
   },
   {
-    date: new Date(SEED_NOW - 86_400_000).toISOString().slice(0, 10),
+    date: new Date(FACTS_FETCHED_AT - 86_400_000).toISOString().slice(0, 10),
     headline: "Tables that survive real data",
     note: "Headless logic, an enterprise fallback, and the shadcn wiring in between.",
     listingSlugs: ["tanstack-table", "ag-grid", "tremor"],
     componentSlugs: ["shadcn-data-table", "recharts-bar"],
   },
   {
-    date: new Date(SEED_NOW - 2 * 86_400_000).toISOString().slice(0, 10),
+    date: new Date(FACTS_FETCHED_AT - 2 * 86_400_000).toISOString().slice(0, 10),
     headline: "The unstyled layer",
     note: "Three takes on the same idea — behaviour without opinions — from three teams that have each shipped it before.",
     listingSlugs: ["radix-primitives", "base-ui", "ark-ui", "react-aria"],

@@ -27,20 +27,35 @@ export type StackProfile = {
   install: string[];
 };
 
+/**
+ * Every field here is fetched, never authored. Absent means "we could not
+ * verify it", which the UI states plainly and Ship Score treats as N/A.
+ */
 export type ListingFacts = {
+  /** from the GitHub API, collected by convex/ingest.ts */
   githubStars?: number;
-  weeklyDownloads?: number;
-  /** minified + gzipped, in bytes, for the primary entry point */
-  bundleBytes?: number;
-  dependencies?: number;
-  /** ms epoch */
+  /** ms epoch — GitHub push time, when we have it */
   lastCommit?: number;
-  version?: string;
-  /** ms epoch */
-  firstRelease?: number;
-  hasDocs?: boolean;
-  hasChangelog?: number | boolean;
   contributors?: number;
+  openIssues?: number;
+  /** from api.npmjs.org */
+  weeklyDownloads?: number;
+  /** from the npm registry */
+  version?: string;
+  /** ms epoch — publish time of the current version */
+  lastPublish?: number;
+  /** ms epoch — first publish */
+  firstRelease?: number;
+  /** count of runtime dependencies declared in package.json */
+  dependencies?: number;
+  /** the licence npm reports, which is not always what the README claims */
+  npmLicense?: string;
+  /** min+gzip of the primary entry point, from bundlephobia */
+  bundleBytes?: number;
+  /** derived: does the listing point at a dedicated docs site */
+  hasDocs?: boolean;
+  /** ms epoch — when these facts were last refreshed */
+  fetchedAt?: number;
 };
 
 export type Listing = {
@@ -153,6 +168,7 @@ export type Drop = {
 export type SortKey =
   | "trending"
   | "newest"
+  | "updated"
   | "ship-score"
   | "stars"
   | "downloads"

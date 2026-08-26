@@ -10,6 +10,9 @@
 
 import type * as collections from "../collections.js";
 import type * as components_ from "../components.js";
+import type * as crons from "../crons.js";
+import type * as ingest from "../ingest.js";
+import type * as ingestData from "../ingestData.js";
 import type * as listings from "../listings.js";
 import type * as seed from "../seed.js";
 
@@ -22,6 +25,9 @@ import type {
 declare const fullApi: ApiFromModules<{
   collections: typeof collections;
   components: typeof components_;
+  crons: typeof crons;
+  ingest: typeof ingest;
+  ingestData: typeof ingestData;
   listings: typeof listings;
   seed: typeof seed;
 }>;

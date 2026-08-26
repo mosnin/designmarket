@@ -1,9 +1,12 @@
 import { internalMutation } from "./_generated/server";
 import { v } from "convex/values";
 import type { Id } from "./_generated/dataModel";
-import { seedListings } from "../lib/seed/listings";
-import { seedComponents } from "../lib/seed/components";
-import { seedCollections, seedDrops } from "../lib/seed/collections";
+import {
+  seedCollections,
+  seedComponents,
+  seedDrops,
+  seedListings,
+} from "../lib/seed";
 
 /**
  * Loads the bundled seed dataset into a deployment.

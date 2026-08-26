@@ -1,6 +1,5 @@
 import type { UIComponent } from "@/lib/types";
-import { daysAgo } from "./helpers";
-import { stableHash } from "@/lib/utils";
+import { FACTS_FETCHED_AT } from "./helpers";
 
 /**
  * The component-level index.
@@ -361,120 +360,6 @@ const raw: SeedComponent[] = [
     tags: ["pointer", "micro-interaction"], featured: false, canvasHeight: 240,
   },
 
-  /* -------------------------------------------------- Vitrine's own registry */
-  {
-    listingSlug: "vitrine-registry", slug: "vt-empty-state", name: "Empty State", kind: "empty-state",
-    description: "The screen nobody designs until launch week: icon, one honest sentence, and exactly one next action.",
-    previewMode: "registry", registryKey: "vitrine/empty-state",
-    installCommand: "npx vitrine@latest add empty-state",
-    importLine: 'import { EmptyState } from "@/components/ui/empty-state"',
-    props: [
-      { name: "tone", type: "enum", options: ["neutral", "search", "error"], defaultValue: "neutral" },
-      { name: "withAction", type: "boolean", defaultValue: true },
-    ],
-    deps: ["lucide-react"],
-    a11yNotes: "The illustration is aria-hidden; the message is a real heading so it lands in the document outline.",
-    tags: ["states", "onboarding"], featured: true, canvasHeight: 260,
-  },
-  {
-    listingSlug: "vitrine-registry", slug: "vt-stat-tile", name: "Stat Tile", kind: "stat",
-    description: "Label, value, delta and an optional footnote at four densities, sized to tile without ragged baselines.",
-    previewMode: "registry", registryKey: "vitrine/stat-tile",
-    installCommand: "npx vitrine@latest add stat-tile",
-    importLine: 'import { StatTile } from "@/components/ui/stat-tile"',
-    props: [
-      { name: "density", type: "enum", options: ["compact", "comfortable"], defaultValue: "comfortable" },
-      { name: "trend", type: "enum", options: ["up", "down", "flat"], defaultValue: "up" },
-      { name: "withFootnote", type: "boolean", defaultValue: true },
-    ],
-    deps: [],
-    tags: ["dashboard", "metric"], featured: false, canvasHeight: 200,
-  },
-  {
-    listingSlug: "vitrine-registry", slug: "vt-code-block", name: "Code Block", kind: "code-block",
-    description: "Copy button, filename tab, line highlighting and a scroll region that never pushes the page sideways.",
-    previewMode: "registry", registryKey: "vitrine/code-block",
-    installCommand: "npx vitrine@latest add code-block",
-    importLine: 'import { CodeBlock } from "@/components/ui/code-block"',
-    props: [
-      { name: "showLineNumbers", type: "boolean", defaultValue: true },
-      { name: "wrap", type: "boolean", defaultValue: false },
-    ],
-    deps: [],
-    a11yNotes: "The copy button announces success via aria-live rather than only changing its icon.",
-    tags: ["docs", "copy", "syntax"], featured: true, canvasHeight: 280,
-  },
-  {
-    listingSlug: "vitrine-registry", slug: "vt-prompt-input", name: "Prompt Input", kind: "prompt-input",
-    description: "Auto-growing composer with model picker, attachment slot, token counter and Cmd+Enter to send.",
-    previewMode: "registry", registryKey: "vitrine/prompt-input",
-    installCommand: "npx vitrine@latest add prompt-input",
-    importLine: 'import { PromptInput } from "@/components/ui/prompt-input"',
-    props: [
-      { name: "showModelPicker", type: "boolean", defaultValue: true },
-      { name: "showTokenCount", type: "boolean", defaultValue: true },
-      { name: "state", type: "enum", options: ["idle", "streaming"], defaultValue: "idle" },
-    ],
-    deps: ["lucide-react"],
-    a11yNotes: "Textarea keeps its label; the send shortcut is announced in the description, not hidden in a tooltip.",
-    tags: ["ai", "chat", "composer"], featured: true, canvasHeight: 240,
-  },
-  {
-    listingSlug: "vitrine-registry", slug: "vt-diff-view", name: "Diff View", kind: "diff",
-    description: "Unified or split diff with word-level highlighting and collapsible unchanged runs.",
-    previewMode: "registry", registryKey: "vitrine/diff",
-    installCommand: "npx vitrine@latest add diff-view",
-    importLine: 'import { DiffView } from "@/components/ui/diff-view"',
-    props: [
-      { name: "mode", type: "enum", options: ["unified", "split"], defaultValue: "unified" },
-      { name: "collapseContext", type: "boolean", defaultValue: true },
-    ],
-    deps: [],
-    a11yNotes: "Additions and removals carry text labels, not colour alone.",
-    tags: ["code", "review", "git"], featured: false, canvasHeight: 320,
-  },
-  {
-    listingSlug: "vitrine-registry", slug: "vt-model-badge", name: "Model Badge", kind: "badge",
-    description: "Provider mark, model name, context window and a live/deprecated dot — the chip every AI product ends up needing.",
-    previewMode: "registry", registryKey: "vitrine/model-badge",
-    installCommand: "npx vitrine@latest add model-badge",
-    importLine: 'import { ModelBadge } from "@/components/ui/model-badge"',
-    props: [
-      { name: "state", type: "enum", options: ["live", "preview", "deprecated"], defaultValue: "live" },
-      { name: "showContext", type: "boolean", defaultValue: true },
-    ],
-    deps: [],
-    tags: ["ai", "chip"], featured: false, canvasHeight: 140,
-  },
-  {
-    listingSlug: "vitrine-registry", slug: "vt-token-swatches", name: "Token Swatches", kind: "gallery",
-    description: "Renders a design-token set as labelled swatches with contrast ratios computed against their pair.",
-    previewMode: "registry", registryKey: "vitrine/token-swatches",
-    installCommand: "npx vitrine@latest add token-swatches",
-    importLine: 'import { TokenSwatches } from "@/components/ui/token-swatches"',
-    props: [
-      { name: "showContrast", type: "boolean", defaultValue: true },
-      { name: "columns", type: "number", defaultValue: 4 },
-    ],
-    deps: [],
-    a11yNotes: "Contrast ratios are printed as text so the check does not itself depend on seeing colour.",
-    tags: ["design-tokens", "color", "contrast"], featured: true, canvasHeight: 280,
-  },
-  {
-    listingSlug: "vitrine-registry", slug: "vt-skeleton-set", name: "Skeleton Set", kind: "skeleton",
-    description: "Loading placeholders shaped like the content that replaces them, so nothing jumps on hydration.",
-    previewMode: "registry", registryKey: "vitrine/skeleton",
-    installCommand: "npx vitrine@latest add skeleton-set",
-    importLine: 'import { SkeletonCard } from "@/components/ui/skeleton-set"',
-    props: [
-      { name: "shape", type: "enum", options: ["card", "row", "article"], defaultValue: "card" },
-      { name: "shimmer", type: "boolean", defaultValue: true },
-    ],
-    deps: [],
-    a11yNotes: "Marked aria-busy on the container rather than announcing each placeholder.",
-    tags: ["loading", "cls"], featured: false, canvasHeight: 240,
-  },
-
   /* -------------------------------------------------- cmdk / sonner / forms */
   {
     listingSlug: "shadcn-ui", slug: "shadcn-combobox", name: "Combobox", kind: "combobox",
@@ -491,9 +376,9 @@ const raw: SeedComponent[] = [
     tags: ["autocomplete", "cmdk"], featured: false, canvasHeight: 300,
   },
   {
-    listingSlug: "react-hook-form", slug: "rhf-otp-field", name: "OTP Field", kind: "otp",
+    listingSlug: "shadcn-ui", slug: "shadcn-input-otp", name: "OTP Field", kind: "otp",
     description: "Six single-character inputs that behave as one field: paste fills them all, backspace walks back.",
-    previewMode: "registry", registryKey: "vitrine/otp",
+    previewMode: "registry", registryKey: "shadcn/input-otp",
     installCommand: "npx shadcn@latest add input-otp",
     importLine: 'import { InputOTP } from "@/components/ui/input-otp"',
     props: [
@@ -559,16 +444,242 @@ const raw: SeedComponent[] = [
     a11yNotes: "Defines the expected behaviour for Escape, Alt+Down, Home/End and aria-activedescendant.",
     tags: ["reference", "wai-aria", "keyboard"], featured: false,
   },
+
+  /* -------------------------------------------------- shadcn/ui, continued */
+  {
+    listingSlug: "shadcn-ui", slug: "shadcn-card", name: "Card", kind: "card",
+    description: "Header, content and footer slots with the border and shadow already tuned for both themes.",
+    previewMode: "registry", registryKey: "shadcn/card",
+    installCommand: "npx shadcn@latest add card",
+    importLine: 'import { Card, CardHeader } from "@/components/ui/card"',
+    props: [
+      { name: "withFooter", type: "boolean", defaultValue: true },
+      { name: "withImage", type: "boolean", defaultValue: false },
+    ],
+    deps: [], tags: ["surface", "layout"], featured: false, canvasHeight: 260,
+  },
+  {
+    listingSlug: "shadcn-ui", slug: "shadcn-badge", name: "Badge", kind: "badge",
+    description: "Four variants at a size that sits on a baseline with 13px text without knocking the line box around.",
+    previewMode: "registry", registryKey: "shadcn/badge",
+    installCommand: "npx shadcn@latest add badge",
+    importLine: 'import { Badge } from "@/components/ui/badge"',
+    props: [
+      { name: "variant", type: "enum", options: ["default", "secondary", "outline", "destructive"], defaultValue: "default" },
+    ],
+    deps: ["class-variance-authority"], tags: ["chip", "status"], featured: false, canvasHeight: 140,
+  },
+  {
+    listingSlug: "shadcn-ui", slug: "shadcn-avatar", name: "Avatar", kind: "avatar",
+    description: "Image with an initials fallback that only appears after the image genuinely fails, not before it loads.",
+    previewMode: "registry", registryKey: "shadcn/avatar",
+    installCommand: "npx shadcn@latest add avatar",
+    importLine: 'import { Avatar, AvatarImage } from "@/components/ui/avatar"',
+    props: [
+      { name: "size", type: "enum", options: ["sm", "default", "lg"], defaultValue: "default" },
+      { name: "stack", type: "boolean", defaultValue: false },
+    ],
+    deps: ["@radix-ui/react-avatar"],
+    a11yNotes: "The fallback carries the person's initials as text, so it is never an unlabelled coloured circle.",
+    tags: ["identity", "radix"], featured: false, canvasHeight: 160,
+  },
+  {
+    listingSlug: "shadcn-ui", slug: "shadcn-progress", name: "Progress", kind: "progress",
+    description: "Determinate bar driven by a transform, so it animates on the compositor rather than by width.",
+    previewMode: "registry", registryKey: "shadcn/progress",
+    installCommand: "npx shadcn@latest add progress",
+    importLine: 'import { Progress } from "@/components/ui/progress"',
+    props: [
+      { name: "value", type: "number", defaultValue: 62 },
+      { name: "indeterminate", type: "boolean", defaultValue: false },
+    ],
+    deps: ["@radix-ui/react-progress"],
+    a11yNotes: "role=progressbar with aria-valuenow, so the percentage is announced rather than only drawn.",
+    tags: ["feedback", "radix"], featured: false, canvasHeight: 140,
+  },
+  {
+    listingSlug: "shadcn-ui", slug: "shadcn-checkbox", name: "Checkbox", kind: "checkbox",
+    description: "Checked, unchecked and indeterminate, with a hit area larger than the box it draws.",
+    previewMode: "registry", registryKey: "shadcn/checkbox",
+    installCommand: "npx shadcn@latest add checkbox",
+    importLine: 'import { Checkbox } from "@/components/ui/checkbox"',
+    props: [
+      { name: "state", type: "enum", options: ["unchecked", "checked", "indeterminate"], defaultValue: "checked" },
+      { name: "withLabel", type: "boolean", defaultValue: true },
+    ],
+    deps: ["@radix-ui/react-checkbox"], tags: ["form", "radix"], featured: false, canvasHeight: 160,
+  },
+  {
+    listingSlug: "shadcn-ui", slug: "shadcn-radio-group", name: "Radio Group", kind: "radio",
+    description: "One choice from several, with roving tabindex so the whole group is a single tab stop.",
+    previewMode: "registry", registryKey: "shadcn/radio-group",
+    installCommand: "npx shadcn@latest add radio-group",
+    importLine: 'import { RadioGroup } from "@/components/ui/radio-group"',
+    props: [
+      { name: "orientation", type: "enum", options: ["vertical", "horizontal"], defaultValue: "vertical" },
+      { name: "asCards", type: "boolean", defaultValue: false },
+    ],
+    deps: ["@radix-ui/react-radio-group"],
+    a11yNotes: "Arrow keys move and select in one step, which is the expected radio behaviour.",
+    tags: ["form", "radix"], featured: false, canvasHeight: 200,
+  },
+  {
+    listingSlug: "shadcn-ui", slug: "shadcn-hover-card", name: "Hover Card", kind: "popover",
+    description: "Rich preview on hover with open and close delays that stop it firing on a passing cursor.",
+    previewMode: "registry", registryKey: "shadcn/hover-card",
+    installCommand: "npx shadcn@latest add hover-card",
+    importLine: 'import { HoverCard } from "@/components/ui/hover-card"',
+    props: [
+      { name: "openDelay", type: "number", defaultValue: 300 },
+      { name: "side", type: "enum", options: ["top", "right", "bottom", "left"], defaultValue: "bottom" },
+    ],
+    deps: ["@radix-ui/react-hover-card"],
+    a11yNotes: "Hover-only by design — pair it with a link or button that carries the same information.",
+    tags: ["overlay", "preview"], featured: false, canvasHeight: 240,
+  },
+  {
+    listingSlug: "shadcn-ui", slug: "shadcn-collapsible", name: "Collapsible", kind: "accordion",
+    description: "A single disclosure with animated height, for the cases an accordion would be overkill.",
+    previewMode: "registry", registryKey: "shadcn/collapsible",
+    installCommand: "npx shadcn@latest add collapsible",
+    importLine: 'import { Collapsible } from "@/components/ui/collapsible"',
+    props: [{ name: "defaultOpen", type: "boolean", defaultValue: false }],
+    deps: ["@radix-ui/react-collapsible"], tags: ["disclosure", "radix"], featured: false, canvasHeight: 200,
+  },
+  {
+    listingSlug: "shadcn-ui", slug: "shadcn-context-menu", name: "Context Menu", kind: "context-menu",
+    description: "Right-click menu with submenus, checkbox items and shortcut hints, keyboard reachable too.",
+    previewMode: "registry", registryKey: "shadcn/context-menu",
+    installCommand: "npx shadcn@latest add context-menu",
+    importLine: 'import { ContextMenu } from "@/components/ui/context-menu"',
+    props: [{ name: "withSubmenu", type: "boolean", defaultValue: true }],
+    deps: ["@radix-ui/react-context-menu"],
+    a11yNotes: "Opens on the context-menu key as well as right click, so it is not mouse-only.",
+    tags: ["menu", "radix"], featured: false, canvasHeight: 240,
+  },
+  {
+    listingSlug: "shadcn-ui", slug: "shadcn-toggle-group", name: "Toggle Group", kind: "tabs",
+    description: "Segmented control in single or multiple mode, sized to sit next to a 32px button.",
+    previewMode: "registry", registryKey: "shadcn/toggle-group",
+    installCommand: "npx shadcn@latest add toggle-group",
+    importLine: 'import { ToggleGroup } from "@/components/ui/toggle-group"',
+    props: [
+      { name: "type", type: "enum", options: ["single", "multiple"], defaultValue: "single" },
+      { name: "size", type: "enum", options: ["sm", "default"], defaultValue: "default" },
+    ],
+    deps: ["@radix-ui/react-toggle-group"], tags: ["segmented", "radix"], featured: false, canvasHeight: 150,
+  },
+
+  /* -------------------------------------------------- Recharts, continued */
+  {
+    listingSlug: "recharts", slug: "recharts-line", name: "Line Chart", kind: "chart",
+    description: "Multi-series lines with an active dot and a tooltip that follows the nearest point, not the cursor.",
+    previewMode: "registry", registryKey: "recharts/line",
+    installCommand: "npm i recharts",
+    importLine: 'import { LineChart, Line } from "recharts"',
+    props: [
+      { name: "series", type: "number", defaultValue: 2 },
+      { name: "dots", type: "boolean", defaultValue: false },
+    ],
+    deps: ["recharts"], tags: ["chart", "trend"], featured: false, canvasHeight: 300, gridBackdrop: true,
+  },
+  {
+    listingSlug: "recharts", slug: "recharts-pie", name: "Donut Chart", kind: "chart",
+    description: "Donut with a centre label, padding angle and a legend that survives long category names.",
+    previewMode: "registry", registryKey: "recharts/pie",
+    installCommand: "npm i recharts",
+    importLine: 'import { PieChart, Pie } from "recharts"',
+    props: [
+      { name: "innerRadius", type: "number", defaultValue: 60 },
+      { name: "showLabel", type: "boolean", defaultValue: true },
+    ],
+    deps: ["recharts"], tags: ["chart", "proportion"], featured: false, canvasHeight: 300,
+  },
+  {
+    listingSlug: "recharts", slug: "recharts-radial", name: "Radial Bar", kind: "chart",
+    description: "Radial progress rings for bounded metrics — the shape dashboards reach for and usually hand-roll.",
+    previewMode: "registry", registryKey: "recharts/radial",
+    installCommand: "npm i recharts",
+    importLine: 'import { RadialBarChart } from "recharts"',
+    props: [{ name: "value", type: "number", defaultValue: 72 }],
+    deps: ["recharts"], tags: ["chart", "gauge"], featured: false, canvasHeight: 280,
+  },
+
+  /* -------------------------------------------------- Static (not vendored) */
+  {
+    listingSlug: "magic-ui", slug: "magic-bento-grid", name: "Bento Grid", kind: "feature-grid",
+    description: "Asymmetric feature grid with hover reveal, the layout every launch page used in 2024 and still works.",
+    previewMode: "static",
+    installCommand: "npx shadcn@latest add \"https://magicui.design/r/bento-grid\"",
+    importLine: 'import { BentoGrid } from "@/components/ui/bento-grid"',
+    props: [], deps: ["motion"], tags: ["layout", "marketing"], featured: false,
+  },
+  {
+    listingSlug: "magic-ui", slug: "magic-border-beam", name: "Border Beam", kind: "background",
+    description: "A light travelling around a card's border, done with a conic gradient and one animated offset.",
+    previewMode: "static",
+    installCommand: "npx shadcn@latest add \"https://magicui.design/r/border-beam\"",
+    importLine: 'import { BorderBeam } from "@/components/ui/border-beam"',
+    props: [], deps: ["motion"], tags: ["decorative", "card"], featured: false,
+  },
+  {
+    listingSlug: "aceternity-ui", slug: "aceternity-aurora", name: "Aurora Background", kind: "background",
+    description: "Slow-moving gradient wash behind hero copy. Heavy on paint; use it once per page.",
+    previewMode: "static",
+    installCommand: "npx shadcn@latest add \"https://ui.aceternity.com/registry/aurora-background.json\"",
+    importLine: 'import { AuroraBackground } from "@/components/ui/aurora-background"',
+    props: [], deps: ["motion"], tags: ["hero", "gradient"], featured: false,
+  },
+  {
+    listingSlug: "ark-ui", slug: "ark-date-picker", name: "Date Picker", kind: "date-picker",
+    description: "Single, multiple and range selection driven by a Zag state machine, identical across four frameworks.",
+    previewMode: "static",
+    installCommand: "npm i @ark-ui/react",
+    importLine: 'import { DatePicker } from "@ark-ui/react/date-picker"',
+    props: [], deps: ["@ark-ui/react"],
+    a11yNotes: "Grid semantics with aria-selected per day and full arrow-key navigation across weeks and months.",
+    tags: ["dates", "zag", "cross-framework"], featured: false,
+  },
+  {
+    listingSlug: "base-ui", slug: "base-number-field", name: "Number Field", kind: "input",
+    description: "Numeric input with scrub-to-change, locale formatting and clamped min/max.",
+    previewMode: "static",
+    installCommand: "npm i @base-ui-components/react",
+    importLine: 'import { NumberField } from "@base-ui-components/react/number-field"',
+    props: [], deps: ["@base-ui-components/react"],
+    a11yNotes: "role=spinbutton with aria-valuenow/min/max, and the increment buttons stay keyboard reachable.",
+    tags: ["form", "numeric"], featured: false,
+  },
+  {
+    listingSlug: "daisyui", slug: "daisy-chat-bubble", name: "Chat Bubble", kind: "chat",
+    description: "Message bubbles with avatar, header, footer and side, in pure CSS classes and no JavaScript at all.",
+    previewMode: "static",
+    installCommand: "npm i -D daisyui",
+    importLine: '<div class="chat chat-start">…</div>',
+    props: [], deps: [], tags: ["chat", "css-only"], featured: false,
+  },
+  {
+    listingSlug: "mantine", slug: "mantine-spotlight", name: "Spotlight", kind: "command",
+    description: "Mantine's command palette with action groups, custom filtering and a keyboard shortcut hook.",
+    previewMode: "static",
+    installCommand: "npm i @mantine/spotlight",
+    importLine: 'import { Spotlight } from "@mantine/spotlight"',
+    props: [], deps: ["@mantine/spotlight"], tags: ["palette", "search"], featured: false,
+  },
+  {
+    listingSlug: "tremor", slug: "tremor-bar-list", name: "Bar List", kind: "list",
+    description: "Ranked rows with an inline proportional bar — the densest way to show a top-ten.",
+    previewMode: "static",
+    installCommand: "npm i @tremor/react",
+    importLine: 'import { BarList } from "@tremor/react"',
+    props: [], deps: [], tags: ["dashboard", "ranking"], featured: false,
+  },
 ];
 
-export const seedComponents: UIComponent[] = raw.map((c) => {
-  const h = stableHash(c.slug);
-  const h2 = stableHash(`${c.slug}:s`);
-  return {
-    ...c,
-    _id: `component:${c.slug}`,
-    createdAt: c.createdAt ?? daysAgo(10 + Math.floor(h * 400)),
-    views: Math.round(120 + h * 5_400 + (c.featured ? 2_600 : 0)),
-    saves: Math.round(6 + h2 * 480 + (c.featured ? 180 : 0)),
-  };
-});
+export const seedComponents: UIComponent[] = raw.map((c) => ({
+  ...c,
+  _id: `component:${c.slug}`,
+  createdAt: c.createdAt ?? FACTS_FETCHED_AT,
+  views: 0,
+  saves: 0,
+}));

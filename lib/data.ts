@@ -2,7 +2,12 @@ import "server-only";
 
 import { fetchQuery } from "convex/nextjs";
 import { api } from "@/convex/_generated/api";
-import { seedCollections, seedComponents, seedDrops, seedListings } from "./seed";
+import {
+  seedCollections,
+  seedComponents,
+  seedDrops,
+  seedListings,
+} from "./seed";
 import {
   alternativeComponents,
   categoryCounts,

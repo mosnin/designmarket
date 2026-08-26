@@ -31,6 +31,19 @@ The app is designed to boot **without** a Convex deployment: when
 `NEXT_PUBLIC_CONVEX_URL` is unset it serves a bundled seed dataset, so you can
 browse and build immediately.
 
+## Where the data comes from
+
+The catalogue lists third-party projects. Descriptive fields are authored;
+every number is fetched and stamped with `fetchedAt`.
+
+```bash
+node scripts/fetch-facts.mjs        # refresh lib/seed/facts.generated.json from npm
+npx convex run ingest:refreshAll    # refresh a live deployment (adds GitHub data)
+```
+
+Set `GITHUB_TOKEN` in the Convex deployment to raise the GitHub API rate limit.
+Anything a source cannot confirm is left absent rather than estimated.
+
 ## Scripts
 
 | Script | Does |
@@ -41,3 +54,4 @@ browse and build immediately.
 | `npm run typecheck` | `tsc --noEmit` |
 | `npm run lint` | ESLint |
 | `npm run seed` | Load seed content into Convex |
+| `npm run facts` | Refetch package facts from npm |

@@ -1,0 +1,441 @@
+{
+  "fetchedAt": 1787776982548,
+  "facts": {
+    "shadcn-ui": {
+      "hasDocs": true
+    },
+    "radix-primitives": {
+      "hasDocs": true,
+      "version": "1.1.23",
+      "npmLicense": "MIT",
+      "dependencies": 15,
+      "lastPublish": 1784937077929,
+      "firstRelease": 1608046281495,
+      "weeklyDownloads": 72996094,
+      "bundleBytes": 12585
+    },
+    "base-ui": {
+      "hasDocs": true,
+      "version": "1.0.0-rc.0",
+      "npmLicense": "MIT",
+      "dependencies": 7,
+      "lastPublish": 1764848344125,
+      "firstRelease": 1734443205549,
+      "weeklyDownloads": 479489,
+      "bundleBytes": 123864
+    },
+    "ark-ui": {
+      "hasDocs": true,
+      "version": "5.39.0",
+      "npmLicense": "MIT",
+      "dependencies": 69,
+      "lastPublish": 1787392281076,
+      "firstRelease": 1667727738716,
+      "weeklyDownloads": 1025595,
+      "bundleBytes": 289750
+    },
+    "mantine": {
+      "hasDocs": true,
+      "version": "9.5.2",
+      "npmLicense": "MIT",
+      "dependencies": 5,
+      "lastPublish": 1787419117945,
+      "firstRelease": 1610037957560,
+      "weeklyDownloads": 2450691,
+      "bundleBytes": 161181
+    },
+    "chakra-ui": {
+      "hasDocs": true,
+      "version": "3.36.1",
+      "npmLicense": "MIT",
+      "dependencies": 7,
+      "lastPublish": 1784471527606,
+      "firstRelease": 1605262909471,
+      "weeklyDownloads": 1773363,
+      "bundleBytes": 300241
+    },
+    "mui": {
+      "hasDocs": true,
+      "version": "9.3.1",
+      "npmLicense": "MIT",
+      "dependencies": 12,
+      "lastPublish": 1786008628365,
+      "firstRelease": 1630568808738,
+      "weeklyDownloads": 10342076,
+      "bundleBytes": 153250
+    },
+    "heroui": {
+      "hasDocs": true,
+      "version": "3.2.4",
+      "npmLicense": "MIT",
+      "dependencies": 8,
+      "lastPublish": 1786108932106,
+      "firstRelease": 1736451772023,
+      "weeklyDownloads": 516320,
+      "bundleBytes": 65331
+    },
+    "react-aria": {
+      "hasDocs": true,
+      "version": "1.20.0",
+      "npmLicense": "Apache-2.0",
+      "dependencies": 7,
+      "lastPublish": 1785511573916,
+      "firstRelease": 1528831074308,
+      "weeklyDownloads": 4086498,
+      "bundleBytes": 271500
+    },
+    "daisyui": {
+      "hasDocs": true,
+      "version": "5.7.22",
+      "npmLicense": "MIT",
+      "dependencies": 0,
+      "lastPublish": 1787552692870,
+      "firstRelease": 1607302535292,
+      "weeklyDownloads": 972711,
+      "bundleBytes": 50014
+    },
+    "park-ui": {
+      "hasDocs": true
+    },
+    "flowbite": {
+      "hasDocs": true,
+      "version": "4.0.2",
+      "npmLicense": "MIT",
+      "dependencies": 5,
+      "lastPublish": 1778693167580,
+      "firstRelease": 1643809507179,
+      "weeklyDownloads": 646255,
+      "bundleBytes": 29530
+    },
+    "motion": {
+      "hasDocs": true,
+      "version": "13.1.1",
+      "npmLicense": "MIT",
+      "dependencies": 2,
+      "lastPublish": 1787223432933,
+      "firstRelease": 1388100996318,
+      "weeklyDownloads": 19461909,
+      "bundleBytes": 45319
+    },
+    "gsap": {
+      "hasDocs": true,
+      "version": "3.15.0",
+      "npmLicense": "Standard 'no charge' license: https://gsap.com/standard-license.",
+      "dependencies": 0,
+      "lastPublish": 1776086135800,
+      "firstRelease": 1409004199830,
+      "weeklyDownloads": 4752551,
+      "bundleBytes": 27350
+    },
+    "magic-ui": {
+      "hasDocs": true
+    },
+    "aceternity-ui": {
+      "hasDocs": true
+    },
+    "motion-primitives": {
+      "hasDocs": true
+    },
+    "react-three-fiber": {
+      "hasDocs": true,
+      "version": "9.7.0",
+      "npmLicense": "MIT",
+      "dependencies": 10,
+      "lastPublish": 1785514820712,
+      "firstRelease": 1611405714611,
+      "weeklyDownloads": 4978321,
+      "bundleBytes": 51795
+    },
+    "lenis": {
+      "hasDocs": false,
+      "version": "1.3.26",
+      "npmLicense": "MIT",
+      "dependencies": 0,
+      "lastPublish": 1785924391867,
+      "firstRelease": 1680544312549,
+      "weeklyDownloads": 1341697,
+      "bundleBytes": 5473
+    },
+    "tremor": {
+      "hasDocs": true,
+      "version": "3.18.7",
+      "npmLicense": "Apache 2.0",
+      "dependencies": 7,
+      "lastPublish": 1736773572787,
+      "firstRelease": 1650405911485,
+      "weeklyDownloads": 375417,
+      "bundleBytes": 222487
+    },
+    "recharts": {
+      "hasDocs": true,
+      "version": "3.10.1",
+      "npmLicense": "MIT",
+      "dependencies": 11,
+      "lastPublish": 1784992985240,
+      "firstRelease": 1438931081432,
+      "weeklyDownloads": 59007412,
+      "bundleBytes": 147530
+    },
+    "visx": {
+      "hasDocs": false,
+      "version": "4.0.0",
+      "npmLicense": "MIT",
+      "dependencies": 33,
+      "lastPublish": 1781214031140,
+      "firstRelease": 1600296647100,
+      "weeklyDownloads": 95449,
+      "bundleBytes": 161671
+    },
+    "tanstack-table": {
+      "hasDocs": true,
+      "version": "9.2.3",
+      "npmLicense": "MIT",
+      "dependencies": 2,
+      "lastPublish": 1787772753914,
+      "firstRelease": 1642569494403,
+      "weeklyDownloads": 19561998,
+      "bundleBytes": 31754
+    },
+    "ag-grid": {
+      "hasDocs": false,
+      "version": "36.1.0",
+      "npmLicense": "MIT",
+      "dependencies": 2,
+      "lastPublish": 1785920729192,
+      "firstRelease": 1454503108809,
+      "weeklyDownloads": 2321392,
+      "bundleBytes": 228280
+    },
+    "react-hook-form": {
+      "hasDocs": true,
+      "version": "7.86.0",
+      "npmLicense": "MIT",
+      "dependencies": 0,
+      "lastPublish": 1787353120971,
+      "firstRelease": 1553117415019,
+      "weeklyDownloads": 60464590,
+      "bundleBytes": 13919
+    },
+    "zod": {
+      "hasDocs": true,
+      "version": "4.4.3",
+      "npmLicense": "MIT",
+      "dependencies": 0,
+      "lastPublish": 1777878400819,
+      "firstRelease": 1583615955387,
+      "weeklyDownloads": 272031420,
+      "bundleBytes": 61791
+    },
+    "lucide": {
+      "hasDocs": false,
+      "version": "1.34.0",
+      "npmLicense": "ISC",
+      "dependencies": 0,
+      "lastPublish": 1787569454573,
+      "firstRelease": 1603136656461,
+      "weeklyDownloads": 97880707,
+      "bundleBytes": 159839
+    },
+    "phosphor-icons": {
+      "hasDocs": false,
+      "version": "2.1.10",
+      "npmLicense": "MIT",
+      "dependencies": 0,
+      "lastPublish": 1747889013972,
+      "firstRelease": 1674884978229,
+      "weeklyDownloads": 3401591,
+      "bundleBytes": 1064849
+    },
+    "fontsource": {
+      "hasDocs": false,
+      "version": "5.3.0",
+      "npmLicense": "OFL-1.1",
+      "dependencies": 0,
+      "lastPublish": 1784433025793,
+      "firstRelease": 1684684754458,
+      "weeklyDownloads": 3419869,
+      "bundleBytes": 570
+    },
+    "v0": {
+      "hasDocs": false
+    },
+    "claude-code": {
+      "hasDocs": true
+    },
+    "cursor": {
+      "hasDocs": false
+    },
+    "ux-pilot": {
+      "hasDocs": false
+    },
+    "lovable": {
+      "hasDocs": false
+    },
+    "vercel-ai-sdk": {
+      "hasDocs": true,
+      "version": "7.0.82",
+      "npmLicense": "Apache-2.0",
+      "dependencies": 3,
+      "lastPublish": 1787773616636,
+      "firstRelease": 1393020575189,
+      "weeklyDownloads": 23121339,
+      "bundleBytes": 94578
+    },
+    "mastra": {
+      "hasDocs": true,
+      "version": "1.62.0",
+      "npmLicense": "Apache-2.0",
+      "dependencies": 32,
+      "lastPublish": 1787742543983,
+      "firstRelease": 1727900592342,
+      "weeklyDownloads": 1516912,
+      "bundleBytes": 999459
+    },
+    "model-context-protocol": {
+      "hasDocs": true,
+      "version": "1.30.0",
+      "npmLicense": "MIT",
+      "dependencies": 17,
+      "lastPublish": 1785174961640,
+      "firstRelease": 1731340395703,
+      "weeklyDownloads": 51250908
+    },
+    "elevenlabs": {
+      "hasDocs": true
+    },
+    "fal": {
+      "hasDocs": true,
+      "version": "1.10.1",
+      "npmLicense": "MIT",
+      "dependencies": 3,
+      "lastPublish": 1777932072810,
+      "firstRelease": 1727726736489,
+      "weeklyDownloads": 1297835,
+      "bundleBytes": 18034
+    },
+    "langfuse": {
+      "hasDocs": true,
+      "version": "3.38.20",
+      "npmLicense": "MIT",
+      "dependencies": 1,
+      "lastPublish": 1775031079028,
+      "firstRelease": 1688326839753,
+      "weeklyDownloads": 1829338,
+      "bundleBytes": 17480
+    },
+    "convex": {
+      "hasDocs": true,
+      "version": "1.45.0",
+      "npmLicense": "Apache-2.0",
+      "dependencies": 3,
+      "lastPublish": 1787346616696,
+      "firstRelease": 1407270520406,
+      "weeklyDownloads": 1357637,
+      "bundleBytes": 181
+    },
+    "tailwindcss": {
+      "hasDocs": true,
+      "version": "4.3.3",
+      "npmLicense": "MIT",
+      "dependencies": 0,
+      "lastPublish": 1784203415267,
+      "firstRelease": 1507302320621,
+      "weeklyDownloads": 126824276,
+      "bundleBytes": 70742
+    },
+    "clerk": {
+      "hasDocs": true,
+      "version": "7.8.2",
+      "npmLicense": "MIT",
+      "dependencies": 5,
+      "lastPublish": 1787617563329,
+      "firstRelease": 1629294981330,
+      "weeklyDownloads": 2175216,
+      "bundleBytes": 42035
+    },
+    "supabase": {
+      "hasDocs": true,
+      "version": "2.112.4",
+      "npmLicense": "MIT",
+      "dependencies": 5,
+      "lastPublish": 1787567713784,
+      "firstRelease": 1579235858575,
+      "weeklyDownloads": 24880982,
+      "bundleBytes": 55314
+    },
+    "storybook": {
+      "hasDocs": true,
+      "version": "10.5.10",
+      "npmLicense": "MIT",
+      "dependencies": 17,
+      "lastPublish": 1787223173637,
+      "firstRelease": 1459813196753,
+      "weeklyDownloads": 22024221
+    },
+    "playwright": {
+      "hasDocs": true,
+      "version": "1.62.1",
+      "npmLicense": "Apache-2.0",
+      "dependencies": 1,
+      "lastPublish": 1785429415324,
+      "firstRelease": 1600926274469,
+      "weeklyDownloads": 56970888,
+      "bundleBytes": 1090057
+    },
+    "posthog": {
+      "hasDocs": true,
+      "version": "1.421.0",
+      "npmLicense": "(Apache-2.0 AND MIT)",
+      "dependencies": 10,
+      "lastPublish": 1787762539969,
+      "firstRelease": 1582166695768,
+      "weeklyDownloads": 12366207,
+      "bundleBytes": 84685
+    },
+    "resend": {
+      "hasDocs": true,
+      "version": "6.24.0",
+      "npmLicense": "MIT",
+      "dependencies": 2,
+      "lastPublish": 1787751840498,
+      "firstRelease": 1488027665309,
+      "weeklyDownloads": 10228642,
+      "bundleBytes": 30768
+    },
+    "typesense": {
+      "hasDocs": true,
+      "version": "3.0.6",
+      "npmLicense": "Apache-2.0",
+      "dependencies": 3,
+      "lastPublish": 1776777437793,
+      "firstRelease": 1522815832929,
+      "weeklyDownloads": 853196,
+      "bundleBytes": 31246
+    },
+    "payload": {
+      "hasDocs": true,
+      "version": "3.88.0",
+      "npmLicense": "MIT",
+      "dependencies": 31,
+      "lastPublish": 1786481704513,
+      "firstRelease": 1424859457430,
+      "weeklyDownloads": 725307
+    },
+    "zustand": {
+      "hasDocs": false,
+      "version": "5.0.15",
+      "npmLicense": "MIT",
+      "dependencies": 0,
+      "lastPublish": 1786581595466,
+      "firstRelease": 1554817657089,
+      "weeklyDownloads": 53641912,
+      "bundleBytes": 489
+    },
+    "wcag-patterns": {
+      "hasDocs": false
+    },
+    "vitrine-registry": {
+      "hasDocs": true
+    }
+  }
+}
