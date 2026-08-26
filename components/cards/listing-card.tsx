@@ -2,6 +2,7 @@ import { Icon } from "@/components/icon";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { CardArt } from "@/components/cards/card-art";
+import { SaveButton } from "@/components/save/save-button";
 import { ShipScoreChip } from "@/components/ship-score-chip";
 import { Badge } from "@/components/ui/badge";
 import { Hint } from "@/components/ui/tooltip";
@@ -69,6 +70,15 @@ export function ListingCard({
         color={listing.color}
         className="aspect-[16/8] border-b border-border"
       />
+
+      {/* Above the stretched link, and only visible once you're interested. */}
+      <div className="absolute right-2 top-2 z-10 opacity-0 transition-opacity focus-within:opacity-100 group-hover:opacity-100">
+        <SaveButton
+          target={{ type: "listing", slug: listing.slug }}
+          size="icon-sm"
+          className="glass border-transparent"
+        />
+      </div>
 
       <div className="flex flex-1 flex-col p-3.5">
         <div className="flex items-start gap-2">

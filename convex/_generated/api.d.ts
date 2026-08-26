@@ -9,6 +9,7 @@
  */
 
 import type * as auth from "../auth.js";
+import type * as bookmarks from "../bookmarks.js";
 import type * as collections from "../collections.js";
 import type * as components_ from "../components.js";
 import type * as crons from "../crons.js";
@@ -28,6 +29,7 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   auth: typeof auth;
+  bookmarks: typeof bookmarks;
   collections: typeof collections;
   components: typeof components_;
   crons: typeof crons;

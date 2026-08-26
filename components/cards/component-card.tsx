@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { SaveButton } from "@/components/save/save-button";
 import { Badge, LiveBadge } from "@/components/ui/badge";
 import { componentKindLabel } from "@/lib/taxonomy";
 import type { Listing, UIComponent } from "@/lib/types";
@@ -57,6 +58,14 @@ export function ComponentCard({
             </span>
           </div>
         )}
+
+        <div className="absolute right-2 top-2 z-10 opacity-0 transition-opacity focus-within:opacity-100 group-hover:opacity-100">
+          <SaveButton
+            target={{ type: "component", slug: component.slug }}
+            size="icon-sm"
+            className="glass border-transparent"
+          />
+        </div>
 
         <div className="absolute left-2 top-2">
           {renderable ? (

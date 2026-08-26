@@ -6,6 +6,7 @@ import { ComponentCard } from "@/components/cards/component-card";
 import { Icon } from "@/components/icon";
 import { CardPreview } from "@/components/preview/card-preview";
 import { CommandLine } from "@/components/preview/code-panel";
+import { SaveRailItem } from "@/components/save/save-button";
 import { ShipScorePanel } from "@/components/ship-score-panel";
 import { ShipScoreChip } from "@/components/ship-score-chip";
 import { IconTile } from "@/components/surface/icon-tile";
@@ -435,8 +436,10 @@ export async function ListingDetail({ slug }: { slug: string }): Promise<ReactNo
         {/* -------------------------------------------------- utility rail */}
         <aside className="flex flex-col gap-7 pt-3">
           <ul className="flex flex-col gap-1">
+            <li>
+              <SaveRailItem target={{ type: "listing", slug: listing.slug }} />
+            </li>
             {[
-              { icon: "bookmark" as const, label: "Save to a board", href: "/signin" },
               { icon: "link" as const, label: "Copy link", href: listingHref(listing) },
               { icon: "alert" as const, label: "Report a problem", href: "/submit" },
             ].map((action) => (

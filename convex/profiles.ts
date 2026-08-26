@@ -202,3 +202,64 @@ export async function requireRole(
   }
   return v;
 }
+
+/**
+ * Everything a public profile page needs, in one round trip.
+ *
+ * A profile is only worth visiting if it shows what someone actually
+ * contributed, so it joins the live listings they submitted and the boards
+ * they chose to make public. Private boards never appear here, and there is no
+ * argument to ask for them — the query cannot return them at all.
+ */
+export const publicProfile = query({
+  args: { handle: v.string() },
+  handler: async (ctx, args) => {
+    const profile = await ctx.db
+      .query("profiles")
+      .withIndex("by_handle", (q) => q.eq("handle", args.handle))
+      .unique();
+    if (!profile) return null;
+
+    const [submitted, owned] = await Promise.all([
+      ctx.db
+        .query("listings")
+        .withIndex("by_submitter", (q) => q.eq("submittedBy", profile.userId))
+        .collect(),
+      ctx.db
+        .query("collections")
+        .withIndex("by_owner", (q) => q.eq("ownerId", profile.userId))
+        .collect(),
+    ]);
+
+    return {
+      handle: profile.handle,
+      displayName: profile.displayName,
+      bio: profile.bio ?? null,
+      website: profile.website ?? null,
+      avatarUrl: profile.avatarUrl ?? null,
+      plan: profile.plan,
+      createdAt: profile.createdAt,
+      listings: submitted
+        .filter((l) => l.status === "live")
+        .sort((a, b) => b.createdAt - a.createdAt)
+        .map((l) => ({
+          slug: l.slug,
+          name: l.name,
+          tagline: l.tagline,
+          kind: l.kind,
+          color: l.color,
+          monogram: l.monogram,
+        })),
+      boards: owned
+        .filter((c) => c.kind === "board" && c.visibility === "public")
+        .sort((a, b) => b.updatedAt - a.updatedAt)
+        .map((c) => ({
+          slug: c.slug,
+          name: c.name,
+          description: c.description,
+          itemCount: c.items.length,
+          updatedAt: c.updatedAt,
+        })),
+    };
+  },
+});
