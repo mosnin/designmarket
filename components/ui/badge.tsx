@@ -6,15 +6,18 @@ const badgeVariants = cva(
   "inline-flex items-center gap-1 whitespace-nowrap rounded-full border font-medium [&_svg]:size-3",
   {
     variants: {
+      // Badges sit inside panels, so none of them carry a fill — a filled pill
+      // on a filled card on a filled page is the stack of boxes the reference
+      // never has. Colour lives in the text and the hairline instead.
       variant: {
-        default: "border-border bg-surface-2 text-muted-foreground",
-        accent: "border-transparent bg-accent-muted text-accent",
+        default: "border-border text-muted-foreground",
+        accent: "border-accent/40 text-accent",
         solid: "border-transparent bg-accent text-accent-foreground",
-        outline: "border-border-strong bg-transparent text-muted-foreground",
-        live: "border-transparent bg-live/15 text-live",
-        success: "border-transparent bg-success/12 text-success",
-        warning: "border-transparent bg-warning/12 text-warning",
-        danger: "border-transparent bg-danger/12 text-danger",
+        outline: "border-border text-muted-foreground",
+        live: "border-transparent text-muted-foreground",
+        success: "border-success/40 text-success",
+        warning: "border-warning/40 text-warning",
+        danger: "border-danger/40 text-danger",
       },
       size: {
         sm: "h-5 px-2 text-[11px]",
@@ -36,13 +39,25 @@ export function Badge({
   );
 }
 
-/** The signature "this is really running" indicator. */
+/**
+ * "This is really running."
+ *
+ * It used to be a lime pill stamped on every preview, which said the same
+ * thing eight times on one screen and shouted it each time. A preview that is
+ * genuinely live demonstrates that by being live; the marker is now a single
+ * dot next to a section heading, where it labels a whole group once.
+ */
 export function LiveBadge({ className }: { className?: string }): ReactNode {
   return (
-    <Badge variant="live" className={cn("font-mono uppercase tracking-wide", className)}>
-      <span className="live-dot size-1.5 rounded-full bg-live" />
-      Live
-    </Badge>
+    <span
+      className={cn(
+        "inline-flex items-center gap-1.5 whitespace-nowrap text-[11px] text-subtle-foreground",
+        className
+      )}
+    >
+      <span className="live-dot size-1.5 shrink-0 rounded-full bg-live" />
+      live
+    </span>
   );
 }
 

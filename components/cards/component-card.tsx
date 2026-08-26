@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { SaveButton } from "@/components/save/save-button";
-import { Badge, LiveBadge } from "@/components/ui/badge";
+import { Badge } from "@/components/ui/badge";
 import { componentKindLabel } from "@/lib/taxonomy";
 import type { Listing, UIComponent } from "@/lib/types";
 import { brandInk, brandWash } from "@/lib/brand-color";
@@ -67,15 +67,13 @@ export function ComponentCard({
           />
         </div>
 
-        <div className="absolute left-2 top-2">
-          {renderable ? (
-            <LiveBadge />
-          ) : (
-            <Badge variant="outline" className="bg-surface/80 backdrop-blur">
-              Links out
-            </Badge>
-          )}
-        </div>
+        {/* A live preview announces itself by rendering. Only the ones that
+            cannot render need saying so. */}
+        {renderable ? null : (
+          <div className="absolute left-2 top-2">
+            <Badge variant="outline">Links out</Badge>
+          </div>
+        )}
       </div>
 
       <div className="flex flex-1 flex-col p-3.5">

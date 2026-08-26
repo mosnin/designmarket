@@ -7,7 +7,7 @@ import { ComponentCard } from "@/components/cards/component-card";
 import { CardPreview } from "@/components/preview/card-preview";
 import { Playground } from "@/components/preview/playground";
 import { ShipScoreChip } from "@/components/ship-score-chip";
-import { Badge, LiveBadge } from "@/components/ui/badge";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getAlternatives, getComponent, getListing } from "@/lib/data";
 import { pageMetadata } from "@/lib/metadata";
@@ -69,7 +69,7 @@ export default async function ComponentPage({
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
             <Badge variant="outline">{componentKindLabel(component.kind)}</Badge>
-            {renderable ? <LiveBadge /> : <Badge variant="outline">Links out</Badge>}
+            {renderable ? null : <Badge variant="outline">Links out</Badge>}
             {component.a11yNotes ? (
               <Badge variant="success">Accessibility documented</Badge>
             ) : null}

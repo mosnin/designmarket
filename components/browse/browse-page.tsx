@@ -129,10 +129,12 @@ export function ResultGrid({
   return (
     <div
       className={cn(
-        "grid gap-3.5",
+        // Rows, not boxes: tight vertically, generous between columns, so the
+        // grid reads as a list you can scan rather than a wall of panels.
+        "grid gap-x-6 gap-y-0.5",
         dense
           ? "sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4"
-          : "sm:grid-cols-2 xl:grid-cols-3"
+          : "sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4"
       )}
     >
       {children}

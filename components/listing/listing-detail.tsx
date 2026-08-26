@@ -325,7 +325,7 @@ export async function ListingDetail({ slug }: { slug: string }): Promise<ReactNo
                     <Link
                       key={categorySlug}
                       href={`/c/${categorySlug}`}
-                      className="rounded-full bg-surface-2 px-3 py-1.5 text-[12px] text-muted-foreground transition-colors hover:text-foreground"
+                      className="rounded-full border border-border px-3 py-1.5 text-[12px] text-muted-foreground transition-colors hover:border-border-strong hover:text-foreground"
                     >
                       {category.name}
                     </Link>

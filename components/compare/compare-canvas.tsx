@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useMemo, useState, type ReactNode } from "react";
 import { ShipScoreChip } from "@/components/ship-score-chip";
-import { Badge, LiveBadge } from "@/components/ui/badge";
+import { Badge } from "@/components/ui/badge";
 import { MorphControl } from "@/components/theme-morph/morph-control";
 import { brandInk, brandWash } from "@/lib/brand-color";
 import { canRender } from "@/lib/registry-manifest";
@@ -134,7 +134,7 @@ export function CompareCanvas({ pairs }: { pairs: ComparePair[] }): ReactNode {
             </div>
 
             <footer className="flex items-center gap-2 border-t border-border px-3 py-2">
-              {canRender(component) ? <LiveBadge /> : <Badge variant="outline">Links out</Badge>}
+              {canRender(component) ? null : <Badge variant="outline">Links out</Badge>}
               <Link
                 href={`/compare?remove=${component.slug}`}
                 aria-label={`Remove ${component.name} from the comparison`}

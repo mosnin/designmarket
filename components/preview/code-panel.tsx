@@ -25,7 +25,9 @@ export function CodeBlock({
   return (
     <figure
       className={cn(
-        "overflow-hidden rounded-md border border-border bg-surface-2",
+        // No fill: this sits inside a panel, and a filled block inside a
+        // filled block is exactly the nesting the reference avoids.
+        "overflow-hidden rounded-md border border-border",
         className
       )}
     >
@@ -52,7 +54,7 @@ export function CommandLine({
   return (
     <div
       className={cn(
-        "flex items-center gap-2 rounded-sm border border-border bg-surface-2 py-1.5 pl-3 pr-1.5",
+        "flex items-center gap-2 rounded-sm border border-border py-1.5 pl-3 pr-1.5",
         className
       )}
     >

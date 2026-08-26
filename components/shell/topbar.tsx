@@ -53,10 +53,13 @@ export function Topbar({
         <Link
           href={section.href}
           className={cn(
-            "shrink-0 rounded-full px-3 py-1.5 text-[13px] font-medium transition-colors",
+            // Tabs, underlined — the reference marks the current view with a
+            // rule under the label, not with a filled pill floating in the
+            // header.
+            "shrink-0 border-b-2 px-3 py-[1.125rem] text-[13px] font-medium transition-colors",
             onSectionRoot
-              ? "bg-surface-2 text-foreground"
-              : "text-muted-foreground hover:text-foreground"
+              ? "border-foreground text-foreground"
+              : "border-transparent text-muted-foreground hover:text-foreground"
           )}
         >
           {section.label}
@@ -72,10 +75,10 @@ export function Topbar({
               key={category.slug}
               href={href}
               className={cn(
-                "shrink-0 rounded-full px-3 py-1.5 text-[13px] transition-colors",
+                "shrink-0 border-b-2 px-3 py-[1.125rem] text-[13px] transition-colors",
                 active
-                  ? "bg-accent-muted font-medium text-accent"
-                  : "text-muted-foreground hover:text-foreground"
+                  ? "border-foreground font-medium text-foreground"
+                  : "border-transparent text-muted-foreground hover:text-foreground"
               )}
             >
               {category.name}

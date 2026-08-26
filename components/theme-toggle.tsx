@@ -1,52 +1,40 @@
 "use client";
 
-import { Icon } from "@/components/icon";
-
 import { useTheme } from "next-themes";
 import type { ReactNode } from "react";
+import { Icon } from "@/components/icon";
+import { Button } from "@/components/ui/button";
 import { useMounted } from "@/lib/use-mounted";
-import { cn } from "@/lib/utils";
 
-const options = [
-  { value: "light", icon: "light", label: "Light" },
-  { value: "system", icon: "system", label: "System" },
-  { value: "dark", icon: "dark", label: "Dark" },
-] as const;
+/**
+ * One button, three states, cycled in the order people actually want them:
+ * whatever you are looking at now → the other one → back to following the
+ * system.
+ *
+ * The segmented control this replaces was a filled track holding a filled
+ * thumb, parked in a translucent header — three nested surfaces to express a
+ * single choice, in the corner of every page.
+ */
+const ORDER = ["light", "dark", "system"] as const;
 
 export function ThemeToggle({ className }: { className?: string }): ReactNode {
   const { theme, setTheme } = useTheme();
   const mounted = useMounted();
+  const current = mounted ? ((theme ?? "system") as (typeof ORDER)[number]) : "system";
+  const next = ORDER[(ORDER.indexOf(current) + 1) % ORDER.length]!;
 
   return (
-    <div
-      role="radiogroup"
-      aria-label="Color theme"
-      className={cn(
-        "inline-flex items-center gap-0.5 rounded-full border border-border bg-surface-2 p-0.5",
-        className
-      )}
+    <Button
+      variant="ghost"
+      size="icon-sm"
+      className={className}
+      onClick={() => setTheme(next)}
+      // Announce the state, not the gesture — a screen reader user needs to
+      // know what the theme is, and the label says what pressing does next.
+      aria-label={`Theme: ${current}. Switch to ${next}.`}
+      title={`Theme: ${current}`}
     >
-      {options.map(({ value, icon, label }) => {
-        const active = mounted && theme === value;
-        return (
-          <button
-            key={value}
-            type="button"
-            role="radio"
-            aria-checked={active}
-            aria-label={label}
-            onClick={() => setTheme(value)}
-            className={cn(
-              "flex size-6 items-center justify-center rounded-full transition-colors",
-              active
-                ? "bg-surface text-foreground shadow-card"
-                : "text-subtle-foreground hover:text-foreground"
-            )}
-          >
-            <Icon name={icon} size={14} />
-          </button>
-        );
-      })}
-    </div>
+      <Icon name={current === "system" ? "system" : current} size={16} />
+    </Button>
   );
 }

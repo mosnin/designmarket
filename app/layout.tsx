@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import type { ReactNode } from "react";
 import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 import { ConvexClientProvider } from "@/components/convex-client-provider";
@@ -21,13 +21,6 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
-const instrumentSerif = Instrument_Serif({
-  variable: "--font-instrument-serif",
-  subsets: ["latin"],
-  weight: "400",
-  display: "swap",
-});
-
 export const metadata: Metadata = baseMetadata;
 
 export const viewport: Viewport = {
@@ -45,7 +38,7 @@ function Document({ children }: { children: ReactNode }): ReactNode {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} font-sans`}
+        className={`${geistSans.variable} ${geistMono.variable} font-sans`}
       >
         <ConvexClientProvider>
           <SessionProvider>

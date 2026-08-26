@@ -1,46 +1,26 @@
-import { Icon } from "@/components/icon";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { CardArt } from "@/components/cards/card-art";
+import { Icon } from "@/components/icon";
 import { SaveButton } from "@/components/save/save-button";
 import { ShipScoreChip } from "@/components/ship-score-chip";
-import { Badge } from "@/components/ui/badge";
-import { Hint } from "@/components/ui/tooltip";
+import { IconTile } from "@/components/surface/icon-tile";
 import { kindLabel, listingHref } from "@/lib/links";
 import { facetOptionLabel } from "@/lib/taxonomy";
 import type { Listing } from "@/lib/types";
-import { cn, compactNumber, formatBytes } from "@/lib/utils";
+import { cn, compactNumber, formatBytes, pluralize } from "@/lib/utils";
 
-/** The two or three facts that actually decide whether you keep reading. */
-function factLine(listing: Listing): { label: string; value: string; hint: string }[] {
-  const out: { label: string; value: string; hint: string }[] = [];
-  const { weeklyDownloads, bundleBytes, githubStars } = listing.facts;
-
-  if (weeklyDownloads) {
-    out.push({
-      label: "downloads",
-      value: `${compactNumber(weeklyDownloads)}/wk`,
-      hint: `${weeklyDownloads.toLocaleString()} npm downloads last week`,
-    });
-  } else if (githubStars) {
-    out.push({
-      label: "stars",
-      value: `${compactNumber(githubStars)}★`,
-      hint: `${githubStars.toLocaleString()} GitHub stars`,
-    });
-  }
-
-  if (bundleBytes) {
-    out.push({
-      label: "size",
-      value: formatBytes(bundleBytes),
-      hint: "Minified and gzipped, from bundlephobia",
-    });
-  }
-
-  return out;
-}
-
+/**
+ * A listing is a row, not a card.
+ *
+ * It used to open with a tall gradient panel holding a two-letter monogram —
+ * decoration occupying the space where a fact should be, which pushed the grid
+ * down to three-across and gave every result a box of its own to sit in. The
+ * reference does none of that: a small brand mark, a name, a line of grey, and
+ * air. No fill, no outline, nothing nested inside anything.
+ *
+ * The consequence is density. Four across at desktop width, and every pixel
+ * spent is spent on something you could act on.
+ */
 export function ListingCard({
   listing,
   className,
@@ -48,95 +28,93 @@ export function ListingCard({
   listing: Listing;
   className?: string;
 }): ReactNode {
-  const facts = factLine(listing);
-  const chips = [
-    ...listing.stack.styling.slice(0, 1).map((v) => facetOptionLabel("styling", v)),
-    listing.stack.rsc === "safe" ? "RSC-safe" : null,
-    listing.licenseBucket === "mit" || listing.licenseBucket === "apache-2.0"
-      ? listing.license
-      : null,
-  ].filter((v): v is string => Boolean(v));
+  const meta = metaLine(listing);
 
   return (
     <article
       className={cn(
-        "t-lift group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-surface shadow-card dark:border-transparent",
-        "hover:border-border-strong hover:shadow-pop",
+        "group relative flex items-start gap-3 rounded-xl px-2.5 py-2.5 transition-colors hover:bg-surface",
         className
       )}
     >
-      <CardArt
-        monogram={listing.monogram}
-        color={listing.color}
-        className="aspect-[16/8] border-b border-border"
-      />
+      <IconTile monogram={listing.monogram} color={listing.color} />
 
-      {/* Above the stretched link, and only visible once you're interested. */}
-      <div className="absolute right-2 top-2 z-10 opacity-0 transition-opacity focus-within:opacity-100 group-hover:opacity-100">
-        <SaveButton
-          target={{ type: "listing", slug: listing.slug }}
-          size="icon-sm"
-          className="glass border-transparent"
-        />
-      </div>
-
-      <div className="flex flex-1 flex-col p-3.5">
-        <div className="flex items-start gap-2">
-          <h3 className="min-w-0 flex-1 text-[15px] font-semibold leading-snug tracking-tight">
+      <div className="min-w-0 flex-1">
+        <div className="flex items-center gap-1.5">
+          <h3 className="min-w-0 truncate text-[13.5px] font-semibold leading-snug tracking-tight">
             <Link href={listingHref(listing)} className="after:absolute after:inset-0">
               {listing.name}
             </Link>
           </h3>
           {listing.verified ? (
-            <Hint label="Claimed and verified by its maintainers">
-              <Icon name="check" className="mt-0.5 size-4 shrink-0 text-accent" />
-            </Hint>
+            <Icon
+              name="check"
+              className="size-3.5 shrink-0 text-accent"
+              aria-label="Verified by its maintainers"
+            />
           ) : null}
-          <ShipScoreChip listing={listing} className="relative z-10 mt-0.5" />
         </div>
 
-        <p className="mt-1 line-clamp-2 text-[13px] leading-relaxed text-muted-foreground">
+        <p className="mt-0.5 truncate text-[12.5px] leading-snug text-muted-foreground">
           {listing.tagline}
         </p>
 
-        {chips.length ? (
-          <div className="mt-2.5 flex flex-wrap gap-1">
-            {chips.map((chip) => (
-              <Badge key={chip} variant="outline">
-                {chip}
-              </Badge>
-            ))}
-          </div>
-        ) : null}
-
-        <div className="mt-auto flex items-center gap-2.5 pt-3 text-[11px] text-subtle-foreground">
-          {facts.map((fact) => (
-            <span key={fact.label} className="font-mono tabular-nums" title={fact.hint}>
-              {fact.value}
-            </span>
-          ))}
-          {listing.componentCount > 0 ? (
-            <span className="relative z-10 ml-auto inline-flex items-center gap-1 font-mono text-live">
-              <span className="live-dot size-1.5 rounded-full bg-live" />
-              {listing.componentCount} live
-            </span>
-          ) : (
-            <span className="ml-auto">{kindLabel(listing.kind)}</span>
-          )}
-        </div>
+        <p className="mt-1 truncate font-mono text-[11px] tabular-nums text-subtle-foreground">
+          {meta.join("  ·  ")}
+        </p>
       </div>
+
+      <span className="relative z-10 shrink-0">
+        <span className="group-hover:hidden">
+          <ShipScoreChip listing={listing} />
+        </span>
+        <span className="hidden group-hover:inline-flex">
+          <SaveButton
+            target={{ type: "listing", slug: listing.slug }}
+            size="icon-sm"
+            className="border-transparent"
+          />
+        </span>
+      </span>
     </article>
   );
 }
 
+/** The handful of figures worth a line of monospace, in a fixed order. */
+function metaLine(listing: Listing): string[] {
+  const out: string[] = [];
+  const { weeklyDownloads, bundleBytes, githubStars } = listing.facts;
+
+  if (weeklyDownloads) out.push(`${compactNumber(weeklyDownloads)}/wk`);
+  else if (githubStars) out.push(`${compactNumber(githubStars)}★`);
+
+  if (bundleBytes) out.push(formatBytes(bundleBytes));
+
+  if (listing.licenseBucket === "mit" || listing.licenseBucket === "apache-2.0") {
+    out.push(listing.license);
+  } else if (listing.stack.styling[0]) {
+    out.push(facetOptionLabel("styling", listing.stack.styling[0]));
+  }
+
+  out.push(
+    listing.componentCount > 0
+      ? pluralize(listing.componentCount, "component")
+      : kindLabel(listing.kind)
+  );
+
+  // Four across means roughly forty characters of monospace. A fourth fact
+  // that arrives as an ellipsis is worse than no fourth fact.
+  return out.slice(0, 3);
+}
+
 export function ListingCardSkeleton(): ReactNode {
   return (
-    <div className="overflow-hidden rounded-md border border-border bg-surface">
-      <div className="aspect-[16/8] animate-pulse border-b border-border bg-surface-2" />
-      <div className="flex flex-col gap-2 p-3.5">
-        <div className="h-4 w-2/3 animate-pulse rounded-xs bg-surface-2" />
+    <div className="flex items-start gap-3 px-2.5 py-2.5">
+      <div className="size-10 shrink-0 animate-pulse rounded-[11px] bg-surface-2" />
+      <div className="flex flex-1 flex-col gap-1.5 pt-0.5">
+        <div className="h-3 w-2/3 animate-pulse rounded-xs bg-surface-2" />
         <div className="h-3 w-full animate-pulse rounded-xs bg-surface-2" />
-        <div className="h-3 w-4/5 animate-pulse rounded-xs bg-surface-2" />
+        <div className="h-2.5 w-1/2 animate-pulse rounded-xs bg-surface-2" />
       </div>
     </div>
   );

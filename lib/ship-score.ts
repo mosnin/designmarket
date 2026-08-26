@@ -251,14 +251,20 @@ export function computeShipScore(listing: Listing): ShipScore {
   };
 }
 
+/**
+ * Four steps, and only the ends are coloured. A palette that gives every
+ * grade its own hue turns a result grid into a traffic-light board; what a
+ * reader needs is "this one is unusually good" or "be careful", and plain
+ * type for everything in between.
+ */
 export function gradeColor(grade: ShipScore["grade"]): string {
   switch (grade) {
     case "A":
       return "var(--success)";
     case "B":
-      return "var(--accent)";
+      return "var(--foreground)";
     case "C":
-      return "var(--warning)";
+      return "var(--muted-foreground)";
     default:
       return "var(--danger)";
   }
