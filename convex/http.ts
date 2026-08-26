@@ -1,6 +1,7 @@
 import { httpRouter } from "convex/server";
 import { auth } from "./auth";
 import { handler as mcpHandler } from "./mcpHttp";
+import { webhook as stripeWebhook } from "./stripe";
 
 const http = httpRouter();
 
@@ -14,5 +15,7 @@ auth.addHttpRoutes(http);
 http.route({ path: "/mcp", method: "POST", handler: mcpHandler });
 http.route({ path: "/mcp", method: "OPTIONS", handler: mcpHandler });
 http.route({ path: "/mcp", method: "GET", handler: mcpHandler });
+
+http.route({ path: "/stripe/webhook", method: "POST", handler: stripeWebhook });
 
 export default http;

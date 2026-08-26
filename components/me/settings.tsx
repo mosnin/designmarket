@@ -11,6 +11,7 @@ import { Input, Textarea } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
+import { PRO_PRICE_USD } from "@/lib/config";
 import { useSession } from "@/lib/session";
 import { formatDate, timeAgo } from "@/lib/utils";
 
@@ -96,6 +97,8 @@ function ProfileForm(): ReactNode {
  */
 function ApiKeys(): ReactNode {
   const { isPro } = useSession();
+  const billing = useQuery(api.stripe.configured, {});
+  const checkout = useAction(api.stripe.checkout);
   const keys = useQuery(api.apiKeys.mine, {});
   const create = useAction(api.apiKeys.create);
   const revoke = useMutation(api.apiKeys.revoke);
@@ -135,9 +138,31 @@ function ApiKeys(): ReactNode {
             Everything you can read here stays free. A key is what lets an agent
             read it for you, a thousand times a day, without a browser.
           </p>
-          <Button variant="primary" size="sm" className="mt-4 rounded-full" asChild>
-            <Link href="/pricing">See what Pro adds</Link>
-          </Button>
+          <div className="mt-4 flex flex-wrap items-center gap-2">
+            {billing?.billing ? (
+              <Button
+                variant="primary"
+                size="sm"
+                className="rounded-full"
+                onClick={async () => {
+                  const result = await checkout({ returnTo: "/me/settings" });
+                  if ("url" in result) window.location.href = result.url;
+                  else toast.error(result.error);
+                }}
+              >
+                Upgrade — ${PRO_PRICE_USD}/mo
+              </Button>
+            ) : null}
+            <Button variant="outline" size="sm" className="rounded-full" asChild>
+              <Link href="/pricing">See what Pro adds</Link>
+            </Button>
+          </div>
+          {billing && !billing.billing ? (
+            <p className="mt-3 text-[12px] leading-relaxed text-subtle-foreground">
+              Checkout isn&apos;t configured on this deployment. An admin can
+              grant Pro directly from the members table.
+            </p>
+          ) : null}
         </div>
       ) : (
         <>

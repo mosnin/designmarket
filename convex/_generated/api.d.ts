@@ -24,6 +24,7 @@ import type * as mcpHttp from "../mcpHttp.js";
 import type * as profiles from "../profiles.js";
 import type * as remixes from "../remixes.js";
 import type * as seed from "../seed.js";
+import type * as stripe from "../stripe.js";
 import type * as submit from "../submit.js";
 
 import type {
@@ -49,6 +50,7 @@ declare const fullApi: ApiFromModules<{
   profiles: typeof profiles;
   remixes: typeof remixes;
   seed: typeof seed;
+  stripe: typeof stripe;
   submit: typeof submit;
 }>;
 
