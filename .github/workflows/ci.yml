@@ -11,7 +11,7 @@ concurrency:
 
 jobs:
   verify:
-    name: Typecheck, lint and build
+    name: Typecheck, lint, test and build
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -32,6 +32,13 @@ jobs:
 
       - name: Lint
         run: npm run lint
+
+      # These cover the rules the catalogue is built on — that no figure is
+      # authored, that an install plan is derived rather than guessed, and that
+      # a score built on little evidence says so. Each one has been checked by
+      # breaking the thing it guards and watching it fail.
+      - name: Test
+        run: npm test
 
       # The build runs with no environment configured on purpose: the app is
       # meant to be browsable with no Convex deployment, and this is what

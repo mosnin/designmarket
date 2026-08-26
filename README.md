@@ -132,6 +132,27 @@ from either surface — status, featured and verified are human decisions;
 download counts are not. Approving a listing schedules a fact refresh, because
 the moment its numbers start being shown is the moment they should be true.
 
+## Tests
+
+The load-bearing promises here are the kind that a comment cannot keep, so
+they are tests instead:
+
+- `hydrate` zeroes engagement counters even when something tries to smuggle
+  them in — a directory that ships with 4,200 pre-loaded views is lying on its
+  first render.
+- No fact is `0` where it means "unverified". Absent is scored N/A; zero is a
+  claim, and almost nothing in this catalogue can honestly make it.
+- Every package in an install command is published by a listing that exists,
+  and everything not installable from a terminal is named with a reason.
+- Ship Score drops unmeasurable dimensions from the denominator rather than
+  scoring them zero, and any listing scoring 100 on thin evidence is flagged
+  provisional.
+- Faceted search ORs within a group and ANDs across groups, and a facet's own
+  selections are excluded when counting its options.
+
+Each of these was verified by breaking the thing it guards and watching the
+test fail — a green test that cannot fail is worse than no test.
+
 ## Scripts
 
 | Script | Does |
@@ -141,5 +162,6 @@ the moment its numbers start being shown is the moment they should be true.
 | `npm run build` | Production build |
 | `npm run typecheck` | `tsc --noEmit` |
 | `npm run lint` | ESLint |
+| `npm test` | Vitest — the rules the catalogue is built on |
 | `npm run seed` | Load seed content into Convex |
 | `npm run facts` | Refetch package facts from npm |
