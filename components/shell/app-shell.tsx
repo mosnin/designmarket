@@ -1,0 +1,101 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useCallback, useEffect, useState, type ReactNode } from "react";
+import { Wordmark } from "@/components/brand/logo";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { Sidebar } from "./sidebar";
+import { Topbar } from "./topbar";
+
+export function AppShell({
+  children,
+  counts,
+}: {
+  children: ReactNode;
+  counts?: Record<string, number>;
+}): ReactNode {
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const pathname = usePathname();
+
+  useEffect(() => setMobileNavOpen(false), [pathname]);
+
+  const openSearch = useCallback(() => setSearchOpen(true), []);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent): void => {
+      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        setSearchOpen((o) => !o);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  return (
+    <div className="min-h-dvh">
+      <div className="flex">
+        <aside className="sticky top-0 hidden h-dvh w-[var(--sidebar-w)] shrink-0 border-r border-border bg-surface lg:block">
+          <div className="flex h-[var(--header-h)] items-center border-b border-border px-4">
+            <Link href="/" aria-label="Vitrine home">
+              <Wordmark />
+            </Link>
+          </div>
+          <div className="h-[calc(100dvh-var(--header-h))]">
+            <Sidebar {...(counts ? { counts } : {})} onOpenSearch={openSearch} />
+          </div>
+        </aside>
+
+        <div className="min-w-0 flex-1">
+          <Topbar
+            onOpenSidebar={() => setMobileNavOpen(true)}
+            onOpenSearch={openSearch}
+          />
+          <main id="main" className="min-h-[calc(100dvh-var(--header-h))]">
+            {children}
+          </main>
+        </div>
+      </div>
+
+      <Dialog open={mobileNavOpen} onOpenChange={setMobileNavOpen}>
+        <DialogContent className="left-0 top-0 h-dvh max-w-[17rem] translate-x-0 translate-y-0 gap-0 rounded-none border-y-0 border-l-0 p-0">
+          <DialogTitle className="flex h-[var(--header-h)] items-center border-b border-border px-4">
+            <Wordmark />
+          </DialogTitle>
+          <div className="min-h-0 flex-1 overflow-hidden">
+            <Sidebar
+              {...(counts ? { counts } : {})}
+              onNavigate={() => setMobileNavOpen(false)}
+              onOpenSearch={() => {
+                setMobileNavOpen(false);
+                setSearchOpen(true);
+              }}
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <CommandPalettePlaceholder open={searchOpen} onOpenChange={setSearchOpen} />
+    </div>
+  );
+}
+
+/** Replaced by the real ⌘K palette in the search phase. */
+function CommandPalettePlaceholder({
+  open,
+  onOpenChange,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}): ReactNode {
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="top-[20%] max-w-xl translate-y-0 p-0">
+        <DialogTitle className="sr-only">Search Vitrine</DialogTitle>
+        <div className="p-6 text-sm text-muted-foreground">Search is coming online.</div>
+      </DialogContent>
+    </Dialog>
+  );
+}

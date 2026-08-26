@@ -1,0 +1,262 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ==========================================================================
+   VITRINE DESIGN TOKENS
+   Light is "warm paper", dark is "gallery at night".
+   `accent` is the brand violet. `live` is the signature lime, reserved for
+   one thing only: indicating that something on screen is really running.
+   ========================================================================== */
+
+:root {
+  --background: #fbfbf9;
+  --surface: #ffffff;
+  --surface-2: #f4f4f0;
+  --elevated: #ffffff;
+  --foreground: #0b0b0f;
+  --muted: #f1f1ec;
+  --muted-foreground: #6b6b73;
+  --subtle-foreground: #93939c;
+  --border: #e7e5e0;
+  --border-strong: #d6d3cc;
+
+  --accent: #6244f5;
+  --accent-hover: #5236e8;
+  --accent-foreground: #ffffff;
+  --accent-muted: #efecff;
+  --accent-ring: #6244f5;
+
+  --live: #66a80f;
+  --live-glow: #b8f02e;
+
+  --success: #0f8a4d;
+  --warning: #b7791f;
+  --danger: #d1373a;
+
+  --ring: #6244f5;
+  --grid-line: rgba(11, 11, 15, 0.045);
+  --glass: rgba(255, 255, 255, 0.72);
+
+  --header-h: 3.5rem;
+  --sidebar-w: 16rem;
+}
+
+.dark {
+  --background: #08080b;
+  --surface: #0e0e13;
+  --surface-2: #14141b;
+  --elevated: #16161d;
+  --foreground: #f6f6f7;
+  --muted: #14141b;
+  --muted-foreground: #9a9aa6;
+  --subtle-foreground: #6e6e7b;
+  --border: #1f1f28;
+  --border-strong: #2e2e3a;
+
+  --accent: #8b75ff;
+  --accent-hover: #9d8bff;
+  --accent-foreground: #0b0b0f;
+  --accent-muted: #1c1733;
+  --accent-ring: #8b75ff;
+
+  --live: #b8f02e;
+  --live-glow: #d4ff6b;
+
+  --success: #3ddc84;
+  --warning: #f0b429;
+  --danger: #ff6369;
+
+  --ring: #8b75ff;
+  --grid-line: rgba(246, 246, 247, 0.05);
+  --glass: rgba(14, 14, 19, 0.72);
+
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-elevated: var(--elevated);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-subtle-foreground: var(--subtle-foreground);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-muted: var(--accent-muted);
+  --color-live: var(--live);
+  --color-live-glow: var(--live-glow);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-ring: var(--ring);
+
+  --radius-xs: 0.375rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+
+  --shadow-card: 0 1px 2px rgb(11 11 15 / 0.04), 0 1px 3px rgb(11 11 15 / 0.06);
+  --shadow-pop: 0 8px 30px rgb(11 11 15 / 0.1), 0 2px 8px rgb(11 11 15 / 0.06);
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", monospace;
+  --font-display: var(--font-instrument-serif), Georgia, "Times New Roman", serif;
+}
+
+/* Dark mode needs heavier shadows to read at all. */
+.dark {
+  --tw-shadow-color: rgb(0 0 0 / 0.6);
+}
+
+html {
+  color-scheme: light;
+  scroll-behavior: smooth;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overscroll-behavior-x: none;
+}
+
+::selection {
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: var(--radius-xs);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Utilities
+   -------------------------------------------------------------------------- */
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--border-strong);
+    border-radius: 999px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+/* The graph-paper backdrop used behind live render surfaces. */
+@utility bg-grid {
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+@utility bg-dots {
+  background-image: radial-gradient(var(--grid-line) 1px, transparent 1px);
+  background-size: 14px 14px;
+}
+
+@utility glass {
+  background-color: var(--glass);
+  backdrop-filter: saturate(180%) blur(12px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
+}
+
+.skip-to-content {
+  position: absolute;
+  left: -9999px;
+  top: 0.5rem;
+  z-index: 9999;
+  padding: 0.625rem 1rem;
+  background: var(--surface);
+  border: 2px solid var(--ring);
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.skip-to-content:focus {
+  left: 0.5rem;
+}
+
+/* The "running" pulse on live preview badges. Signature motion. */
+@keyframes vt-live-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--live) 55%, transparent);
+  }
+  70% {
+    opacity: 0.85;
+    box-shadow: 0 0 0 5px color-mix(in oklab, var(--live) 0%, transparent);
+  }
+}
+
+.live-dot {
+  animation: vt-live-pulse 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes vt-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in oklab, var(--foreground) 6%, transparent),
+    transparent
+  );
+  animation: vt-shimmer 1.6s infinite;
+}
