@@ -36,7 +36,7 @@ export function EmptyResults({
   return (
     <div className="flex flex-col items-center justify-center rounded-md border border-dashed border-border bg-muted/50 px-6 py-16 text-center">
       <Icon name="alert" className="size-6 text-foreground/50" strokeWidth={1.5} />
-      <h2 className="mt-3 text-[15px] font-semibold">Nothing matches all of that</h2>
+      <h2 className="mt-3 font-serif text-lg font-medium">Nothing matches all of that</h2>
 
       {query ? (
         <p className="mt-1.5 max-w-md text-[13px] leading-relaxed text-muted-foreground">

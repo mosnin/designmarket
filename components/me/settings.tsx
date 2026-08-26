@@ -133,7 +133,7 @@ function ApiKeys(): ReactNode {
 
       {!isPro ? (
         <div className="mt-4 max-w-xl rounded-sm border border-border p-5">
-          <p className="text-[14px] font-medium">Keys are part of the Pro plan</p>
+          <p className="font-serif text-lg font-medium">Keys are part of the Pro plan</p>
           <p className="mt-1.5 text-[13px] leading-relaxed text-muted-foreground">
             Everything you can read here stays free. A key is what lets an agent
             read it for you, a thousand times a day, without a browser.

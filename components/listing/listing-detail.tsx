@@ -215,7 +215,7 @@ export async function ListingDetail({ slug }: { slug: string }): Promise<ReactNo
           <header className="flex flex-wrap items-center gap-4 border-b border-border pb-5">
             <IconTile monogram={listing.monogram} color={listing.color} size="lg" />
             <div className="min-w-0 flex-1">
-              <h1 className="flex items-center gap-2 text-[26px] font-semibold leading-tight tracking-tight">
+              <h1 className="flex items-center gap-2 font-serif text-[30px] font-medium leading-tight">
                 {listing.name}
                 {listing.verified ? (
                   <Icon name="check" size={18} className="text-accent" />

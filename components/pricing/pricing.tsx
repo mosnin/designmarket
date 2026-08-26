@@ -35,7 +35,7 @@ export function Pricing(): ReactNode {
 
       <div className="mt-12 grid gap-px overflow-hidden rounded-sm border border-border md:grid-cols-2">
         <section className="bg-background p-7">
-          <h2 className="text-[15px] font-semibold">Free</h2>
+          <h2 className="font-serif text-lg font-medium">Free</h2>
           <p className="mt-1 flex items-baseline gap-1.5">
             <span className="font-mono text-[32px] font-semibold leading-none">$0</span>
             <span className="text-[13px] text-muted-foreground">forever</span>

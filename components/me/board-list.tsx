@@ -82,7 +82,7 @@ export function BoardList(): ReactNode {
         </div>
       ) : boards.length === 0 ? (
         <div className="mt-6 rounded-sm border border-dashed border-border px-6 py-14 text-center">
-          <h2 className="text-[15px] font-semibold">No boards yet</h2>
+          <h2 className="font-serif text-lg font-medium">No boards yet</h2>
           <p className="mx-auto mt-1.5 max-w-md text-[13px] leading-relaxed text-muted-foreground">
             A board is a shelf for saves you already made. Make one when the
             pile gets big enough to be worth sorting — not before.

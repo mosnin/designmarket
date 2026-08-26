@@ -47,7 +47,7 @@ export function SubmissionList(): ReactNode {
   if (rows.length === 0) {
     return (
       <div className="rounded-sm border border-dashed border-border px-6 py-14 text-center">
-        <h2 className="text-[15px] font-semibold">Nothing submitted yet</h2>
+        <h2 className="font-serif text-lg font-medium">Nothing submitted yet</h2>
         <p className="mx-auto mt-1.5 max-w-md text-[13px] leading-relaxed text-muted-foreground">
           Submitting is one field. Paste a repo or a package and the importer
           fills in the rest from source — including the Ship Score you&apos;d

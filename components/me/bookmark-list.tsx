@@ -59,7 +59,7 @@ export function BookmarkList(): ReactNode {
   if (saved.length === 0) {
     return (
       <div className="rounded-sm border border-dashed border-border px-6 py-14 text-center">
-        <h2 className="text-[15px] font-semibold">Nothing saved yet</h2>
+        <h2 className="font-serif text-lg font-medium">Nothing saved yet</h2>
         <p className="mx-auto mt-1.5 max-w-md text-[13px] leading-relaxed text-muted-foreground">
           Saving is one tap and never asks where to put it. Sort it into boards
           later, or don&apos;t — a flat pile you actually use beats a taxonomy

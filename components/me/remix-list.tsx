@@ -30,7 +30,7 @@ export function RemixList(): ReactNode {
     return (
       <div className="rounded-md border border-dashed border-border bg-muted/50 px-6 py-14 text-center">
         <Icon name="remix" className="mx-auto size-6 text-foreground/50" strokeWidth={1.5} />
-        <h2 className="mt-3 text-[15px] font-semibold">No remixes yet</h2>
+        <h2 className="mt-3 font-serif text-lg font-medium">No remixes yet</h2>
         <p className="mx-auto mt-1.5 max-w-md text-[13px] leading-relaxed text-muted-foreground">
           Open any component, change its props until it looks like your app, and
           save the setup. It keeps pointing at the original, so it stays current

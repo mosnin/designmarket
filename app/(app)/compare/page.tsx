@@ -103,7 +103,7 @@ export default async function ComparePage({
         </div>
       ) : (
         <div className="mt-6 rounded-md border border-dashed border-border bg-muted/50 px-6 py-12 text-center">
-          <h2 className="text-[15px] font-semibold">Pick a kind to compare</h2>
+          <h2 className="font-serif text-lg font-medium">Pick a kind to compare</h2>
           <p className="mx-auto mt-1.5 max-w-md text-[13px] leading-relaxed text-muted-foreground">
             Every kind with more than one implementation in the catalogue can be
             compared.
