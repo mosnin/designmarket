@@ -31,8 +31,8 @@ export function ComponentCard({
   return (
     <article
       className={cn(
-        "group relative flex flex-col overflow-hidden rounded-md border border-border bg-surface shadow-card transition-all",
-        "hover:-translate-y-0.5 hover:border-border-strong hover:shadow-pop",
+        "t-lift group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-surface shadow-card dark:border-transparent",
+        "hover:border-border-strong hover:shadow-pop",
         className
       )}
     >

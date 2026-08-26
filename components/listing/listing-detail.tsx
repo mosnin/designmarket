@@ -1,34 +1,32 @@
-import { Icon } from "@/components/icon";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
-import { CardArt } from "@/components/cards/card-art";
 import { ComponentCard } from "@/components/cards/component-card";
-import { ListingCard } from "@/components/cards/listing-card";
-import { CommandLine } from "@/components/preview/code-panel";
+import { Icon } from "@/components/icon";
 import { CardPreview } from "@/components/preview/card-preview";
+import { CommandLine } from "@/components/preview/code-panel";
 import { ShipScorePanel } from "@/components/ship-score-panel";
+import { ShipScoreChip } from "@/components/ship-score-chip";
+import { IconTile } from "@/components/surface/icon-tile";
 import { Badge, LiveBadge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { brandInk, brandWash } from "@/lib/brand-color";
 import {
   getComponents,
   getListing,
+  getListings,
   getRelatedListings,
 } from "@/lib/data";
-import { kindLabel } from "@/lib/links";
+import { kindLabel, listingHref } from "@/lib/links";
 import { pageMetadata } from "@/lib/metadata";
 import { canRender } from "@/lib/registry-manifest";
-import { categoryBySlug, facetOptionLabel, sectionForKind } from "@/lib/taxonomy";
+import {
+  categoryBySlug,
+  facetOptionLabel,
+  sectionForKind,
+} from "@/lib/taxonomy";
 import type { Listing } from "@/lib/types";
 import { compactNumber, formatBytes, formatDate, timeAgo } from "@/lib/utils";
 
-/**
- * Listings live at `/<section>/<slug>` so the sidebar can tell which market
- * you are in from the URL alone — no context threading, no client hint. The
- * page body is shared; each section's route is six lines.
- */
 export async function listingMetadata(slug: string): Promise<Metadata> {
   const listing = await getListing(slug);
   if (!listing) return {};
@@ -40,201 +38,351 @@ export async function listingMetadata(slug: string): Promise<Metadata> {
   });
 }
 
-/** The facts row — everything we fetched, with "not fetched" said out loud. */
-function factList(listing: Listing): { label: string; value: string; hint?: string }[] {
+/* --------------------------------------------------------------- helpers */
+
+/**
+ * "What you get" is derived from facts we actually hold, never authored. A
+ * listing cannot claim a bullet here — it earns one by having the fact behind
+ * it, which is the same rule Ship Score runs on.
+ */
+function whatYouGet(listing: Listing, componentCount: number): string[] {
+  const out: string[] = [];
   const f = listing.facts;
-  const rows: { label: string; value: string; hint?: string }[] = [
+
+  if (componentCount > 0) {
+    out.push(`${componentCount} components indexed here, rendered live`);
+  }
+  if (listing.stack.rsc === "safe") {
+    out.push("Renders in a server component without a 'use client' boundary");
+  }
+  if (listing.stack.typescript) out.push("Ships its own TypeScript types");
+  if (listing.stack.a11y === "audited") {
+    out.push("Documented keyboard and screen-reader support");
+  }
+  if (f.dependencies === 0) out.push("Zero runtime dependencies");
+  else if (f.dependencies !== undefined && f.dependencies <= 3) {
+    out.push(`Only ${f.dependencies} runtime dependencies`);
+  }
+  if (f.bundleBytes && f.bundleBytes < 20_000) {
+    out.push(`Under ${formatBytes(f.bundleBytes)} min+gzip`);
+  }
+  if (listing.licenseBucket === "mit" || listing.licenseBucket === "apache-2.0") {
+    out.push(`${listing.license} licensed — ship it anywhere`);
+  }
+  if (listing.stack.install.includes("copy-paste")) {
+    out.push("Copy the source into your repo — no package boundary");
+  }
+  if (listing.details?.transport) {
+    out.push(`Reachable over ${listing.details.transport}`);
+  }
+  if (listing.details?.tools?.length) {
+    out.push(`Exposes ${listing.details.tools.length} tools to an agent`);
+  }
+  if (listing.details?.openapi) out.push("Publishes an OpenAPI document");
+  if (f.lastPublish && Date.now() - f.lastPublish < 30 * 86_400_000) {
+    out.push("Released within the last month");
+  }
+  return out.slice(0, 8);
+}
+
+type MetaRow = { label: string; value: ReactNode };
+
+function metaRows(listing: Listing): MetaRow[] {
+  const f = listing.facts;
+  const d = listing.details;
+  const rows: MetaRow[] = [
+    {
+      label: "Pricing",
+      value: (
+        <span>
+          <span className="font-medium text-foreground">
+            {listing.pricing === "open-source"
+              ? "Open source"
+              : listing.pricing === "free"
+                ? "Free"
+                : listing.pricing === "freemium"
+                  ? "Freemium"
+                  : listing.pricing === "paid"
+                    ? "Paid"
+                    : listing.pricing}
+          </span>
+          {listing.priceNote ? (
+            <span className="mt-0.5 block text-[12px] text-muted-foreground">
+              {listing.priceNote}
+            </span>
+          ) : null}
+        </span>
+      ),
+    },
     { label: "Licence", value: listing.license },
     {
-      label: "Weekly downloads",
-      value: f.weeklyDownloads ? compactNumber(f.weeklyDownloads) : "not fetched",
-      hint: "npm downloads, last 7 days",
-    },
-    {
-      label: "GitHub stars",
-      value: f.githubStars ? compactNumber(f.githubStars) : "not fetched",
-    },
-    {
-      label: "Bundle",
-      value: f.bundleBytes ? formatBytes(f.bundleBytes) : "not fetched",
-      hint: "min+gzip, from bundlephobia",
-    },
-    {
-      label: "Runtime deps",
-      value: f.dependencies === undefined ? "not fetched" : String(f.dependencies),
-    },
-    { label: "Latest version", value: f.version ?? "not fetched" },
-    {
-      label: "Last release",
-      value: f.lastPublish ? timeAgo(f.lastPublish) : "not fetched",
-    },
-    {
-      label: "First released",
-      value: f.firstRelease ? formatDate(f.firstRelease) : "not fetched",
+      label: "Works with",
+      value: listing.stack.frameworks
+        .slice(0, 4)
+        .map((v) => facetOptionLabel("framework", v))
+        .join(", "),
     },
   ];
-  return rows;
-}
 
-function detailRows(listing: Listing): { label: string; value: string }[] {
-  const d = listing.details;
-  if (!d) return [];
-  const rows: { label: string; value: string }[] = [];
-  if (d.transport) rows.push({ label: "Transport", value: d.transport });
-  if (d.auth) rows.push({ label: "Auth", value: d.auth });
-  if (d.baseUrl) rows.push({ label: "Base URL", value: d.baseUrl });
-  if (d.rateLimit) rows.push({ label: "Rate limit", value: d.rateLimit });
-  if (d.openapi !== undefined) {
-    rows.push({ label: "OpenAPI", value: d.openapi ? "published" : "none" });
+  if (f.weeklyDownloads) {
+    rows.push({
+      label: "Weekly downloads",
+      value: `${compactNumber(f.weeklyDownloads)} on npm`,
+    });
   }
-  if (d.trigger) rows.push({ label: "Fires when", value: d.trigger });
-  if (d.runsIn?.length) rows.push({ label: "Runs in", value: d.runsIn.join(", ") });
-  if (d.language) rows.push({ label: "Language", value: d.language });
-  if (d.shape) rows.push({ label: "Shape", value: d.shape });
+  if (f.bundleBytes) {
+    rows.push({ label: "Bundle", value: `${formatBytes(f.bundleBytes)} min+gzip` });
+  }
+  if (f.version) rows.push({ label: "Version", value: f.version });
+  rows.push({
+    label: "Last release",
+    value: f.lastPublish ? formatDate(f.lastPublish) : "not fetched yet",
+  });
+  if (d?.transport) rows.push({ label: "Transport", value: d.transport });
+  if (d?.auth) rows.push({ label: "Auth", value: d.auth });
+  if (d?.baseUrl) {
+    rows.push({
+      label: "Base URL",
+      value: <span className="break-all font-mono text-[12px]">{d.baseUrl}</span>,
+    });
+  }
+  if (d?.rateLimit) rows.push({ label: "Rate limit", value: d.rateLimit });
+  if (d?.trigger) rows.push({ label: "Fires when", value: d.trigger });
+  if (d?.runsIn?.length) rows.push({ label: "Runs in", value: d.runsIn.join(", ") });
+  if (d?.language) rows.push({ label: "Language", value: d.language });
+
   return rows;
 }
 
-export async function ListingDetail({
-  slug,
-}: {
-  slug: string;
-}): Promise<ReactNode> {
+/* ------------------------------------------------------------------ page */
+
+export async function ListingDetail({ slug }: { slug: string }): Promise<ReactNode> {
   const listing = await getListing(slug);
   if (!listing) notFound();
 
-  const [components, related] = await Promise.all([
-    getComponents({ listingSlug: slug, limit: 8 }),
-    getRelatedListings(slug, 6),
+  const section = sectionForKind(listing.kind);
+  const primaryCategory = categoryBySlug.get(listing.categories[0] ?? "");
+
+  const [components, related, sameSection] = await Promise.all([
+    getComponents({ listingSlug: slug, limit: 12 }),
+    getRelatedListings(slug, 5),
+    getListings({
+      ...(section?.kinds.length ? { kinds: [...section.kinds] } : {}),
+      limit: 13,
+      sort: "trending",
+    }),
   ]);
 
-  const section = sectionForKind(listing.kind);
-  const facts = factList(listing);
-  const details = detailRows(listing);
-  const installCommand = listing.npm
-    ? `npm i ${listing.npm}`
-    : listing.stack.install.includes("cli")
-      ? `npx ${listing.slug}@latest`
-      : null;
+  const showcase = components.items
+    .filter((c) => canRender(c) && c.registryKey)
+    .slice(0, 2);
+  const bullets = whatYouGet(listing, components.total);
+  const meta = metaRows(listing);
+  const more = sameSection.items.filter((l) => l.slug !== slug).slice(0, 12);
+
+  const installCommand = listing.npm ? `npm i ${listing.npm}` : null;
 
   return (
-    <div className="mx-auto max-w-[80rem] px-4 py-6 sm:px-6 lg:py-8">
-      <Link
-        href={section?.href ?? "/explore"}
-        className="inline-flex items-center gap-1.5 text-[13px] text-muted-foreground transition-colors hover:text-foreground"
+    <div className="mx-auto max-w-[92rem] px-4 pb-16 sm:px-6">
+      {/* ------------------------------------------------------- breadcrumb */}
+      <nav
+        aria-label="Breadcrumb"
+        className="flex items-center gap-1.5 py-3 text-[12px] text-muted-foreground"
       >
-        <Icon name="back" className="size-3.5" />
-        {section?.label ?? "Explore"}
-      </Link>
+        <Link href="/" className="hover:text-foreground">
+          Home
+        </Link>
+        <span className="text-subtle-foreground">/</span>
+        <Link href={section?.href ?? "/explore"} className="hover:text-foreground">
+          {section?.label ?? "Explore"}
+        </Link>
+        {primaryCategory ? (
+          <>
+            <span className="text-subtle-foreground">/</span>
+            <Link href={`/c/${primaryCategory.slug}`} className="hover:text-foreground">
+              {primaryCategory.name}
+            </Link>
+          </>
+        ) : null}
+        <span className="text-subtle-foreground">/</span>
+        <span className="text-foreground">{listing.name}</span>
+      </nav>
 
-      <header className="mt-4 flex flex-wrap items-start gap-5">
-        <CardArt
-          monogram={listing.monogram}
-          color={listing.color}
-          className="size-20 shrink-0 rounded-md border border-border"
-        />
-        <div className="min-w-0 flex-1">
-          <div className="flex flex-wrap items-center gap-2">
-            <Badge variant="outline">{kindLabel(listing.kind)}</Badge>
-            {listing.verified ? (
-              <Badge variant="accent">Verified</Badge>
-            ) : null}
-            {listing.componentCount > 0 ? <LiveBadge /> : null}
-          </div>
-          <h1 className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">
-            {listing.name}
-          </h1>
-          <p className="mt-1.5 max-w-2xl text-[15px] leading-relaxed text-muted-foreground">
-            {listing.tagline}
-          </p>
-          <div className="mt-3 flex flex-wrap items-center gap-2">
-            {listing.homepage ? (
-              <Button variant="primary" size="sm" asChild>
-                <a href={listing.homepage} target="_blank" rel="noreferrer noopener">
-                  Open {listing.name}
-                  <Icon name="external" />
-                </a>
-              </Button>
-            ) : null}
-            {listing.repo ? (
-              <Button variant="outline" size="sm" asChild>
-                <a href={listing.repo} target="_blank" rel="noreferrer noopener">
-                  Repository
-                </a>
-              </Button>
-            ) : null}
-            {listing.docs ? (
-              <Button variant="ghost" size="sm" asChild>
-                <a href={listing.docs} target="_blank" rel="noreferrer noopener">
-                  Docs
-                </a>
-              </Button>
-            ) : null}
-          </div>
-        </div>
-      </header>
-
-      <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_20rem]">
+      <div className="grid gap-8 xl:grid-cols-[minmax(0,1fr)_16rem]">
         <div className="min-w-0">
-          <section>
-            <h2 className="text-[11px] font-semibold uppercase tracking-wider text-subtle-foreground">
-              What it is
-            </h2>
-            <p className="mt-2 max-w-2xl text-[15px] leading-relaxed">
-              {listing.description}
-            </p>
-          </section>
+          {/* ---------------------------------------------------- header */}
+          <header className="flex flex-wrap items-center gap-4 border-b border-border pb-5">
+            <IconTile monogram={listing.monogram} color={listing.color} size="lg" />
+            <div className="min-w-0 flex-1">
+              <h1 className="flex items-center gap-2 text-[26px] font-semibold leading-tight tracking-tight">
+                {listing.name}
+                {listing.verified ? (
+                  <Icon name="check" size={18} className="text-accent" />
+                ) : null}
+              </h1>
+              <p className="mt-1 text-[15px] text-muted-foreground">{listing.tagline}</p>
+            </div>
+            <div className="flex items-center gap-2">
+              <ShipScoreChip listing={listing} size="md" />
+              {listing.homepage ? (
+                <a
+                  href={listing.homepage}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="inline-flex h-10 items-center gap-2 rounded-full bg-accent px-5 text-[14px] font-medium text-accent-foreground transition-colors hover:bg-accent-hover"
+                >
+                  Visit website
+                  <Icon name="external" size={15} />
+                </a>
+              ) : null}
+            </div>
+          </header>
 
-          {installCommand ? (
-            <section className="mt-6 max-w-2xl">
-              <h2 className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-subtle-foreground">
-                Install
-              </h2>
-              <CommandLine command={installCommand} />
-            </section>
-          ) : null}
-
-          {details.length ? (
-            <section className="mt-6 max-w-2xl">
-              <h2 className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-subtle-foreground">
-                {kindLabel(listing.kind)} details
-              </h2>
-              <dl className="divide-y divide-border rounded-md border border-border bg-surface text-[13px]">
-                {details.map((row) => (
-                  <div key={row.label} className="flex gap-4 px-3 py-2">
-                    <dt className="w-28 shrink-0 text-muted-foreground">{row.label}</dt>
-                    <dd className="min-w-0 flex-1 break-words font-mono text-[12px]">
-                      {row.value}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-            </section>
-          ) : null}
-
-          {listing.details?.tools?.length ? (
-            <section className="mt-6">
-              <h2 className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-subtle-foreground">
-                Tools it exposes
-              </h2>
-              <div className="flex flex-wrap gap-1.5">
-                {listing.details.tools.map((tool) => (
-                  <Badge key={tool} variant="outline" className="font-mono">
-                    {tool}
-                  </Badge>
+          {/* ----------------------------------------------- media strip */}
+          {showcase.length ? (
+            <section className="mt-5">
+              <div className="grid gap-4 sm:grid-cols-2">
+                {showcase.map((component) => (
+                  <Link
+                    key={component.slug}
+                    href={`/components/${component.slug}`}
+                    className="group relative block overflow-hidden rounded-2xl border border-border bg-surface dark:border-transparent"
+                  >
+                    <div className="absolute left-3 top-3 z-10">
+                      <LiveBadge />
+                    </div>
+                    <div className="flex h-56 items-center justify-center bg-grid">
+                      <CardPreview
+                        registryKey={component.registryKey ?? ""}
+                        fitHeight={200}
+                      />
+                    </div>
+                    <div className="flex items-center gap-2 px-4 py-3">
+                      <span className="text-[14px] font-medium">{component.name}</span>
+                      <span className="ml-auto text-[12px] text-muted-foreground">
+                        open playground
+                      </span>
+                    </div>
+                  </Link>
                 ))}
               </div>
             </section>
           ) : null}
 
+          {/* -------------------------------------------- about + meta */}
+          <div className="mt-5 grid rounded-2xl border border-border bg-surface dark:border-transparent lg:grid-cols-[minmax(0,1fr)_15rem]">
+            <div className="min-w-0 p-6 lg:p-7">
+              <h2 className="text-[11px] font-semibold uppercase tracking-wider text-subtle-foreground">
+                About
+              </h2>
+              <p className="mt-3 text-[19px] font-medium leading-snug tracking-tight">
+                {listing.tagline}
+              </p>
+              <p className="mt-3 max-w-2xl text-[14px] leading-relaxed text-muted-foreground">
+                {listing.description}
+              </p>
+
+              {bullets.length ? (
+                <>
+                  <h2 className="mt-7 text-[11px] font-semibold uppercase tracking-wider text-subtle-foreground">
+                    What you get
+                  </h2>
+                  <ul className="mt-3 grid gap-x-8 gap-y-2.5 sm:grid-cols-2">
+                    {bullets.map((bullet) => (
+                      <li key={bullet} className="flex gap-2 text-[13px] leading-relaxed">
+                        <Icon
+                          name="forward"
+                          size={13}
+                          className="mt-1 shrink-0 text-subtle-foreground"
+                        />
+                        <span>{bullet}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              ) : null}
+
+              {installCommand ? (
+                <>
+                  <h2 className="mt-7 text-[11px] font-semibold uppercase tracking-wider text-subtle-foreground">
+                    Install
+                  </h2>
+                  <div className="mt-2 max-w-md">
+                    <CommandLine command={installCommand} />
+                  </div>
+                </>
+              ) : null}
+
+              <h2 className="mt-7 text-[11px] font-semibold uppercase tracking-wider text-subtle-foreground">
+                Categories
+              </h2>
+              <div className="mt-2 flex flex-wrap gap-1.5">
+                {listing.categories.map((categorySlug) => {
+                  const category = categoryBySlug.get(categorySlug);
+                  if (!category) return null;
+                  return (
+                    <Link
+                      key={categorySlug}
+                      href={`/c/${categorySlug}`}
+                      className="rounded-full bg-surface-2 px-3 py-1.5 text-[12px] text-muted-foreground transition-colors hover:text-foreground"
+                    >
+                      {category.name}
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+
+            <aside className="border-t border-border p-6 lg:border-l lg:border-t-0 lg:p-7">
+              <dl className="flex flex-col gap-5">
+                {meta.map((row) => (
+                  <div key={row.label}>
+                    <dt className="text-[11px] font-semibold uppercase tracking-wider text-subtle-foreground">
+                      {row.label}
+                    </dt>
+                    <dd className="mt-1 text-[13px] leading-relaxed">{row.value}</dd>
+                  </div>
+                ))}
+
+                <div>
+                  <dt className="text-[11px] font-semibold uppercase tracking-wider text-subtle-foreground">
+                    Links
+                  </dt>
+                  <dd className="mt-1.5 flex flex-col gap-1.5">
+                    {[
+                      { href: listing.repo, label: "Repository" },
+                      { href: listing.docs, label: "Documentation" },
+                      { href: listing.npm ? `https://npmjs.com/package/${listing.npm}` : undefined, label: "npm" },
+                    ]
+                      .filter((l): l is { href: string; label: string } => Boolean(l.href))
+                      .map((link) => (
+                        <a
+                          key={link.label}
+                          href={link.href}
+                          target="_blank"
+                          rel="noreferrer noopener"
+                          className="inline-flex items-center gap-1.5 text-[13px] text-muted-foreground transition-colors hover:text-foreground"
+                        >
+                          {link.label}
+                          <Icon name="external" size={12} />
+                        </a>
+                      ))}
+                  </dd>
+                </div>
+              </dl>
+            </aside>
+          </div>
+
+          {/* ------------------------------------------- indexed components */}
           {components.items.length ? (
-            <section className="mt-8">
-              <div className="mb-3 flex items-center gap-2">
-                <h2 className="text-[15px] font-semibold tracking-tight">
+            <section className="mt-12">
+              <div className="mb-4 flex items-center gap-2">
+                <h2 className="text-[22px] font-semibold tracking-tight">
                   Components we index
                 </h2>
                 <LiveBadge />
               </div>
-              <div className="grid gap-3.5 sm:grid-cols-2 xl:grid-cols-3">
+              <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
                 {components.items.map((component) => (
                   <ComponentCard
                     key={component.slug}
@@ -251,112 +399,98 @@ export async function ListingDetail({
             </section>
           ) : null}
 
-          {related.length ? (
-            <section className="mt-10 border-t border-border pt-6">
-              <h2 className="text-[15px] font-semibold tracking-tight">Related</h2>
-              <div className="mt-3 grid gap-3.5 sm:grid-cols-2 xl:grid-cols-3">
-                {related.map((item) => (
-                  <ListingCard key={item.slug} listing={item} />
+          {/* ------------------------------------------------ more in section */}
+          {more.length ? (
+            <section className="mt-12">
+              <h2 className="mb-4 text-[22px] font-semibold tracking-tight">
+                More in {section?.label ?? "the catalogue"}
+              </h2>
+              <div className="grid gap-x-8 gap-y-1 sm:grid-cols-2 xl:grid-cols-4">
+                {more.map((item) => (
+                  <Link
+                    key={item.slug}
+                    href={listingHref(item)}
+                    className="flex items-center gap-3 rounded-xl px-2 py-2 transition-colors hover:bg-surface"
+                  >
+                    <IconTile
+                      monogram={item.monogram}
+                      color={item.color}
+                      size="sm"
+                    />
+                    <span className="min-w-0 flex-1">
+                      <span className="block truncate text-[14px] font-medium">
+                        {item.name}
+                      </span>
+                      <span className="block truncate text-[12px] text-muted-foreground">
+                        {item.tagline}
+                      </span>
+                    </span>
+                  </Link>
                 ))}
               </div>
             </section>
           ) : null}
         </div>
 
-        <aside className="flex flex-col gap-5">
+        {/* -------------------------------------------------- utility rail */}
+        <aside className="flex flex-col gap-7 pt-3">
+          <ul className="flex flex-col gap-1">
+            {[
+              { icon: "bookmark" as const, label: "Save to a board", href: "/signin" },
+              { icon: "link" as const, label: "Copy link", href: listingHref(listing) },
+              { icon: "alert" as const, label: "Report a problem", href: "/submit" },
+            ].map((action) => (
+              <li key={action.label}>
+                <Link
+                  href={action.href}
+                  className="flex items-center gap-2.5 rounded-lg px-2 py-2 text-[13px] text-muted-foreground transition-colors hover:bg-surface hover:text-foreground"
+                >
+                  <Icon name={action.icon} size={15} />
+                  {action.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+
           <ShipScorePanel listing={listing} />
 
-          <section>
-            <h2 className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-subtle-foreground">
-              The facts
-            </h2>
-            <dl className="divide-y divide-border rounded-md border border-border bg-surface text-[13px]">
-              {facts.map((row) => (
-                <div key={row.label} className="flex items-baseline gap-3 px-3 py-2">
-                  <dt className="min-w-0 flex-1 text-muted-foreground" title={row.hint}>
-                    {row.label}
-                  </dt>
-                  <dd
-                    className={
-                      row.value === "not fetched"
-                        ? "shrink-0 font-mono text-[11px] italic text-subtle-foreground"
-                        : "shrink-0 font-mono text-[12px]"
-                    }
-                  >
-                    {row.value}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-          </section>
-
-          <section>
-            <h2 className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-subtle-foreground">
-              Works with
-            </h2>
-            <div className="flex flex-wrap gap-1.5">
-              {listing.stack.frameworks.map((v) => (
-                <Badge key={v} variant="outline">
-                  {facetOptionLabel("framework", v)}
-                </Badge>
-              ))}
-              {listing.stack.styling.map((v) => (
-                <Badge key={v} variant="outline">
-                  {facetOptionLabel("styling", v)}
-                </Badge>
-              ))}
-              {listing.stack.rsc === "safe" ? (
-                <Badge variant="success">RSC-safe</Badge>
-              ) : null}
-              {listing.stack.typescript ? (
-                <Badge variant="outline">Ships types</Badge>
-              ) : null}
-            </div>
-          </section>
-
-          <section>
-            <h2 className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-subtle-foreground">
-              Categories
-            </h2>
-            <ul className="flex flex-col gap-1">
-              {listing.categories.map((slug) => {
-                const category = categoryBySlug.get(slug);
-                if (!category) return null;
-                return (
-                  <li key={slug}>
+          {related.length ? (
+            <section>
+              <h2 className="mb-2.5 text-[13px] font-semibold tracking-tight">
+                Similar
+              </h2>
+              <ul className="flex flex-col gap-0.5">
+                {related.map((item) => (
+                  <li key={item.slug}>
                     <Link
-                      href={`/c/${slug}`}
-                      className="block rounded-sm px-2 py-1.5 text-[13px] text-muted-foreground transition-colors hover:bg-surface-2 hover:text-foreground"
+                      href={listingHref(item)}
+                      className="flex items-center gap-2.5 rounded-lg px-2 py-1.5 transition-colors hover:bg-surface"
                     >
-                      {category.name}
+                      <IconTile
+                        monogram={item.monogram}
+                        color={item.color}
+                        size="sm"
+                      />
+                      <span className="min-w-0 flex-1 truncate text-[13px]">
+                        {item.name}
+                      </span>
                     </Link>
                   </li>
-                );
-              })}
-            </ul>
-          </section>
-
-          {listing.tags.length ? (
-            <section>
-              <h2 className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-subtle-foreground">
-                Tags
-              </h2>
-              <div className="flex flex-wrap gap-1.5">
-                {listing.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="rounded-full px-2 py-0.5 font-mono text-[11px]"
-                    style={{
-                      backgroundColor: brandWash(listing.color, 14),
-                      color: brandInk(listing.color),
-                    }}
-                  >
-                    {tag}
-                  </span>
                 ))}
-              </div>
+              </ul>
             </section>
           ) : null}
+
+          <section>
+            <h2 className="mb-2 text-[13px] font-semibold tracking-tight">
+              Kind
+            </h2>
+            <Badge variant="outline">{kindLabel(listing.kind)}</Badge>
+            <p className="mt-2 text-[12px] leading-relaxed text-subtle-foreground">
+              Facts on this page were last refreshed{" "}
+              {listing.facts.fetchedAt ? timeAgo(listing.facts.fetchedAt) : "never"}.
+            </p>
+          </section>
         </aside>
       </div>
     </div>

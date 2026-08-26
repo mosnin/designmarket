@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { ComponentCard } from "@/components/cards/component-card";
+import { StaggerItem, StaggerList } from "@/lib/motion";
 import { Icon } from "@/components/icon";
 import { CardPreview } from "@/components/preview/card-preview";
 import { ShipScoreChip } from "@/components/ship-score-chip";
@@ -60,10 +61,10 @@ export default async function HomePage(): Promise<ReactNode> {
             linkLabel="All components"
             aside={<LiveBadge />}
           />
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <StaggerList className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {live.items.map((component) => (
+              <StaggerItem key={component.slug}>
               <ComponentCard
-                key={component.slug}
                 component={component}
                 listing={bySlug.get(component.listingSlug)}
                 preview={
@@ -72,18 +73,21 @@ export default async function HomePage(): Promise<ReactNode> {
                   ) : undefined
                 }
               />
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerList>
         </section>
 
         {/* --------------------------------------------------- new additions */}
         <section className="mt-20">
           <SectionHeading title="New additions" href="/explore?sort=newest" />
-          <div className="grid gap-x-8 gap-y-1 sm:grid-cols-2 xl:grid-cols-4">
+          <StaggerList className="grid gap-x-8 gap-y-1 sm:grid-cols-2 xl:grid-cols-4">
             {newest.items.map((listing) => (
-              <ListingRow key={listing.slug} listing={listing} />
+              <StaggerItem key={listing.slug}>
+                <ListingRow listing={listing} />
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerList>
         </section>
 
         {/* ------------------------------------------------ featured / graded */}
@@ -93,11 +97,13 @@ export default async function HomePage(): Promise<ReactNode> {
             href="/explore?sort=ship-score"
             linkLabel="See the grading"
           />
-          <div className="grid gap-x-8 gap-y-1 sm:grid-cols-2 xl:grid-cols-4">
+          <StaggerList className="grid gap-x-8 gap-y-1 sm:grid-cols-2 xl:grid-cols-4">
             {featured.items.map((listing) => (
-              <ListingRow key={listing.slug} listing={listing} />
+              <StaggerItem key={listing.slug}>
+                <ListingRow listing={listing} />
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerList>
         </section>
 
         {/* -------------------------------------- categories + most adopted */}
@@ -116,7 +122,7 @@ export default async function HomePage(): Promise<ReactNode> {
                       <Link
                         key={section.id}
                         href={section.href}
-                        className="group flex items-center gap-3 rounded-xl px-3 py-3 transition-colors hover:bg-surface-2"
+                        className="t-press group flex items-center gap-3 rounded-xl px-3 py-3 hover:bg-surface-2"
                       >
                         <span className="flex size-10 shrink-0 items-center justify-center rounded-[12px] bg-surface-2 text-muted-foreground transition-colors group-hover:text-foreground">
                           <Icon name={section.id as never} size={18} />
@@ -143,7 +149,7 @@ export default async function HomePage(): Promise<ReactNode> {
                 <Link
                   key={listing.slug}
                   href={listingHref(listing)}
-                  className="flex items-center gap-3 rounded-xl px-3 py-2.5 transition-colors hover:bg-surface-2"
+                  className="t-press flex items-center gap-3 rounded-xl px-3 py-2.5 hover:bg-surface-2"
                 >
                   <IconTile
                     monogram={listing.monogram}
@@ -170,7 +176,7 @@ export default async function HomePage(): Promise<ReactNode> {
             href="/stacks"
             linkLabel="All stacks"
           />
-          <div className="grid gap-4 lg:grid-cols-3">
+          <StaggerList className="grid gap-4 lg:grid-cols-3">
             {stacks.map((stack) => {
               const tiles = stack.items
                 .map((item) => bySlug.get(item.slug))
@@ -180,7 +186,7 @@ export default async function HomePage(): Promise<ReactNode> {
                 <Link
                   key={stack.slug}
                   href={`/stacks/${stack.slug}`}
-                  className="group flex flex-col rounded-2xl border border-border bg-surface p-5 transition-colors hover:bg-surface-2 dark:border-transparent"
+                  className="t-lift group flex h-full flex-col rounded-2xl border border-border bg-surface p-5 hover:bg-surface-2 dark:border-transparent"
                 >
                   <IconTileStack items={tiles} />
                   <h3 className="mt-5 text-[18px] font-semibold leading-snug tracking-tight">
@@ -195,7 +201,7 @@ export default async function HomePage(): Promise<ReactNode> {
                 </Link>
               );
             })}
-          </div>
+          </StaggerList>
         </section>
 
         {/* ---------------------------------------------------- today's drop */}
@@ -204,7 +210,7 @@ export default async function HomePage(): Promise<ReactNode> {
             <SectionHeading title="The Drop" href="/drop" linkLabel="Previous drops" />
             <Link
               href="/drop"
-              className="block rounded-2xl border border-border bg-surface p-8 transition-colors hover:bg-surface-2 dark:border-transparent sm:p-10"
+              className="t-lift block rounded-2xl border border-border bg-surface p-8 hover:bg-surface-2 dark:border-transparent sm:p-10"
             >
               <p className="font-mono text-[12px] uppercase tracking-wider text-accent">
                 {drop.date}
@@ -227,7 +233,7 @@ export default async function HomePage(): Promise<ReactNode> {
               <Link
                 key={category.slug}
                 href={`/c/${category.slug}`}
-                className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-[13px] text-muted-foreground transition-colors hover:border-border-strong hover:text-foreground"
+                className="t-press inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-[13px] text-muted-foreground hover:border-border-strong hover:text-foreground"
               >
                 {category.name}
                 <span className="font-mono text-[11px] text-subtle-foreground">

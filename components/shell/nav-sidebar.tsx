@@ -74,14 +74,18 @@ export function NavSidebar({
 
       <div className="min-h-0 flex-1 overflow-y-auto scrollbar-thin pb-8">
         {showRoot ? (
-          <RootMenu pathname={pathname} />
+          <div key="root" className="t-level" data-direction="up">
+            <RootMenu pathname={pathname} />
+          </div>
         ) : (
+          <div key={section.id} className="t-level" data-direction="down">
           <SectionMenu
             section={section}
             pathname={pathname}
             onBack={goUp}
             {...(counts ? { counts } : {})}
           />
+          </div>
         )}
       </div>
     </div>
@@ -92,7 +96,7 @@ export function NavSidebar({
 
 function RootMenu({ pathname }: { pathname: string }): ReactNode {
   return (
-    <nav aria-label="Sections" className="animate-in fade-in slide-in-from-left-1 duration-150">
+    <nav aria-label="Sections" >
       <ul className="px-2">
         <li>
           <NavRow
@@ -157,10 +161,7 @@ function SectionMenu({
   const groups = categoriesForSection(section.id);
 
   return (
-    <nav
-      aria-label={section.label}
-      className="animate-in fade-in slide-in-from-right-1 duration-150"
-    >
+    <nav aria-label={section.label}>
       <div className="px-2 pt-1">
         <button
           type="button"
@@ -256,7 +257,7 @@ function NavRow({
       href={href}
       aria-current={active ? "page" : undefined}
       className={cn(
-        "group relative flex items-center gap-2.5 rounded-sm px-2.5 py-2 text-[13px] transition-colors",
+        "t-press group relative flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-[13px]",
         active
           ? "bg-surface-2 font-medium text-foreground"
           : "text-muted-foreground hover:bg-surface-2 hover:text-foreground"

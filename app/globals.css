@@ -240,6 +240,160 @@ textarea:focus-visible,
 }
 
 /* --------------------------------------------------------------------------
+   MOTION TOKENS
+   The scale from transitions.dev (Jakub Antalík), used verbatim so every
+   duration and curve in the product comes from one considered system rather
+   than from whatever felt right in the moment. Components reference the tokens;
+   nothing hard-codes a cubic-bezier.
+   -------------------------------------------------------------------------- */
+
+:root {
+  --duration-stagger: 40ms;
+  --duration-micro: 80ms;
+  --duration-quick: 150ms;
+  --duration-fast: 250ms;
+  --duration-medium: 350ms;
+  --duration-slow: 400ms;
+  --duration-very-slow: 500ms;
+
+  --ease-smooth-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: ease-in-out;
+  --ease-out: ease-out;
+  --ease-linear: linear;
+  --ease-bounce: cubic-bezier(0.34, 1.36, 0.64, 1);
+  --ease-bounce-strong: cubic-bezier(0.34, 3.85, 0.64, 1);
+
+  --distance-micro: 4px;
+  --distance-small: 6px;
+  --distance-base: 8px;
+  --distance-medium: 12px;
+  --distance-large: 30px;
+
+  --scale-large: 0.96;
+  --scale-medium: 0.97;
+  --scale-small: 0.98;
+  --scale-tiny: 0.99;
+
+  --blur-small: 2px;
+  --blur-medium: 3px;
+  --blur-large: 8px;
+}
+
+/* Sidebar level change — the page-side-by-side recipe. Going deeper enters
+   from the right, coming back up enters from the left, so the direction of
+   travel is legible without a label. */
+.t-level {
+  animation: t-level-in var(--duration-fast) var(--ease-smooth-out) both;
+}
+
+.t-level[data-direction="down"] {
+  --t-level-from: var(--distance-base);
+}
+
+.t-level[data-direction="up"] {
+  --t-level-from: calc(var(--distance-base) * -1);
+}
+
+@keyframes t-level-in {
+  from {
+    opacity: 0;
+    transform: translateX(var(--t-level-from, 8px));
+    filter: blur(var(--blur-medium));
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+  }
+}
+
+/* Panel reveal, for facet groups and disclosures. */
+.t-panel {
+  transition:
+    transform var(--duration-slow) var(--ease-smooth-out),
+    opacity var(--duration-slow) var(--ease-smooth-out),
+    filter var(--duration-slow) var(--ease-smooth-out);
+}
+
+.t-panel[data-open="false"] {
+  transform: translateY(calc(var(--distance-medium) * -1));
+  opacity: 0;
+  filter: blur(var(--blur-small));
+  pointer-events: none;
+}
+
+/* Digit pop-in, for counts that change. */
+@keyframes t-digit-pop-in {
+  from {
+    transform: translateY(var(--distance-base));
+    opacity: 0;
+    filter: blur(var(--blur-small));
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+.t-digit {
+  display: inline-block;
+  animation: t-digit-pop-in var(--duration-very-slow) var(--ease-bounce) both;
+}
+
+/* The press. Every clickable surface in the product uses this one curve, so
+   the whole interface feels like it is made of the same material. */
+.t-press {
+  transition:
+    transform var(--duration-quick) var(--ease-smooth-out),
+    background-color var(--duration-quick) var(--ease-smooth-out),
+    border-color var(--duration-quick) var(--ease-smooth-out),
+    color var(--duration-quick) var(--ease-smooth-out),
+    box-shadow var(--duration-fast) var(--ease-smooth-out);
+}
+
+.t-press:active {
+  transform: scale(var(--scale-small));
+}
+
+/* A card that lifts. Deliberately small — a 2px rise reads as responsive, a
+   6px rise reads as a demo. */
+.t-lift {
+  transition:
+    transform var(--duration-fast) var(--ease-smooth-out),
+    background-color var(--duration-fast) var(--ease-smooth-out),
+    border-color var(--duration-fast) var(--ease-smooth-out),
+    box-shadow var(--duration-fast) var(--ease-smooth-out);
+}
+
+@media (hover: hover) {
+  .t-lift:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.t-lift:active {
+  transform: translateY(0) scale(var(--scale-tiny));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .t-level,
+  .t-digit {
+    animation: none !important;
+  }
+  .t-panel,
+  .t-press,
+  .t-lift {
+    transition: none !important;
+  }
+  .t-lift:hover,
+  .t-press:active,
+  .t-lift:active {
+    transform: none !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
    Utilities
    -------------------------------------------------------------------------- */
 
@@ -284,6 +438,28 @@ textarea:focus-visible,
   background-color: var(--glass);
   backdrop-filter: saturate(180%) blur(12px);
   -webkit-backdrop-filter: saturate(180%) blur(12px);
+}
+
+/* Radix overlays run on the same scale: dropdowns and modals open on
+   --duration-fast and close on --duration-quick, both smooth-out. */
+[data-radix-popper-content-wrapper] > *,
+[data-slot="dialog-content"],
+[role="menu"],
+[role="listbox"],
+[role="tooltip"] {
+  animation-timing-function: var(--ease-smooth-out) !important;
+}
+
+[data-state="open"][data-slot="dialog-content"],
+[data-state="open"][role="menu"],
+[data-state="open"][role="listbox"] {
+  animation-duration: var(--duration-fast) !important;
+}
+
+[data-state="closed"][data-slot="dialog-content"],
+[data-state="closed"][role="menu"],
+[data-state="closed"][role="listbox"] {
+  animation-duration: var(--duration-quick) !important;
 }
 
 .skip-to-content {
