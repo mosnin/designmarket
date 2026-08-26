@@ -49,7 +49,7 @@ export default async function StacksPage(): Promise<ReactNode> {
                 className="t-lift flex h-full flex-col rounded-sm border border-border bg-muted/50 p-5 hover:bg-muted dark:border-transparent"
               >
                 <IconTileStack items={tiles} />
-                <h2 className="mt-5 text-[18px] font-semibold leading-snug tracking-tight">
+                <h2 className="mt-5 font-serif text-[19px] font-medium leading-snug">
                   {stack.name}
                 </h2>
                 <p className="mt-2 line-clamp-3 text-[14px] leading-relaxed text-muted-foreground">

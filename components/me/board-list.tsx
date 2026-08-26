@@ -100,7 +100,7 @@ export function BoardList(): ReactNode {
                   <input
                     defaultValue={board.name}
                     aria-label="Board name"
-                    className="w-full bg-transparent text-[15px] font-semibold outline-none focus:text-accent"
+                    className="w-full bg-transparent font-serif text-lg font-medium outline-none focus:text-foreground"
                     onBlur={(event) => {
                       const next = event.target.value.trim();
                       if (next && next !== board.name) {

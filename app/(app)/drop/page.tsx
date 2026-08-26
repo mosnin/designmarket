@@ -58,7 +58,7 @@ export default async function DropPage({
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
       <header className="border-b border-border pb-6">
         <div className="flex items-center gap-2">
-          <Badge variant="accent">{formatDate(Date.parse(drop.date))}</Badge>
+          <Badge variant="outline">{formatDate(Date.parse(drop.date))}</Badge>
         </div>
         <h1 className="mt-3 font-serif text-3xl font-medium leading-tight sm:text-4xl">
           {drop.headline}
@@ -70,7 +70,7 @@ export default async function DropPage({
 
       {resolvedComponents.length ? (
         <section className="mt-8">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-foreground/50">
+          <h2 className="text-xs font-medium uppercase tracking-wider text-foreground/40">
             Components
           </h2>
           <div className="mt-3 grid gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
@@ -92,7 +92,7 @@ export default async function DropPage({
 
       {resolvedListings.length ? (
         <section className="mt-10">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-foreground/50">
+          <h2 className="text-xs font-medium uppercase tracking-wider text-foreground/40">
             Listings
           </h2>
           <div className="mt-3 grid gap-3.5 sm:grid-cols-2 lg:grid-cols-3">
@@ -105,7 +105,7 @@ export default async function DropPage({
 
       {recent.length > 1 ? (
         <section className="mt-12 border-t border-border pt-6">
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-foreground/50">
+          <h2 className="text-xs font-medium uppercase tracking-wider text-foreground/40">
             Previously
           </h2>
           <ul className="mt-3 flex flex-col divide-y divide-foreground/10">
@@ -115,7 +115,7 @@ export default async function DropPage({
                 <li key={d.date}>
                   <Link
                     href={`/drop?date=${d.date}`}
-                    className="flex items-baseline gap-4 py-2.5 transition-colors hover:text-accent"
+                    className="flex items-baseline gap-4 py-2.5 transition-colors hover:text-foreground"
                   >
                     <span className="w-28 shrink-0 font-mono text-[12px] tabular-nums text-foreground/50">
                       {formatDate(Date.parse(d.date))}

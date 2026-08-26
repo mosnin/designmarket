@@ -459,7 +459,7 @@ export async function ListingDetail({ slug }: { slug: string }): Promise<ReactNo
 
           {related.length ? (
             <section>
-              <h2 className="mb-2.5 text-[13px] font-semibold tracking-tight">
+              <h2 className="mb-2.5 text-xs font-medium uppercase tracking-wider text-foreground/40">
                 Similar
               </h2>
               <ul className="flex flex-col gap-0.5">
@@ -485,7 +485,7 @@ export async function ListingDetail({ slug }: { slug: string }): Promise<ReactNo
           ) : null}
 
           <section>
-            <h2 className="mb-2 text-[13px] font-semibold tracking-tight">
+            <h2 className="mb-2 text-xs font-medium uppercase tracking-wider text-foreground/40">
               Kind
             </h2>
             <Badge variant="outline">{kindLabel(listing.kind)}</Badge>

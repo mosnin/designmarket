@@ -221,7 +221,7 @@ export default async function ComponentPage({
 
       {alternatives.length ? (
         <section className="mt-12 border-t border-border pt-6">
-          <h2 className="text-[15px] font-semibold tracking-tight">
+          <h2 className="font-serif text-lg font-medium">
             More {componentKindLabel(component.kind).toLowerCase()} components
           </h2>
           <div className="mt-3 grid gap-3.5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">

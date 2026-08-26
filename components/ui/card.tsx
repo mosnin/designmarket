@@ -19,7 +19,7 @@ export function CardHeader({ className, ...props }: ComponentProps<"div">): Reac
 
 export function CardTitle({ className, ...props }: ComponentProps<"h3">): ReactNode {
   return (
-    <h3 className={cn("text-sm font-semibold leading-tight", className)} {...props} />
+    <h3 className={cn("font-serif text-base font-medium leading-tight", className)} {...props} />
   );
 }
 
