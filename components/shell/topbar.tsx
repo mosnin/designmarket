@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 import { Wordmark } from "@/components/brand/logo";
+import { AccountMenu } from "@/components/shell/account-menu";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { MorphControl } from "@/components/theme-morph/morph-control";
 import { Button } from "@/components/ui/button";
@@ -81,13 +82,8 @@ export function Topbar({
 
         <ThemeToggle className="hidden sm:inline-flex" />
 
-        <div className="ml-1 flex items-center gap-1.5">
-          <Button variant="ghost" size="sm" asChild>
-            <Link href="/signin">Log in</Link>
-          </Button>
-          <Button variant="primary" size="sm" asChild className="rounded-full">
-            <Link href="/signup">Sign up</Link>
-          </Button>
+        <div className="ml-1">
+          <AccountMenu />
         </div>
       </div>
     </header>

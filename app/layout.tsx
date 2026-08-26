@@ -1,7 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import type { ReactNode } from "react";
+import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
+import { ConvexClientProvider } from "@/components/convex-client-provider";
 import { Providers } from "@/components/providers";
+import { SessionProvider } from "@/lib/session";
 import { ThemeMorphProvider } from "@/lib/theme-morph";
 import { baseMetadata } from "@/lib/metadata";
 import "./globals.css";
@@ -36,9 +39,9 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{ children: ReactNode }>): ReactNode {
+const authConfigured = Boolean(process.env.NEXT_PUBLIC_CONVEX_URL);
+
+function Document({ children }: { children: ReactNode }): ReactNode {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -47,10 +50,27 @@ export default function RootLayout({
         <a href="#main" className="skip-to-content">
           Skip to content
         </a>
-        <Providers>
-          <ThemeMorphProvider>{children}</ThemeMorphProvider>
-        </Providers>
+        <ConvexClientProvider>
+          <SessionProvider>
+            <Providers>
+              <ThemeMorphProvider>{children}</ThemeMorphProvider>
+            </Providers>
+          </SessionProvider>
+        </ConvexClientProvider>
       </body>
     </html>
+  );
+}
+
+export default function RootLayout({
+  children,
+}: Readonly<{ children: ReactNode }>): ReactNode {
+  // The server provider reads the auth cookie, which only exists when there is
+  // a deployment to read it against.
+  if (!authConfigured) return <Document>{children}</Document>;
+  return (
+    <ConvexAuthNextjsServerProvider>
+      <Document>{children}</Document>
+    </ConvexAuthNextjsServerProvider>
   );
 }
