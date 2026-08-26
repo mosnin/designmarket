@@ -4,6 +4,7 @@ import type { Doc } from "./_generated/dataModel";
 import type { Listing, ListingQuery, SortKey } from "../lib/types";
 import {
   categoryCounts,
+  facetCounts,
   queryListings,
   relatedListings,
 } from "../lib/query-engine";
@@ -100,6 +101,30 @@ export const related = query({
       .withIndex("by_status_created", (q) => q.eq("status", "live"))
       .collect();
     return relatedListings(all.map(toListing), toListing(doc), args.limit ?? 6);
+  },
+});
+
+export const facetOptionCounts = query({
+  args: {
+    kind: v.optional(v.string()),
+    category: v.optional(v.string()),
+    q: v.optional(v.string()),
+    facets: facetsValidator,
+  },
+  handler: async (ctx, args) => {
+    const all = await ctx.db
+      .query("listings")
+      .withIndex("by_status_created", (q) => q.eq("status", "live"))
+      .collect();
+    return facetCounts(
+      all.map(toListing),
+      {
+        ...(args.kind ? { kind: args.kind } : {}),
+        ...(args.category ? { category: args.category } : {}),
+        ...(args.q ? { q: args.q } : {}),
+      },
+      args.facets ?? {}
+    );
   },
 });
 

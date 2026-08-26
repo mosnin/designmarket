@@ -11,7 +11,9 @@ import {
 import {
   alternativeComponents,
   categoryCounts,
+  componentFacetCounts,
   componentKindCounts,
+  facetCounts,
   publicCollections,
   queryComponents,
   queryListings,
@@ -107,6 +109,38 @@ export async function getCategoryCounts(): Promise<Record<string, number>> {
     () => fetchQuery(api.listings.counts, {}) as Promise<Record<string, number>>,
     () => categoryCounts(seedListings),
     "listings.counts"
+  );
+}
+
+export type FacetCounts = Record<string, Record<string, number>>;
+
+export async function getFacetCounts(
+  base: { kind?: string; category?: string; q?: string },
+  active: Record<string, string[]>
+): Promise<FacetCounts> {
+  return viaConvex(
+    () =>
+      fetchQuery(api.listings.facetOptionCounts, {
+        ...base,
+        facets: active,
+      }) as Promise<FacetCounts>,
+    () => facetCounts(seedListings, base, active),
+    "listings.facetOptionCounts"
+  );
+}
+
+export async function getComponentFacetCounts(
+  base: { kind?: string; category?: string; q?: string; renderableOnly?: boolean },
+  active: Record<string, string[]>
+): Promise<FacetCounts> {
+  return viaConvex(
+    () =>
+      fetchQuery(api.components.facetOptionCounts, {
+        ...base,
+        facets: active,
+      }) as Promise<FacetCounts>,
+    () => componentFacetCounts(seedComponents, seedListings, base, active),
+    "components.facetOptionCounts"
   );
 }
 

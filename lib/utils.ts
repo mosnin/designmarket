@@ -79,6 +79,20 @@ export function stableHash(input: string): number {
   return (h >>> 0) / 4294967295;
 }
 
+const IRREGULAR_PLURALS: Record<string, string> = {
+  library: "libraries",
+  category: "categories",
+  entry: "entries",
+  property: "properties",
+  dependency: "dependencies",
+};
+
 export function pluralize(n: number, singular: string, plural?: string): string {
-  return n === 1 ? singular : (plural ?? `${singular}s`);
+  if (n === 1) return singular;
+  if (plural) return plural;
+  const known = IRREGULAR_PLURALS[singular];
+  if (known) return known;
+  if (/(s|x|z|ch|sh)$/.test(singular)) return `${singular}es`;
+  if (/[^aeiou]y$/.test(singular)) return `${singular.slice(0, -1)}ies`;
+  return `${singular}s`;
 }

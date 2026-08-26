@@ -7,7 +7,7 @@ import type {
   SortKey,
   UIComponent,
 } from "./types";
-import { categoryBySlug } from "./taxonomy";
+import { categoryBySlug, facets as facetDefs } from "./taxonomy";
 import { computeShipScore } from "./ship-score";
 
 /**
@@ -150,7 +150,8 @@ export function trendingScore(listing: Listing, now: number): number {
     ? Math.max(0, 1 - (now - shipped) / (180 * DAY)) * 24
     : 0;
 
-  const quality = computeShipScore(listing).score / 4;
+  const graded = computeShipScore(listing);
+  const quality = (graded.provisional ? graded.score * 0.75 : graded.score) / 4;
 
   return attention * freshness + adoption + recentlyShipped + quality;
 }
@@ -165,9 +166,16 @@ function sortListings(items: Listing[], sort: SortKey, now: number): Listing[] {
           (b.facts.firstRelease ?? 0) - (a.facts.firstRelease ?? 0)
       );
     case "ship-score":
-      return copy.sort(
-        (a, b) => computeShipScore(b).score - computeShipScore(a).score || b.views - a.views
-      );
+      // A provisional score is ranked below a confirmed one at the same value:
+      // "we graded this on twenty points" should not out-rank "we graded this
+      // on a hundred and it still scored well".
+      return copy.sort((a, b) => {
+        const sa = computeShipScore(a);
+        const sb = computeShipScore(b);
+        const rank = (s: typeof sa): number =>
+          s.score * (s.provisional ? 0.75 : 1) + s.applicableMax / 50;
+        return rank(sb) - rank(sa);
+      });
     case "stars":
       return copy.sort(
         (a, b) => (b.facts.githubStars ?? 0) - (a.facts.githubStars ?? 0)
@@ -295,6 +303,83 @@ export function queryComponents(
     total,
     hasMore: offset + limit < total,
   };
+}
+
+/**
+ * Counts for each facet option, computed the way faceted search is supposed to
+ * work: a facet's own selections are excluded when counting its options, so
+ * the numbers show what *adding* that value would give you rather than what
+ * the current selection already returned. Zeroes are honest dead ends, which
+ * is the whole point of showing counts at all.
+ */
+export function facetCounts(
+  all: Listing[],
+  base: { kind?: string; category?: string; q?: string },
+  active: Record<string, string[]>
+): Record<string, Record<string, number>> {
+  let pool = all.filter((l) => l.status === "live");
+  if (base.kind && base.kind !== "all") pool = pool.filter((l) => l.kind === base.kind);
+  if (base.category) pool = pool.filter((l) => l.categories.includes(base.category!));
+  if (base.q) {
+    const tokens = tokenize(base.q);
+    pool = pool.filter((l) => listingSearchScore(l, tokens) > 0);
+  }
+
+  const out: Record<string, Record<string, number>> = {};
+  for (const facet of facetDefs) {
+    const others = Object.fromEntries(
+      Object.entries(active).filter(([id]) => id !== facet.id)
+    );
+    const narrowed = pool.filter((l) => matchesFacets(l, others));
+    out[facet.id] = {};
+    for (const option of facet.options) {
+      out[facet.id]![option.value] = narrowed.filter((l) =>
+        listingHasFacetValue(l, facet.id, option.value)
+      ).length;
+    }
+  }
+  return out;
+}
+
+/** Same idea for the component index, where facets apply to the parent listing. */
+export function componentFacetCounts(
+  components: UIComponent[],
+  listings: Listing[],
+  base: { kind?: string; category?: string; q?: string; renderableOnly?: boolean },
+  active: Record<string, string[]>
+): Record<string, Record<string, number>> {
+  const listingBySlug = new Map(listings.map((l) => [l.slug, l]));
+  let pool = components.filter((c) => listingBySlug.has(c.listingSlug));
+  if (base.kind) pool = pool.filter((c) => c.kind === base.kind);
+  if (base.renderableOnly) pool = pool.filter((c) => c.previewMode !== "static");
+  if (base.category) {
+    pool = pool.filter((c) =>
+      listingBySlug.get(c.listingSlug)?.categories.includes(base.category!)
+    );
+  }
+  if (base.q) {
+    const tokens = tokenize(base.q);
+    pool = pool.filter((c) => componentSearchScore(c, tokens) > 0);
+  }
+
+  const out: Record<string, Record<string, number>> = {};
+  for (const facet of facetDefs) {
+    const others = Object.fromEntries(
+      Object.entries(active).filter(([id]) => id !== facet.id)
+    );
+    const narrowed = pool.filter((c) => {
+      const l = listingBySlug.get(c.listingSlug);
+      return l ? matchesFacets(l, others) : false;
+    });
+    out[facet.id] = {};
+    for (const option of facet.options) {
+      out[facet.id]![option.value] = narrowed.filter((c) => {
+        const l = listingBySlug.get(c.listingSlug);
+        return l ? listingHasFacetValue(l, facet.id, option.value) : false;
+      }).length;
+    }
+  }
+  return out;
 }
 
 export function categoryCounts(all: Listing[]): Record<string, number> {

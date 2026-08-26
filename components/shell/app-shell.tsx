@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { Wordmark } from "@/components/brand/logo";
+import { CommandPalette } from "@/components/command-palette";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Sidebar } from "./sidebar";
 import { Topbar } from "./topbar";
@@ -86,25 +87,7 @@ export function AppShell({
         </DialogContent>
       </Dialog>
 
-      <CommandPalettePlaceholder open={searchOpen} onOpenChange={setSearchOpen} />
+      <CommandPalette open={searchOpen} onOpenChange={setSearchOpen} />
     </div>
-  );
-}
-
-/** Replaced by the real ⌘K palette in the search phase. */
-function CommandPalettePlaceholder({
-  open,
-  onOpenChange,
-}: {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-}): ReactNode {
-  return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="top-[20%] max-w-xl translate-y-0 p-0">
-        <DialogTitle className="sr-only">Search Vitrine</DialogTitle>
-        <div className="p-6 text-sm text-muted-foreground">Search is coming online.</div>
-      </DialogContent>
-    </Dialog>
   );
 }

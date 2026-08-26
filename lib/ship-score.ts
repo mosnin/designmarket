@@ -30,7 +30,18 @@ export type ShipScore = {
   /** sum of max values for the dimensions that applied */
   applicableMax: number;
   earned: number;
+  /**
+   * True when too few dimensions could be evaluated for the score to mean
+   * much. A listing with no published package can end up graded on licence
+   * and docs alone, and 100/100 out of 20 available points is not the same
+   * claim as 100/100 out of 100 — so we say which one it is instead of
+   * quietly flattering the sparse entry.
+   */
+  provisional: boolean;
 };
+
+/** Below this many applicable points, a score is presented as provisional. */
+export const CONFIDENCE_THRESHOLD = 60;
 
 const DAY = 86_400_000;
 
@@ -230,7 +241,14 @@ export function computeShipScore(listing: Listing): ShipScore {
   const score = applicableMax === 0 ? 0 : Math.round((earned / applicableMax) * 100);
   const grade = score >= 85 ? "A" : score >= 70 ? "B" : score >= 55 ? "C" : "D";
 
-  return { score, grade, dimensions, applicableMax, earned };
+  return {
+    score,
+    grade,
+    dimensions,
+    applicableMax,
+    earned,
+    provisional: applicableMax < CONFIDENCE_THRESHOLD,
+  };
 }
 
 export function gradeColor(grade: ShipScore["grade"]): string {

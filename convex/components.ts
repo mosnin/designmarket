@@ -4,6 +4,7 @@ import type { Doc } from "./_generated/dataModel";
 import type { Listing, ComponentQuery, SortKey, UIComponent } from "../lib/types";
 import {
   alternativeComponents,
+  componentFacetCounts,
   componentKindCounts,
   queryComponents,
 } from "../lib/query-engine";
@@ -100,6 +101,33 @@ export const alternatives = query({
       all.map(toComponent),
       toComponent(doc),
       args.limit ?? 6
+    );
+  },
+});
+
+export const facetOptionCounts = query({
+  args: {
+    kind: v.optional(v.string()),
+    category: v.optional(v.string()),
+    q: v.optional(v.string()),
+    renderableOnly: v.optional(v.boolean()),
+    facets: v.optional(v.record(v.string(), v.array(v.string()))),
+  },
+  handler: async (ctx, args) => {
+    const components = await ctx.db
+      .query("components")
+      .withIndex("by_status_created", (q) => q.eq("status", "live"))
+      .collect();
+    return componentFacetCounts(
+      components.map(toComponent),
+      await liveListings(ctx),
+      {
+        ...(args.kind ? { kind: args.kind } : {}),
+        ...(args.category ? { category: args.category } : {}),
+        ...(args.q ? { q: args.q } : {}),
+        ...(args.renderableOnly ? { renderableOnly: args.renderableOnly } : {}),
+      },
+      args.facets ?? {}
     );
   },
 });
