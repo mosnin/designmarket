@@ -44,7 +44,7 @@ export function AuthForm({ mode }: { mode: Mode }): ReactNode {
   if (!AUTH_ENABLED) {
     return (
       <div className="rounded-md border border-border bg-muted p-4 text-[13px] leading-relaxed text-muted-foreground">
-        <p className="font-medium text-foreground">Accounts aren&apos;t available yet</p>
+        <p className="font-serif text-lg font-medium text-foreground">Accounts aren&apos;t available yet</p>
         <p className="mt-1">
           This deployment has no Convex backend configured, so browsing works but
           sign-in doesn&apos;t. Run{" "}

@@ -29,9 +29,9 @@ export default function AuthLayout({
       <aside className="relative hidden overflow-hidden border-l border-border bg-muted bg-grid lg:block">
         <div className="flex h-full flex-col justify-center px-12">
           <LiveBadge />
-          <p className="mt-5 max-w-md font-serif text-3xl font-medium leading-tight">
+          <h1 className="mt-5 max-w-md font-serif text-3xl font-medium leading-tight">
             Every component on this site is really running.
-          </p>
+          </h1>
           <p className="mt-4 max-w-md text-sm leading-relaxed text-muted-foreground">
             Not a screenshot, not a video. Resize it, change its props, and paint
             it in your own design tokens before you decide whether to install it.
@@ -44,7 +44,7 @@ export default function AuthLayout({
               "Turn a board into an installable stack",
             ].map((item) => (
               <li key={item} className="flex items-start gap-2.5">
-                <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-accent" />
+                <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-foreground/30" />
                 {item}
               </li>
             ))}
