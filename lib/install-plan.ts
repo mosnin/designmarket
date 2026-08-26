@@ -13,7 +13,11 @@
  * 404.
  */
 
-import type { Collection, Listing, UIComponent } from "@/lib/types";
+// Relative, not aliased: this module is imported by the Convex function that
+// serves the MCP endpoint, and the Convex bundler does not resolve the "@/"
+// path alias. One implementation means an agent and a reader get the same
+// install plan, which is the whole promise.
+import type { Collection, Listing, UIComponent } from "./types";
 
 export type ManualStep = {
   slug: string;

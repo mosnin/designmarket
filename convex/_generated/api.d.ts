@@ -9,6 +9,7 @@
  */
 
 import type * as admin from "../admin.js";
+import type * as apiKeys from "../apiKeys.js";
 import type * as auth from "../auth.js";
 import type * as bookmarks from "../bookmarks.js";
 import type * as collections from "../collections.js";
@@ -18,6 +19,8 @@ import type * as http from "../http.js";
 import type * as ingest from "../ingest.js";
 import type * as ingestData from "../ingestData.js";
 import type * as listings from "../listings.js";
+import type * as mcp from "../mcp.js";
+import type * as mcpHttp from "../mcpHttp.js";
 import type * as profiles from "../profiles.js";
 import type * as remixes from "../remixes.js";
 import type * as seed from "../seed.js";
@@ -31,6 +34,7 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   admin: typeof admin;
+  apiKeys: typeof apiKeys;
   auth: typeof auth;
   bookmarks: typeof bookmarks;
   collections: typeof collections;
@@ -40,6 +44,8 @@ declare const fullApi: ApiFromModules<{
   ingest: typeof ingest;
   ingestData: typeof ingestData;
   listings: typeof listings;
+  mcp: typeof mcp;
+  mcpHttp: typeof mcpHttp;
   profiles: typeof profiles;
   remixes: typeof remixes;
   seed: typeof seed;
