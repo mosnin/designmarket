@@ -88,6 +88,19 @@ export function NavSidebar({
           </div>
         )}
       </div>
+
+      {/* Pinned, the way the reference pins its submit action: the one thing
+          you might want from any screen shouldn't scroll away with the
+          categories. */}
+      <div className="shrink-0 border-t border-border p-2">
+        <Link
+          href="/submit"
+          className="t-press flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-[13px] text-muted-foreground transition-colors hover:bg-surface-2 hover:text-foreground"
+        >
+          <Icon name="submit" className="size-4 shrink-0 text-subtle-foreground" />
+          Submit a listing
+        </Link>
+      </div>
     </div>
   );
 }
