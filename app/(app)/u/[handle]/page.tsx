@@ -64,7 +64,7 @@ export default async function ProfilePage({
         </p>
         <Link
           href="/explore"
-          className="mt-5 inline-flex items-center gap-1.5 text-[13px] text-accent hover:underline"
+          className="mt-5 inline-flex items-center gap-1.5 text-[13px] text-foreground underline underline-offset-4"
         >
           Back to the index
           <Icon name="forward" size={13} />
@@ -195,7 +195,7 @@ function ProfileHeader({ profile }: { profile: NonNullable<Profile> }): ReactNod
             href={profile.website}
             target="_blank"
             rel="noreferrer noopener"
-            className="mt-2 inline-flex items-center gap-1.5 text-[13px] text-accent hover:underline"
+            className="mt-2 inline-flex items-center gap-1.5 text-[13px] text-foreground underline underline-offset-4"
           >
             {profile.website.replace(/^https?:\/\//, "")}
             <Icon name="external" size={12} />

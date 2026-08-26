@@ -76,7 +76,7 @@ export function SubmissionList(): ReactNode {
                 {row.status === "live" ? (
                   <Link
                     href={`${sectionForKind(row.kind)?.href ?? "/explore"}/${row.slug}`}
-                    className="text-[15px] font-medium hover:text-accent"
+                    className="text-[15px] font-medium hover:text-foreground"
                   >
                     {row.name}
                   </Link>

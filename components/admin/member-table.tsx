@@ -54,7 +54,7 @@ export function AdminMemberTable({ role }: { role: string }): ReactNode {
               <div className="min-w-0 flex-1">
                 <Link
                   href={`/u/${member.handle}`}
-                  className="text-[14px] font-medium hover:text-accent"
+                  className="text-[14px] font-medium hover:text-foreground"
                 >
                   {member.displayName}
                 </Link>
@@ -85,7 +85,7 @@ export function AdminMemberTable({ role }: { role: string }): ReactNode {
                     }}
                     className={`t-press rounded-full px-2.5 py-1 text-[12px] capitalize transition-colors disabled:pointer-events-none disabled:opacity-40 ${
                       member.role === option
-                        ? "text-accent"
+                        ? "text-foreground"
                         : "text-foreground/50 hover:text-foreground"
                     }`}
                   >

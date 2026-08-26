@@ -87,7 +87,7 @@ export function FacetRail({
                           "flex size-4 shrink-0 items-center justify-center rounded-[4px] border transition-colors",
                           isOn
                             ? "border-foreground bg-foreground text-background"
-                            : "border-foreground/20 group-hover:border-accent"
+                            : "border-foreground/20 group-hover:border-foreground/40"
                         )}
                       >
                         {isOn ? <Icon name="check" className="size-3" strokeWidth={3} /> : null}

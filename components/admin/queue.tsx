@@ -145,7 +145,7 @@ function SourceLink({ href, label }: { href: string; label: string }): ReactNode
       href={href}
       target="_blank"
       rel="noreferrer noopener"
-      className="inline-flex items-center gap-1 text-accent hover:underline"
+      className="inline-flex items-center gap-1 text-foreground hover:underline"
     >
       {label}
       <Icon name="external" size={11} />
@@ -196,7 +196,7 @@ function StatRow({
       ))}
       {stats.stale > 0 ? (
         <p className="col-span-full text-[12px] text-muted-foreground">
-          <Link href="/admin/listings" className="text-accent hover:underline">
+          <Link href="/admin/listings" className="text-foreground underline underline-offset-4">
             {stats.stale} listings
           </Link>{" "}
           have facts older than a week. The daily cron refreshes them; you can

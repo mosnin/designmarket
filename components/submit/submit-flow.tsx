@@ -200,7 +200,7 @@ function NoBackend(): ReactNode {
       </p>
       <Link
         href="/explore"
-        className="mt-5 inline-flex items-center gap-1.5 text-[13px] text-accent hover:underline"
+        className="mt-5 inline-flex items-center gap-1.5 text-[13px] text-foreground underline underline-offset-4"
       >
         Back to the index
         <Icon name="forward" size={13} />
@@ -422,7 +422,7 @@ function Draft({
           </Button>
           {!canSubmit ? (
             <p className="text-[13px] text-muted-foreground">
-              <Link href="/signin?next=/submit" className="text-accent hover:underline">
+              <Link href="/signin?next=/submit" className="text-foreground underline underline-offset-4">
                 Sign in
               </Link>{" "}
               to send this to the queue — the lookup above works either way.
@@ -487,7 +487,7 @@ function Chip({
       className={cn(
         "t-press rounded-full border px-3 py-1.5 text-[13px] font-medium transition-colors",
         active
-          ? "border-accent bg-accent text-accent-foreground"
+          ? "border-foreground bg-foreground text-background"
           : "border-border text-muted-foreground hover:border-foreground/20 hover:text-foreground"
       )}
     >

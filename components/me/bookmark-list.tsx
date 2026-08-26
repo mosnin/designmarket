@@ -111,7 +111,7 @@ export function BookmarkList(): ReactNode {
               ) : (
                 <Link
                   href={hrefFor(item)}
-                  className="text-[15px] font-medium hover:text-accent"
+                  className="text-[15px] font-medium hover:text-foreground"
                 >
                   {item.name}
                 </Link>

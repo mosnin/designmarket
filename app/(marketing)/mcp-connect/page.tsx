@@ -35,7 +35,7 @@ export default function ConnectPage(): ReactNode {
       <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">
         One HTTP endpoint speaking JSON-RPC. Any MCP client can reach it —
         below are the three most people use. You&apos;ll need a key from{" "}
-        <Link href="/me/settings" className="text-accent hover:underline">
+        <Link href="/me/settings" className="text-foreground underline underline-offset-4">
           settings
         </Link>
         .
@@ -117,7 +117,7 @@ export default function ConnectPage(): ReactNode {
 
       <p className="mt-10 text-[13px] text-foreground/50">
         Keys are scoped to read and rate-limited per account. Revoking one in{" "}
-        <Link href="/me/settings" className="text-accent hover:underline">
+        <Link href="/me/settings" className="text-foreground underline underline-offset-4">
           settings
         </Link>{" "}
         takes effect on the next call.{" "}
@@ -125,7 +125,7 @@ export default function ConnectPage(): ReactNode {
           href={siteConfig.github}
           target="_blank"
           rel="noreferrer noopener"
-          className="inline-flex items-center gap-1 text-accent hover:underline"
+          className="inline-flex items-center gap-1 text-foreground hover:underline"
         >
           Source
           <Icon name="external" size={11} />

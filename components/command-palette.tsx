@@ -138,7 +138,7 @@ export function CommandPalette({
                 <button
                   type="button"
                   onClick={() => go(`/submit?name=${encodeURIComponent(trimmed)}`)}
-                  className="mt-2 text-[13px] font-medium text-accent hover:underline"
+                  className="mt-2 text-[13px] font-medium text-foreground hover:underline"
                 >
                   Submit it to the catalogue
                 </button>

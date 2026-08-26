@@ -230,7 +230,7 @@ export async function ListingDetail({ slug }: { slug: string }): Promise<ReactNo
                   href={listing.homepage}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="inline-flex h-10 items-center gap-2 rounded-full bg-accent px-5 text-[14px] font-medium text-accent-foreground transition-colors hover:bg-accent-hover"
+                  className="inline-flex h-10 items-center gap-2 rounded-full bg-foreground px-5 text-[14px] font-medium text-background transition-colors hover:bg-foreground/90"
                 >
                   Visit website
                   <Icon name="external" size={15} />

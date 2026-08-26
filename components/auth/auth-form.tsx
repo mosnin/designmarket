@@ -171,7 +171,7 @@ export function AuthForm({ mode }: { mode: Mode }): ReactNode {
         {text.switchPrompt}{" "}
         <Link
           href={text.switchHref}
-          className="font-medium text-accent underline-offset-4 hover:underline"
+          className="font-medium text-foreground underline-offset-4 hover:underline"
         >
           {text.switchLabel}
         </Link>

@@ -76,7 +76,7 @@ export function AdminListingTable(): ReactNode {
                   <div className="flex flex-wrap items-center gap-2">
                     <Link
                       href={`${sectionForKind(row.kind)?.href ?? "/explore"}/${row.slug}`}
-                      className="text-[14px] font-medium hover:text-accent"
+                      className="text-[14px] font-medium hover:text-foreground"
                     >
                       {row.name}
                     </Link>
@@ -186,7 +186,7 @@ function Toggle({
       onClick={onClick}
       aria-pressed={on}
       className={`t-press rounded-full px-2.5 py-1 text-[12px] transition-colors ${
-        on ? "text-accent" : "text-foreground/50 hover:text-foreground"
+        on ? "text-foreground" : "text-foreground/50 hover:text-foreground"
       }`}
     >
       {label}

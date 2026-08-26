@@ -106,7 +106,7 @@ export function CompareCanvas({ pairs }: { pairs: ComparePair[] }): ReactNode {
               <span className="min-w-0 flex-1">
                 <Link
                   href={`/components/${component.slug}`}
-                  className="block truncate text-[14px] font-semibold hover:text-accent"
+                  className="block truncate text-[14px] font-semibold hover:text-foreground"
                 >
                   {component.name}
                 </Link>

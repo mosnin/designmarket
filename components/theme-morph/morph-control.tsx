@@ -43,7 +43,7 @@ export function MorphControl({ className }: { className?: string }): ReactNode {
           className={cn("gap-2", className)}
           aria-label="Theme Morph — render everything in your own tokens"
         >
-          <Icon name="remix" className="size-4 text-accent" />
+          <Icon name="remix" className="size-4" />
           <span className="hidden max-w-24 truncate sm:inline">{active}</span>
         </Button>
       </PopoverTrigger>
@@ -76,7 +76,7 @@ export function MorphControl({ className }: { className?: string }): ReactNode {
                     {p.blurb}
                   </span>
                 </span>
-                {isActive ? <Icon name="check" className="size-4 shrink-0 text-accent" /> : null}
+                {isActive ? <Icon name="check" className="size-4 shrink-0" /> : null}
               </button>
             );
           })}

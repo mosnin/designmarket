@@ -319,7 +319,7 @@ function PropControl({
           type="checkbox"
           checked={Boolean(value)}
           onChange={(event) => onChange(event.target.checked)}
-          className="size-4 shrink-0 accent-[var(--accent)]"
+          className="size-4 shrink-0 accent-[var(--foreground)]"
         />
       </label>
     );
@@ -340,7 +340,7 @@ function PropControl({
               className={cn(
                 "rounded-xs border px-2 py-0.5 font-mono text-[11px] transition-colors",
                 value === option
-                  ? "border-accent bg-accent-muted text-accent"
+                  ? "border-foreground bg-foreground text-background"
                   : "border-border text-muted-foreground hover:border-foreground/20 hover:text-foreground"
               )}
             >
@@ -368,7 +368,7 @@ function PropControl({
           max={Math.max(100, Number(prop.defaultValue ?? 0) * 2)}
           value={Number(value ?? 0)}
           onChange={(event) => onChange(Number(event.target.value))}
-          className="mt-2 w-full accent-[var(--accent)]"
+          className="mt-2 w-full accent-[var(--foreground)]"
         />
       </div>
     );
@@ -384,7 +384,7 @@ function PropControl({
         type="text"
         value={String(value ?? "")}
         onChange={(event) => onChange(event.target.value)}
-        className="mt-1.5 h-7 w-full rounded-xs border border-border bg-muted/50 px-2 text-[12px] outline-none focus-visible:border-accent"
+        className="mt-1.5 h-7 w-full rounded-xs border border-border bg-muted/50 px-2 text-[12px] outline-none focus-visible:border-foreground/40"
       />
     </div>
   );

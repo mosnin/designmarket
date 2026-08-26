@@ -126,7 +126,7 @@ function ApiKeys(): ReactNode {
         <h2 className="text-xs font-medium uppercase tracking-wider text-foreground/40">
           API keys
         </h2>
-        <Link href="/mcp-connect" className="text-[12px] text-accent hover:underline">
+        <Link href="/mcp-connect" className="text-[12px] text-foreground/70 hover:text-foreground">
           How to connect the MCP server
         </Link>
       </div>
@@ -167,8 +167,8 @@ function ApiKeys(): ReactNode {
       ) : (
         <>
           {fresh ? (
-            <div className="mt-4 max-w-2xl rounded-sm border border-accent/40 p-4">
-              <p className="text-[13px] font-medium text-accent">
+            <div className="mt-4 max-w-2xl rounded-sm border border-foreground/25 p-4">
+              <p className="text-[13px] font-medium text-foreground">
                 Copy {fresh.label} now — this is the only time it&apos;s shown
               </p>
               <div className="mt-2 flex items-center gap-2 rounded-md border border-border py-2 pl-3 pr-2">

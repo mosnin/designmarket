@@ -55,7 +55,7 @@ export function RemixList(): ReactNode {
               href={`/components/${remix.componentSlug}?p=${encodeURIComponent(
                 JSON.stringify(remix.props)
               )}`}
-              className="block truncate text-[14px] font-medium hover:text-accent"
+              className="block truncate text-[14px] font-medium hover:text-foreground"
             >
               {remix.name}
             </Link>

@@ -157,7 +157,7 @@ export default async function ComparePage({
             {candidates.items.filter((c) => !slugs.includes(c.slug)).length === 0 ? (
               <p className="text-[13px] text-muted-foreground">
                 Nothing else of this kind renders here yet.{" "}
-                <Link href="/submit" className="text-accent hover:underline">
+                <Link href="/submit" className="text-foreground underline underline-offset-4">
                   Add one
                 </Link>
                 .

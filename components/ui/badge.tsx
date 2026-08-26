@@ -11,8 +11,8 @@ const badgeVariants = cva(
       // never has. Colour lives in the text and the hairline instead.
       variant: {
         default: "border-border text-muted-foreground",
-        accent: "border-accent/40 text-accent",
-        solid: "border-transparent bg-accent text-accent-foreground",
+        accent: "border-foreground/25 text-foreground",
+        solid: "border-transparent bg-foreground text-background",
         outline: "border-border text-muted-foreground",
         live: "border-transparent text-muted-foreground",
         success: "border-success/40 text-success",
