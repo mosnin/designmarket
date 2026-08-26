@@ -5,7 +5,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { Icon } from "@/components/icon";
 import { FAQ } from "@/components/theme/faq";
-import { Frame, SectionTitle } from "@/components/theme/frame";
+import { SectionTitle } from "@/components/theme/section-title";
 import { PRO_PRICE_USD, freeFeatures, proFeatures } from "@/lib/config";
 import { useSession } from "@/lib/session";
 import { cn } from "@/lib/utils";
@@ -198,7 +198,7 @@ export function Pricing(): ReactNode {
       </section>
 
       <section className="w-full bg-background py-24 sm:py-32">
-        <Frame>
+        <div className="mx-auto max-w-270 px-8 sm:px-12">
           <SectionTitle eyebrow="Questions">
             Before you
             <br />
@@ -207,7 +207,7 @@ export function Pricing(): ReactNode {
           <div className="mt-10">
             <FAQ items={QUESTIONS} />
           </div>
-        </Frame>
+        </div>
       </section>
     </>
   );

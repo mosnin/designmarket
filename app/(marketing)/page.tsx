@@ -6,7 +6,7 @@ import { CardPreview } from "@/components/preview/card-preview";
 import { ShipScoreChip } from "@/components/ship-score-chip";
 import { IconTile } from "@/components/surface/icon-tile";
 import { FAQ } from "@/components/theme/faq";
-import { Frame, SectionTitle } from "@/components/theme/frame";
+import { SectionTitle } from "@/components/theme/section-title";
 import { ShaderHero } from "@/components/theme/shader-hero";
 import { Button } from "@/components/ui/button";
 import { getComponents, getListings, getStacks } from "@/lib/data";
@@ -41,7 +41,7 @@ export default async function HomePage(): Promise<ReactNode> {
 
       {/* ------------------------------------------------ what it actually is */}
       <section className="w-full bg-background py-24 sm:py-32">
-        <Frame edge="top">
+        <div className="mx-auto max-w-270 border-t border-foreground/10 px-8 sm:px-12">
           <div className="py-16">
             <SectionTitle
               lead="Directories show you a screenshot and a star count. Neither survives contact with your codebase. Here the component runs on the page, in your tokens, and every figure beside it was fetched from its source."
@@ -87,13 +87,13 @@ export default async function HomePage(): Promise<ReactNode> {
               })}
             </div>
           </div>
-        </Frame>
+        </div>
       </section>
 
 
       {/* --------------------------------------------------------- the markets */}
       <section className="w-full bg-background py-24 sm:py-32">
-        <Frame edge="bottom">
+        <div className="mx-auto max-w-270 border-b border-foreground/10 px-8 sm:px-12">
           <div className="pb-16">
             <SectionTitle eyebrow="The index">
               Six markets,
@@ -127,7 +127,7 @@ export default async function HomePage(): Promise<ReactNode> {
                 ))}
             </div>
           </div>
-        </Frame>
+        </div>
       </section>
 
       {/* ------------------------------------------------------------- stacks */}
@@ -173,7 +173,7 @@ export default async function HomePage(): Promise<ReactNode> {
 
       {/* ------------------------------------------------------ newest listings */}
       <section className="w-full bg-background py-24 sm:py-32">
-        <Frame edge="top">
+        <div className="mx-auto max-w-270 border-t border-foreground/10 px-8 sm:px-12">
           <div className="py-16">
             <SectionTitle eyebrow="Recently indexed">
               What came in
@@ -212,12 +212,12 @@ export default async function HomePage(): Promise<ReactNode> {
               </Button>
             </div>
           </div>
-        </Frame>
+        </div>
       </section>
 
       {/* ---------------------------------------------------------------- FAQ */}
       <section className="w-full bg-background pb-24 sm:pb-32">
-        <Frame>
+        <div className="mx-auto max-w-270 px-8 sm:px-12">
           <SectionTitle eyebrow="Questions">
             The short
             <br />
@@ -254,7 +254,7 @@ export default async function HomePage(): Promise<ReactNode> {
               ]}
             />
           </div>
-        </Frame>
+        </div>
       </section>
 
       {/* ---------------------------------------------------------- final CTA */}

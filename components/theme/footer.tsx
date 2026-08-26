@@ -37,18 +37,8 @@ const columns = [
 export function Footer(): ReactNode {
   return (
     <footer className="relative w-full overflow-hidden bg-background text-foreground">
-      <div className="relative flex justify-center px-6 sm:px-8 pt-16">
+      <div className="flex justify-center border-t border-foreground/10 px-6 sm:px-8 pt-16">
         <div className="relative w-full max-w-270">
-          <span aria-hidden className="pointer-events-none">
-            <span className="absolute inset-x-0 bottom-0 h-px bg-foreground/10" />
-            <span className="absolute bottom-0 right-full h-px w-screen bg-foreground/10" />
-            <span className="absolute bottom-0 left-full h-px w-screen bg-foreground/10" />
-            <span className="absolute -bottom-0.75 -left-0.75 size-1.5 bg-foreground" />
-            <span className="absolute -bottom-0.75 -right-0.75 size-1.5 bg-foreground" />
-            <span className="absolute inset-y-0 left-0 w-px bg-foreground/10" />
-            <span className="absolute inset-y-0 right-0 w-px bg-foreground/10" />
-          </span>
-
           <div className="relative px-8 py-12 sm:px-12">
             <div className="flex flex-col justify-between gap-12 lg:flex-row lg:gap-8">
               <div className="lg:max-w-xs">
