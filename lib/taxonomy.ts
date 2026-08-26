@@ -454,6 +454,7 @@ export const facets: readonly Facet[] = [
       { value: "safe", label: "RSC-safe", hint: "Renders on the server without 'use client'" },
       { value: "client", label: "Client only" },
       { value: "mixed", label: "Mixed" },
+      { value: "unknown", label: "Not declared", hint: "The package doesn't say, and we won't guess" },
     ],
   },
   {

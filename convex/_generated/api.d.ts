@@ -20,6 +20,7 @@ import type * as listings from "../listings.js";
 import type * as profiles from "../profiles.js";
 import type * as remixes from "../remixes.js";
 import type * as seed from "../seed.js";
+import type * as submit from "../submit.js";
 
 import type {
   ApiFromModules,
@@ -40,6 +41,7 @@ declare const fullApi: ApiFromModules<{
   profiles: typeof profiles;
   remixes: typeof remixes;
   seed: typeof seed;
+  submit: typeof submit;
 }>;
 
 /**
