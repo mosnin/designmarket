@@ -1,4 +1,3 @@
-import { CalendarDays } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import type { ReactNode } from "react";
@@ -59,10 +58,7 @@ export default async function DropPage({
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
       <header className="border-b border-border pb-6">
         <div className="flex items-center gap-2">
-          <Badge variant="accent">
-            <CalendarDays className="size-3" />
-            {formatDate(Date.parse(drop.date))}
-          </Badge>
+          <Badge variant="accent">{formatDate(Date.parse(drop.date))}</Badge>
         </div>
         <h1 className="mt-3 font-display text-3xl leading-tight tracking-tight sm:text-4xl">
           {drop.headline}

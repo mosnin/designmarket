@@ -1,6 +1,7 @@
 "use client";
 
-import { Check, Copy } from "lucide-react";
+import { Icon } from "@/components/icon";
+
 import { useCallback, useRef, useState, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
@@ -41,15 +42,15 @@ export function CopyButton({
         onClick={onCopy}
         aria-label={copied ? "Copied" : label}
         className={cn(
-          "inline-flex shrink-0 items-center gap-1.5 rounded-xs border border-border bg-surface text-muted-foreground transition-colors hover:border-border-strong hover:text-foreground",
+          "inline-flex shrink-0 items-center gap-1.5 rounded-full border border-border bg-surface text-muted-foreground transition-colors hover:border-border-strong hover:text-foreground",
           size === "icon" ? "size-7 justify-center" : "h-7 px-2 text-[12px]",
           className
         )}
       >
         {copied ? (
-          <Check className="size-3.5 text-success" />
+          <Icon name="check" className="size-3.5 text-success" />
         ) : (
-          <Copy className="size-3.5" />
+          <Icon name="copy" className="size-3.5" />
         )}
         {size === "sm" ? (copied ? "Copied" : label) : null}
       </button>

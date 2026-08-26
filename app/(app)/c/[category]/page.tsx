@@ -4,7 +4,6 @@ import type { ReactNode } from "react";
 import { BrowsePage, ResultGrid } from "@/components/browse/browse-page";
 import { EmptyResults } from "@/components/browse/empty-results";
 import { ListingCard } from "@/components/cards/listing-card";
-import { CategoryIcon } from "@/components/category-icon";
 import { loadBrowse } from "@/lib/browse";
 import { pageMetadata } from "@/lib/metadata";
 import type { SearchParamsInput } from "@/lib/search-params";
@@ -50,12 +49,7 @@ export default async function CategoryPage({
 
   return (
     <BrowsePage
-      eyebrow={
-        <span className="inline-flex items-center gap-1.5">
-          <CategoryIcon name={category.icon} className="size-3.5" />
-          {section?.label ?? "Category"}
-        </span>
-      }
+      eyebrow={section?.label ?? "Category"}
       title={category.name}
       description={category.blurb}
       pathname={pathname}

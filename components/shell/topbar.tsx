@@ -1,6 +1,7 @@
 "use client";
 
-import { Bookmark, Menu, Search } from "lucide-react";
+import { Icon } from "@/components/icon";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
@@ -12,7 +13,6 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { sectionForPath } from "@/lib/section-nav";
 import { categoriesForSection } from "@/lib/taxonomy";
-import { CategoryIcon } from "@/components/category-icon";
 
 export function Topbar({
   onOpenSidebar,
@@ -37,7 +37,7 @@ export function Topbar({
         onClick={onOpenSidebar}
         aria-label="Open navigation"
       >
-        <Menu />
+        <Icon name="menu" />
       </Button>
 
       <Link href="/" className="lg:hidden" aria-label="Vitrine home">
@@ -53,13 +53,12 @@ export function Topbar({
         <Link
           href={section.href}
           className={cn(
-            "flex shrink-0 items-center gap-1.5 rounded-sm px-2.5 py-1.5 text-[13px] font-medium transition-colors",
+            "shrink-0 rounded-full px-3 py-1.5 text-[13px] font-medium transition-colors",
             onSectionRoot
               ? "bg-surface-2 text-foreground"
               : "text-muted-foreground hover:text-foreground"
           )}
         >
-          <CategoryIcon name={section.icon} className="size-3.5" />
           {section.label}
         </Link>
         {shortcuts.length ? (
@@ -73,7 +72,7 @@ export function Topbar({
               key={category.slug}
               href={href}
               className={cn(
-                "shrink-0 rounded-sm px-2.5 py-1.5 text-[13px] transition-colors",
+                "shrink-0 rounded-full px-3 py-1.5 text-[13px] transition-colors",
                 active
                   ? "bg-accent-muted font-medium text-accent"
                   : "text-muted-foreground hover:text-foreground"
@@ -93,14 +92,14 @@ export function Topbar({
           onClick={onOpenSearch}
           aria-label="Search"
         >
-          <Search />
+          <Icon name="search" />
         </Button>
 
         <MorphControl />
 
         <Button variant="ghost" size="icon-sm" asChild aria-label="Bookmarks">
           <Link href="/me/bookmarks">
-            <Bookmark />
+            <Icon name="bookmark" />
           </Link>
         </Button>
 

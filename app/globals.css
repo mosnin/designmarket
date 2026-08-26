@@ -11,67 +11,69 @@
    ========================================================================== */
 
 :root {
-  --background: #fbfbf9;
+  --background: #ffffff;
   --surface: #ffffff;
-  --surface-2: #f4f4f0;
+  --surface-2: #f7f7f7;
   --elevated: #ffffff;
-  --foreground: #0b0b0f;
-  --muted: #f1f1ec;
-  --muted-foreground: #6b6b73;
-  --subtle-foreground: #93939c;
-  --border: #e7e5e0;
-  --border-strong: #d6d3cc;
+  --foreground: #0a0a0a;
+  --muted: #f5f5f5;
+  --muted-foreground: #737373;
+  --subtle-foreground: #a3a3a3;
+  --border: #e5e5e5;
+  --border-strong: #d4d4d4;
 
-  --accent: #6244f5;
-  --accent-hover: #5236e8;
+  --accent: #0066ff;
+  --accent-hover: #0052cc;
   --accent-foreground: #ffffff;
-  --accent-muted: #efecff;
-  --accent-ring: #6244f5;
+  --accent-muted: #eff5ff;
+  --accent-ring: #0066ff;
 
-  --live: #66a80f;
-  --live-glow: #b8f02e;
+  --live: #16a34a;
+  --live-glow: #22c55e;
 
-  --success: #0f8a4d;
-  --warning: #b7791f;
-  --danger: #d1373a;
+  --success: #16a34a;
+  --warning: #b45309;
+  --danger: #dc2626;
 
-  --ring: #6244f5;
-  --grid-line: rgba(11, 11, 15, 0.045);
-  --glass: rgba(255, 255, 255, 0.72);
+  --ring: #0066ff;
+  --grid-line: rgba(10, 10, 10, 0.032);
+  --glass: rgba(255, 255, 255, 0.82);
 
   --header-h: 3.5rem;
   --sidebar-w: 16rem;
 }
 
 .dark {
-  --background: #08080b;
-  --surface: #0e0e13;
-  --surface-2: #14141b;
-  --elevated: #16161d;
-  --foreground: #f6f6f7;
-  --muted: #14141b;
-  --muted-foreground: #9a9aa6;
-  --subtle-foreground: #6e6e7b;
-  --border: #1f1f28;
-  --border-strong: #2e2e3a;
+  /* Near-black canvas, charcoal lifts, hairline borders. Surfaces separate by
+     brightness rather than by outline — an outline on every card is what makes
+     a dark UI look busy. */
+  --background: #0a0a0a;
+  --surface: #141414;
+  --surface-2: #202020;
+  --elevated: #202020;
+  --foreground: #fafafa;
+  --muted: #1a1a1a;
+  --muted-foreground: #a1a1a1;
+  --subtle-foreground: #6e6e6e;
+  --border: #1f1f1f;
+  --border-strong: #2f2f2f;
 
-  --accent: #8b75ff;
-  --accent-hover: #9d8bff;
-  --accent-foreground: #0b0b0f;
-  --accent-muted: #1c1733;
-  --accent-ring: #8b75ff;
+  --accent: #3b82f6;
+  --accent-hover: #60a5fa;
+  --accent-foreground: #ffffff;
+  --accent-muted: #1c1c1c;
+  --accent-ring: #3b82f6;
 
   --live: #b8f02e;
   --live-glow: #d4ff6b;
 
-  --success: #3ddc84;
-  --warning: #f0b429;
-  --danger: #ff6369;
+  --success: #4ade80;
+  --warning: #fbbf24;
+  --danger: #f87171;
 
-  --ring: #8b75ff;
-  --grid-line: rgba(246, 246, 247, 0.05);
-  --glass: rgba(14, 14, 19, 0.72);
-
+  --ring: #3b82f6;
+  --grid-line: rgba(255, 255, 255, 0.04);
+  --glass: rgba(0, 0, 0, 0.9);
 }
 
 @theme inline {
@@ -102,8 +104,8 @@
   --radius-lg: 1rem;
   --radius-xl: 1.5rem;
 
-  --shadow-card: 0 1px 2px rgb(11 11 15 / 0.04), 0 1px 3px rgb(11 11 15 / 0.06);
-  --shadow-pop: 0 8px 30px rgb(11 11 15 / 0.1), 0 2px 8px rgb(11 11 15 / 0.06);
+  --shadow-card: 0 1px 2px rgb(10 10 10 / 0.04);
+  --shadow-pop: 0 4px 20px rgb(10 10 10 / 0.08), 0 1px 3px rgb(10 10 10 / 0.04);
 
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", monospace;
@@ -125,26 +127,26 @@
    -------------------------------------------------------------------------- */
 
 :root {
-  --pv-background: #fbfbf9;
-  --pv-foreground: #0b0b0f;
+  --pv-background: #ffffff;
+  --pv-foreground: #0a0a0a;
   --pv-card: #ffffff;
-  --pv-card-foreground: #0b0b0f;
+  --pv-card-foreground: #0a0a0a;
   --pv-popover: #ffffff;
-  --pv-popover-foreground: #0b0b0f;
-  --pv-primary: #6244f5;
+  --pv-popover-foreground: #0a0a0a;
+  --pv-primary: #0066ff;
   --pv-primary-foreground: #ffffff;
-  --pv-secondary: #f1f1ec;
-  --pv-secondary-foreground: #0b0b0f;
-  --pv-muted: #f1f1ec;
-  --pv-muted-foreground: #6b6b73;
-  --pv-accent: #efecff;
-  --pv-accent-foreground: #6244f5;
-  --pv-destructive: #d1373a;
+  --pv-secondary: #f5f5f5;
+  --pv-secondary-foreground: #0a0a0a;
+  --pv-muted: #f5f5f5;
+  --pv-muted-foreground: #737373;
+  --pv-accent: #eff5ff;
+  --pv-accent-foreground: #0066ff;
+  --pv-destructive: #dc2626;
   --pv-destructive-foreground: #ffffff;
-  --pv-border: #e7e5e0;
-  --pv-input: #e7e5e0;
-  --pv-ring: #6244f5;
-  --pv-radius: 0.75rem;
+  --pv-border: #e5e5e5;
+  --pv-input: #e5e5e5;
+  --pv-ring: #0066ff;
+  --pv-radius: 0.625rem;
 }
 
 @theme inline {

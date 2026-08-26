@@ -1,7 +1,8 @@
 "use client";
 
+import { Icon } from "@/components/icon";
+
 import dynamic from "next/dynamic";
-import { Check, Minus, X } from "lucide-react";
 import Link from "next/link";
 import { useMemo, useState, type ReactNode } from "react";
 import { ShipScoreChip } from "@/components/ship-score-chip";
@@ -139,7 +140,7 @@ export function CompareCanvas({ pairs }: { pairs: ComparePair[] }): ReactNode {
                 aria-label={`Remove ${component.name} from the comparison`}
                 className="ml-auto text-subtle-foreground transition-colors hover:text-danger"
               >
-                <X className="size-3.5" />
+                <Icon name="close" className="size-3.5" />
               </Link>
             </footer>
           </article>
@@ -201,9 +202,9 @@ export function CompareCanvas({ pairs }: { pairs: ComparePair[] }): ReactNode {
                       )}
                     >
                       {value === true ? (
-                        <Check className="size-3.5 text-success" />
+                        <Icon name="check" className="size-3.5 text-success" />
                       ) : value === false ? (
-                        <Minus className="size-3.5 text-subtle-foreground" />
+                        <Icon name="minus" className="size-3.5 text-subtle-foreground" />
                       ) : (
                         value
                       )}

@@ -1,19 +1,8 @@
 "use client";
 
+import { Icon, type IconName } from "@/components/icon";
+
 import { Command } from "cmdk";
-import {
-  ArrowRight,
-  Boxes,
-  CalendarDays,
-  Columns3,
-  Compass,
-  CornerDownLeft,
-  LayoutList,
-  Loader2,
-  Search,
-  Sparkles,
-  Upload,
-} from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
 import type { SearchHit } from "@/app/api/search/route";
@@ -23,14 +12,14 @@ import { brandInk, brandWash } from "@/lib/brand-color";
 import { cn } from "@/lib/utils";
 
 const QUICK_LINKS = [
-  { href: "/components", label: "Browse every component", icon: Boxes },
-  { href: "/explore", label: "Explore the catalogue", icon: Compass },
-  { href: "/stacks", label: "Installable stacks", icon: LayoutList },
-  { href: "/compare", label: "Compare components side by side", icon: Columns3 },
-  { href: "/drop", label: "Today's Drop", icon: CalendarDays },
-  { href: "/submit", label: "Submit a library or tool", icon: Upload },
-  { href: "/mcp", label: "Connect your agent (MCP)", icon: Sparkles },
-] as const;
+  { href: "/components", label: "Browse every component", icon: "ui" },
+  { href: "/explore", label: "Explore the catalogue", icon: "explore" },
+  { href: "/stacks", label: "Installable stacks", icon: "stacks" },
+  { href: "/compare", label: "Compare components side by side", icon: "compare" },
+  { href: "/drop", label: "Today's Drop", icon: "drop" },
+  { href: "/submit", label: "Submit a library or tool", icon: "submit" },
+  { href: "/mcp", label: "Connect your agent (MCP)", icon: "mcp" },
+] as const satisfies readonly { href: string; label: string; icon: IconName }[];
 
 const GROUP_LABEL: Record<SearchHit["type"], string> = {
   component: "Components",
@@ -43,7 +32,7 @@ function Monogram({ hit }: { hit: SearchHit }): ReactNode {
   if (!hit.monogram) {
     return (
       <span className="flex size-5 shrink-0 items-center justify-center rounded-[4px] bg-surface-2 text-subtle-foreground">
-        <Search className="size-3" />
+        <Icon name="search" className="size-3" />
       </span>
     );
   }
@@ -126,9 +115,9 @@ export function CommandPalette({
         >
           <div className="flex items-center gap-2.5 border-b border-border px-3.5">
             {loading ? (
-              <Loader2 className="size-4 shrink-0 animate-spin text-subtle-foreground" />
+              <Icon name="loading" className="size-4 shrink-0 animate-spin text-subtle-foreground" />
             ) : (
-              <Search className="size-4 shrink-0 text-subtle-foreground" />
+              <Icon name="search" className="size-4 shrink-0 text-subtle-foreground" />
             )}
             <Command.Input
               value={query}
@@ -199,9 +188,9 @@ export function CommandPalette({
                     onSelect={() => go(link.href)}
                     className="flex cursor-pointer items-center gap-2.5 rounded-sm px-2.5 py-2 text-[13px] data-[selected=true]:bg-surface-2"
                   >
-                    <link.icon className="size-4 shrink-0 text-subtle-foreground" />
+                    <Icon name={link.icon} className="text-subtle-foreground" />
                     <span className="flex-1">{link.label}</span>
-                    <ArrowRight className="size-3.5 shrink-0 text-subtle-foreground" />
+                    <Icon name="forward" className="size-3.5 shrink-0 text-subtle-foreground" />
                   </Command.Item>
                 ))}
               </Command.Group>
@@ -215,7 +204,7 @@ export function CommandPalette({
             </span>
             <span className="flex items-center gap-1">
               <Kbd>
-                <CornerDownLeft className="size-2.5" />
+                <Icon name="check" className="size-2.5" />
               </Kbd>{" "}
               open
             </span>

@@ -46,8 +46,10 @@ export type ListingKindId =
 export type Section = {
   id: SectionId;
   label: string;
-  /** the rail is 4.5rem wide; this is what fits */
+  /** compact label for tight spots */
   short: string;
+  /** what the "everything in here" row is called */
+  allLabel?: string;
   /** lucide icon name */
   icon: string;
   href: string;
@@ -75,6 +77,7 @@ export const sections: readonly Section[] = [
     id: "ui",
     label: "UI & Design",
     short: "UI",
+    allLabel: "All libraries",
     icon: "Component",
     href: "/ui",
     blurb: "Component libraries, design systems and the components inside them — rendered live.",
@@ -86,6 +89,7 @@ export const sections: readonly Section[] = [
     id: "tools",
     label: "Tools",
     short: "Tools",
+    allLabel: "All tools",
     icon: "Sparkles",
     href: "/tools",
     blurb: "AI and software tools, the way a product directory lists them.",
@@ -96,6 +100,7 @@ export const sections: readonly Section[] = [
     id: "mcp",
     label: "MCP Servers",
     short: "MCP",
+    allLabel: "All MCP servers",
     icon: "Plug",
     href: "/mcp",
     blurb: "Tools your agent can pick up, with the transport and auth spelled out.",
@@ -106,6 +111,7 @@ export const sections: readonly Section[] = [
     id: "skills",
     label: "Skills",
     short: "Skills",
+    allLabel: "All skills",
     icon: "GraduationCap",
     href: "/skills",
     blurb: "Packaged instructions that teach an agent to do one job properly.",
@@ -116,6 +122,7 @@ export const sections: readonly Section[] = [
     id: "apis",
     label: "APIs",
     short: "APIs",
+    allLabel: "All APIs",
     icon: "Webhook",
     href: "/apis",
     blurb: "Public APIs worth wiring up, with auth model and pricing up front.",
@@ -126,6 +133,7 @@ export const sections: readonly Section[] = [
     id: "repos",
     label: "Repositories",
     short: "Repos",
+    allLabel: "All repositories",
     icon: "GitFork",
     href: "/repos",
     blurb: "Open-source repositories worth reading, cloning or stealing from.",

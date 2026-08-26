@@ -1,7 +1,8 @@
 "use client";
 
+import { Icon } from "@/components/icon";
+
 import { useMutation, useQuery } from "convex/react";
-import { Trash2, Wand2 } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { toast } from "sonner";
@@ -28,7 +29,7 @@ export function RemixList(): ReactNode {
   if (remixes.length === 0) {
     return (
       <div className="rounded-md border border-dashed border-border bg-surface-2/50 px-6 py-14 text-center">
-        <Wand2 className="mx-auto size-6 text-subtle-foreground" strokeWidth={1.5} />
+        <Icon name="remix" className="mx-auto size-6 text-subtle-foreground" strokeWidth={1.5} />
         <h2 className="mt-3 text-[15px] font-semibold">No remixes yet</h2>
         <p className="mx-auto mt-1.5 max-w-md text-[13px] leading-relaxed text-muted-foreground">
           Open any component, change its props until it looks like your app, and
@@ -76,7 +77,7 @@ export function RemixList(): ReactNode {
               }
             }}
           >
-            <Trash2 />
+            <Icon name="delete" />
           </Button>
         </li>
       ))}

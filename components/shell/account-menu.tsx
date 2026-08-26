@@ -1,16 +1,7 @@
 "use client";
 
-import {
-  Bookmark,
-  FolderHeart,
-  LogOut,
-  Settings,
-  Shield,
-  Sparkles,
-  Upload,
-  User,
-  Wand2,
-} from "lucide-react";
+import { Icon } from "@/components/icon";
+
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { ReactNode } from "react";
@@ -99,27 +90,27 @@ export function AccountMenu(): ReactNode {
 
         <DropdownMenuItem asChild>
           <Link href={`/u/${viewer.handle}`}>
-            <User /> Public profile
+            <Icon name="profile" /> Public profile
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Link href="/me/bookmarks">
-            <Bookmark /> Bookmarks
+            <Icon name="bookmark" /> Bookmarks
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Link href="/me/boards">
-            <FolderHeart /> Boards
+            <Icon name="boards" /> Boards
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Link href="/me/remixes">
-            <Wand2 /> Remixes
+            <Icon name="remix" /> Remixes
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Link href="/submit">
-            <Upload /> Submit a listing
+            <Icon name="submit" /> Submit a listing
           </Link>
         </DropdownMenuItem>
 
@@ -129,7 +120,7 @@ export function AccountMenu(): ReactNode {
             <DropdownMenuLabel>Staff</DropdownMenuLabel>
             <DropdownMenuItem asChild>
               <Link href="/admin">
-                <Shield /> Admin dashboard
+                <Icon name="staff" /> Admin dashboard
               </Link>
             </DropdownMenuItem>
           </>
@@ -140,13 +131,13 @@ export function AccountMenu(): ReactNode {
         {!isPro ? (
           <DropdownMenuItem asChild>
             <Link href="/pricing">
-              <Sparkles /> Upgrade to Pro
+              <Icon name="upgrade" /> Upgrade to Pro
             </Link>
           </DropdownMenuItem>
         ) : null}
         <DropdownMenuItem asChild>
           <Link href="/me/settings">
-            <Settings /> Settings
+            <Icon name="settings" /> Settings
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem
@@ -155,7 +146,7 @@ export function AccountMenu(): ReactNode {
             router.push("/");
           }}
         >
-          <LogOut /> Sign out
+          <Icon name="signOut" /> Sign out
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -1,14 +1,7 @@
 "use client";
 
-import {
-  ExternalLink,
-  Laptop,
-  Link2,
-  Monitor,
-  RotateCcw,
-  Smartphone,
-  Tablet,
-} from "lucide-react";
+import { Icon } from "@/components/icon";
+
 import { useSearchParams } from "next/navigation";
 import { useCallback, useMemo, useState, type ReactNode } from "react";
 import { toast } from "sonner";
@@ -26,10 +19,10 @@ import type { ComponentProp, UIComponent } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 const VIEWPORTS = [
-  { id: "sm", label: "Phone", width: 380, icon: Smartphone },
-  { id: "md", label: "Tablet", width: 720, icon: Tablet },
-  { id: "lg", label: "Laptop", width: 1024, icon: Laptop },
-  { id: "full", label: "Fill", width: 0, icon: Monitor },
+  { id: "sm", label: "Phone", width: 380 },
+  { id: "md", label: "Tablet", width: 720 },
+  { id: "lg", label: "Laptop", width: 1024 },
+  { id: "full", label: "Fill", width: 0 },
 ] as const;
 
 function defaultProps(props: ComponentProp[]): Record<string, unknown> {
@@ -148,7 +141,7 @@ export function Playground({
                       : "text-subtle-foreground hover:text-foreground"
                   )}
                 >
-                  <option.icon className="size-3.5" />
+                  <span className="text-[10px] font-medium">{option.label.slice(0, 2)}</span>
                 </button>
               </Hint>
             ))}
@@ -164,7 +157,7 @@ export function Playground({
 
           <Hint label="Copy a link that reopens these exact props">
             <Button variant="ghost" size="icon-sm" onClick={shareLink} aria-label="Copy link to this configuration">
-              <Link2 />
+              <Icon name="link" />
             </Button>
           </Hint>
           <Hint label="Reset props">
@@ -174,7 +167,7 @@ export function Playground({
               onClick={() => setProps(initial)}
               aria-label="Reset props"
             >
-              <RotateCcw />
+              <Icon name="reset" />
             </Button>
           </Hint>
           <Hint label="Open the sandbox on its own">
@@ -184,7 +177,7 @@ export function Playground({
                 target="_blank"
                 rel="noreferrer"
               >
-                <ExternalLink />
+                <Icon name="external" />
               </a>
             </Button>
           </Hint>

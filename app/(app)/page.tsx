@@ -1,12 +1,15 @@
-import { ArrowRight, CalendarDays } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { ComponentCard } from "@/components/cards/component-card";
+import { Icon } from "@/components/icon";
 import { CardPreview } from "@/components/preview/card-preview";
-import { ListingCard } from "@/components/cards/listing-card";
-import { CategoryIcon } from "@/components/category-icon";
-import { Badge, LiveBadge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { ShipScoreChip } from "@/components/ship-score-chip";
+import { IconTile, IconTileStack } from "@/components/surface/icon-tile";
+import { ListingRow } from "@/components/surface/listing-row";
+import { Panel } from "@/components/surface/panel";
+import { SectionHeading } from "@/components/surface/section-heading";
+import { ShaderHero } from "@/components/theme/shader-hero";
+import { LiveBadge } from "@/components/ui/badge";
 import {
   getCategoryCounts,
   getComponents,
@@ -14,192 +17,227 @@ import {
   getListings,
   getStacks,
 } from "@/lib/data";
+import { listingHref } from "@/lib/links";
 import { canRender } from "@/lib/registry-manifest";
-import { categories } from "@/lib/taxonomy";
-
-function SectionHeader({
-  title,
-  href,
-  linkLabel,
-  children,
-}: {
-  title: string;
-  href: string;
-  linkLabel: string;
-  children?: ReactNode;
-}): ReactNode {
-  return (
-    <div className="mb-3 flex items-end justify-between gap-4">
-      <div>
-        <h2 className="flex items-center gap-2 text-[15px] font-semibold tracking-tight">
-          {title}
-          {children}
-        </h2>
-      </div>
-      <Link
-        href={href}
-        className="shrink-0 text-[13px] font-medium text-muted-foreground transition-colors hover:text-accent"
-      >
-        {linkLabel} <ArrowRight className="inline size-3.5" />
-      </Link>
-    </div>
-  );
-}
+import { categories, sections } from "@/lib/taxonomy";
+import type { Listing } from "@/lib/types";
+import { compactNumber } from "@/lib/utils";
 
 export default async function HomePage(): Promise<ReactNode> {
-  const [featured, live, newest, stacks, drop, counts, all] = await Promise.all([
-    getListings({ featuredOnly: true, limit: 6, sort: "ship-score" }),
-    getComponents({ limit: 8, renderableOnly: true }),
-    getListings({ limit: 6, sort: "updated" }),
+  const [live, newest, featured, stacks, drop, counts, all] = await Promise.all([
+    getComponents({ limit: 4, renderableOnly: true }),
+    getListings({ limit: 12, sort: "newest" }),
+    getListings({ featuredOnly: true, limit: 12, sort: "ship-score" }),
     getStacks(3),
     getDrop(),
     getCategoryCounts(),
     getListings({ limit: 500 }),
   ]);
 
-  const listingBySlug = new Map(all.items.map((l) => [l.slug, l]));
+  const bySlug = new Map(all.items.map((l) => [l.slug, l]));
+  const renderable = all.items.reduce((sum, l) => sum + l.componentCount, 0);
 
   const topCategories = categories
-    .map((c) => ({ ...c, count: counts[c.slug] ?? 0 }))
-    .filter((c) => c.count > 0)
-    .sort((a, b) => b.count - a.count)
-    .slice(0, 12);
+    .map((category) => ({ ...category, count: counts[category.slug] ?? 0 }))
+    .filter((category) => category.count > 0)
+    .sort((a, b) => b.count - a.count);
+
+  const mostAdopted = [...all.items]
+    .filter((l) => l.facts.weeklyDownloads)
+    .sort((a, b) => (b.facts.weeklyDownloads ?? 0) - (a.facts.weeklyDownloads ?? 0))
+    .slice(0, 6);
 
   return (
-    <div className="mx-auto max-w-[92rem] px-4 py-6 sm:px-6 lg:py-8">
-      {drop ? (
-        <Link
-          href="/drop"
-          className="group flex flex-col gap-3 rounded-md border border-border bg-surface p-5 shadow-card transition-all hover:border-border-strong hover:shadow-pop sm:flex-row sm:items-center sm:gap-6"
-        >
-          <div className="min-w-0 flex-1">
-            <Badge variant="accent">
-              <CalendarDays className="size-3" />
-              Today&apos;s Drop
-            </Badge>
-            <p className="mt-2 font-display text-2xl leading-tight tracking-tight">
-              {drop.headline}
-            </p>
-            <p className="mt-1.5 line-clamp-2 max-w-2xl text-[13px] leading-relaxed text-muted-foreground">
-              {drop.note}
-            </p>
-          </div>
-          <Button variant="secondary" size="sm" className="shrink-0 self-start sm:self-auto">
-            Open the Drop
-            <ArrowRight />
-          </Button>
-        </Link>
-      ) : null}
+    <div>
+      <ShaderHero live={renderable} />
 
-      <section className="mt-10">
-        <SectionHeader
-          title="Running right now"
-          href="/components"
-          linkLabel="All components"
-        >
-          <LiveBadge />
-        </SectionHeader>
-        <p className="-mt-2 mb-3 max-w-2xl text-[13px] leading-relaxed text-muted-foreground">
-          Individual components across every library, not the libraries
-          themselves. Open one and it runs — in your own design tokens if you
-          have set them.
-        </p>
-        <div className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
-          {live.items.map((component) => (
-            <ComponentCard
-              key={component.slug}
-              component={component}
-              listing={listingBySlug.get(component.listingSlug)}
-              preview={
-                canRender(component) && component.registryKey ? (
-                  <CardPreview registryKey={component.registryKey} />
-                ) : undefined
-              }
-            />
-          ))}
-        </div>
-      </section>
-
-      <section className="mt-12">
-        <SectionHeader
-          title="Highest Ship Score"
-          href="/libraries?sort=ship-score"
-          linkLabel="All libraries"
-        />
-        <p className="-mt-2 mb-3 max-w-2xl text-[13px] leading-relaxed text-muted-foreground">
-          Graded on licence clarity, maintenance, adoption, accessibility, types,
-          weight and dependencies — never on votes. Open any listing to see the
-          arithmetic.
-        </p>
-        <div className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-3">
-          {featured.items.map((listing) => (
-            <ListingCard key={listing.slug} listing={listing} />
-          ))}
-        </div>
-      </section>
-
-      <section className="mt-12">
-        <SectionHeader title="Stacks" href="/stacks" linkLabel="All stacks" />
-        <p className="-mt-2 mb-3 max-w-2xl text-[13px] leading-relaxed text-muted-foreground">
-          Curated sets that are actually installable — not a list of links.
-        </p>
-        <div className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-3">
-          {stacks.map((stack) => (
-            <Link
-              key={stack.slug}
-              href={`/stacks/${stack.slug}`}
-              className="group relative flex flex-col overflow-hidden rounded-md border border-border bg-surface p-4 shadow-card transition-all hover:-translate-y-0.5 hover:border-border-strong hover:shadow-pop"
-            >
-              <span
-                aria-hidden
-                className="absolute inset-x-0 top-0 h-0.5"
-                style={{ background: stack.color }}
+      <div className="mx-auto max-w-[86rem] px-5 py-14 sm:px-8 lg:py-20">
+        {/* ------------------------------------------------ running right now */}
+        <section>
+          <SectionHeading
+            title="Running right now"
+            href="/components"
+            linkLabel="All components"
+            aside={<LiveBadge />}
+          />
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {live.items.map((component) => (
+              <ComponentCard
+                key={component.slug}
+                component={component}
+                listing={bySlug.get(component.listingSlug)}
+                preview={
+                  canRender(component) && component.registryKey ? (
+                    <CardPreview registryKey={component.registryKey} />
+                  ) : undefined
+                }
               />
-              <h3 className="text-[15px] font-semibold tracking-tight">
-                {stack.name}
-              </h3>
-              <p className="mt-1.5 line-clamp-3 text-[13px] leading-relaxed text-muted-foreground">
-                {stack.description}
-              </p>
-              <p className="mt-3 font-mono text-[11px] text-subtle-foreground">
-                {stack.items.length} items
-              </p>
-            </Link>
-          ))}
-        </div>
-      </section>
+            ))}
+          </div>
+        </section>
 
-      <section className="mt-12">
-        <SectionHeader
-          title="Recently shipped"
-          href="/explore?sort=updated"
-          linkLabel="Everything"
-        />
-        <div className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-3">
-          {newest.items.map((listing) => (
-            <ListingCard key={listing.slug} listing={listing} />
-          ))}
-        </div>
-      </section>
+        {/* --------------------------------------------------- new additions */}
+        <section className="mt-20">
+          <SectionHeading title="New additions" href="/explore?sort=newest" />
+          <div className="grid gap-x-8 gap-y-1 sm:grid-cols-2 xl:grid-cols-4">
+            {newest.items.map((listing) => (
+              <ListingRow key={listing.slug} listing={listing} />
+            ))}
+          </div>
+        </section>
 
-      <section className="mt-12 border-t border-border pt-6">
-        <h2 className="text-[15px] font-semibold tracking-tight">Browse by category</h2>
-        <div className="mt-3 flex flex-wrap gap-2">
-          {topCategories.map((category) => (
+        {/* ------------------------------------------------ featured / graded */}
+        <section className="mt-20">
+          <SectionHeading
+            title="Highest Ship Score"
+            href="/explore?sort=ship-score"
+            linkLabel="See the grading"
+          />
+          <div className="grid gap-x-8 gap-y-1 sm:grid-cols-2 xl:grid-cols-4">
+            {featured.items.map((listing) => (
+              <ListingRow key={listing.slug} listing={listing} />
+            ))}
+          </div>
+        </section>
+
+        {/* -------------------------------------- categories + most adopted */}
+        <section className="mt-20 grid gap-6 lg:grid-cols-2">
+          <div>
+            <SectionHeading title="Explore markets" href="/explore" />
+            <Panel className="p-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2">
+                {sections
+                  .filter((s) => s.hasCategories)
+                  .map((section) => {
+                    const count = categories
+                      .filter((c) => c.section === section.id)
+                      .reduce((sum, c) => sum + (counts[c.slug] ?? 0), 0);
+                    return (
+                      <Link
+                        key={section.id}
+                        href={section.href}
+                        className="group flex items-center gap-3 rounded-xl px-3 py-3 transition-colors hover:bg-surface-2"
+                      >
+                        <span className="flex size-10 shrink-0 items-center justify-center rounded-[12px] bg-surface-2 text-muted-foreground transition-colors group-hover:text-foreground">
+                          <Icon name={section.id as never} size={18} />
+                        </span>
+                        <span className="min-w-0">
+                          <span className="block truncate text-[15px] font-medium">
+                            {section.label}
+                          </span>
+                          <span className="block text-[13px] text-muted-foreground">
+                            {count} listings
+                          </span>
+                        </span>
+                      </Link>
+                    );
+                  })}
+              </div>
+            </Panel>
+          </div>
+
+          <div>
+            <SectionHeading title="Most adopted" href="/explore?sort=downloads" />
+            <Panel className="p-2">
+              {mostAdopted.map((listing) => (
+                <Link
+                  key={listing.slug}
+                  href={listingHref(listing)}
+                  className="flex items-center gap-3 rounded-xl px-3 py-2.5 transition-colors hover:bg-surface-2"
+                >
+                  <IconTile
+                    monogram={listing.monogram}
+                    color={listing.color}
+                    size="sm"
+                  />
+                  <span className="min-w-0 flex-1 truncate text-[14px] font-medium">
+                    {listing.name}
+                  </span>
+                  <span className="shrink-0 font-mono text-[12px] text-muted-foreground">
+                    {compactNumber(listing.facts.weeklyDownloads ?? 0)}/wk
+                  </span>
+                  <ShipScoreChip listing={listing} />
+                </Link>
+              ))}
+            </Panel>
+          </div>
+        </section>
+
+        {/* -------------------------------------------------------- stacks */}
+        <section className="mt-20">
+          <SectionHeading
+            title="Installable stacks"
+            href="/stacks"
+            linkLabel="All stacks"
+          />
+          <div className="grid gap-4 lg:grid-cols-3">
+            {stacks.map((stack) => {
+              const tiles = stack.items
+                .map((item) => bySlug.get(item.slug))
+                .filter((l): l is Listing => Boolean(l))
+                .map((l) => ({ monogram: l.monogram, color: l.color }));
+              return (
+                <Link
+                  key={stack.slug}
+                  href={`/stacks/${stack.slug}`}
+                  className="group flex flex-col rounded-2xl border border-border bg-surface p-5 transition-colors hover:bg-surface-2 dark:border-transparent"
+                >
+                  <IconTileStack items={tiles} />
+                  <h3 className="mt-5 text-[18px] font-semibold leading-snug tracking-tight">
+                    {stack.name}
+                  </h3>
+                  <p className="mt-2 line-clamp-3 text-[14px] leading-relaxed text-muted-foreground">
+                    {stack.description}
+                  </p>
+                  <p className="mt-auto pt-5 text-right text-[13px] text-subtle-foreground">
+                    {stack.items.length} items
+                  </p>
+                </Link>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* ---------------------------------------------------- today's drop */}
+        {drop ? (
+          <section className="mt-20">
+            <SectionHeading title="The Drop" href="/drop" linkLabel="Previous drops" />
             <Link
-              key={category.slug}
-              href={`/c/${category.slug}`}
-              className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1.5 text-[13px] text-muted-foreground transition-colors hover:border-border-strong hover:text-foreground"
+              href="/drop"
+              className="block rounded-2xl border border-border bg-surface p-8 transition-colors hover:bg-surface-2 dark:border-transparent sm:p-10"
             >
-              <CategoryIcon name={category.icon} className="size-3.5" />
-              {category.name}
-              <span className="font-mono text-[11px] text-subtle-foreground">
-                {category.count}
-              </span>
+              <p className="font-mono text-[12px] uppercase tracking-wider text-accent">
+                {drop.date}
+              </p>
+              <p className="mt-3 max-w-3xl font-display text-3xl leading-tight tracking-tight sm:text-4xl">
+                {drop.headline}
+              </p>
+              <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-muted-foreground">
+                {drop.note}
+              </p>
             </Link>
-          ))}
-        </div>
-      </section>
+          </section>
+        ) : null}
+
+        {/* -------------------------------------------------- all categories */}
+        <section className="mt-20">
+          <SectionHeading title="Browse by category" />
+          <div className="flex flex-wrap gap-2">
+            {topCategories.map((category) => (
+              <Link
+                key={category.slug}
+                href={`/c/${category.slug}`}
+                className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-2 text-[13px] text-muted-foreground transition-colors hover:border-border-strong hover:text-foreground"
+              >
+                {category.name}
+                <span className="font-mono text-[11px] text-subtle-foreground">
+                  {category.count}
+                </span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      </div>
     </div>
   );
 }

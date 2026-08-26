@@ -25,16 +25,19 @@ export function CardArt({
   return (
     <div
       className={cn(
-        "relative flex items-center justify-center overflow-hidden bg-dots",
+        "relative flex items-center justify-center overflow-hidden",
+        // Flat and near-white in light; the glow only earns its place against
+        // a dark surface.
+        "bg-surface-2 dark:bg-dots",
         className
       )}
       style={{
-        backgroundColor: `color-mix(in oklab, ${color} 7%, var(--surface))`,
+        backgroundColor: `color-mix(in oklab, ${color} 4%, var(--surface-2))`,
       }}
     >
       <div
         aria-hidden
-        className="absolute inset-0 opacity-70"
+        className="absolute inset-0 hidden opacity-70 dark:block"
         style={{
           background: `radial-gradient(120% 80% at 50% 120%, color-mix(in oklab, ${color} 22%, transparent), transparent 70%)`,
         }}

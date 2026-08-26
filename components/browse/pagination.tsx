@@ -1,4 +1,4 @@
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Icon } from "@/components/icon";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { pageHref, type SearchParamsInput } from "@/lib/search-params";
@@ -42,7 +42,7 @@ export function Pagination({
         )}
         aria-label="Previous page"
       >
-        <ChevronLeft className="size-4" />
+        <Icon name="back" className="size-4" />
       </Link>
 
       {numbers.map((n, i) =>
@@ -77,7 +77,7 @@ export function Pagination({
         )}
         aria-label="Next page"
       >
-        <ChevronRight className="size-4" />
+        <Icon name="forward" className="size-4" />
       </Link>
     </nav>
   );

@@ -8,42 +8,53 @@ import {
 /**
  * Almost nothing is gated. Browsing, searching and rendering components are
  * open logged out on purpose — the wall is only in front of things that need
- * an account to mean anything.
+ * an account to mean anything, and even then the server components re-check,
+ * because middleware knows whether you are signed in but only the database
+ * knows whether you are staff.
  */
 const isSignedInRoute = createRouteMatcher(["/me(.*)", "/submit(.*)", "/admin(.*)"]);
 const isAuthPage = createRouteMatcher(["/signin", "/signup"]);
 
-const authMiddleware = convexAuthNextjsMiddleware(
-  async (request, { convexAuth }) => {
-    const authed = await convexAuth.isAuthenticated();
-
-    if (isSignedInRoute(request) && !authed) {
-      const next = request.nextUrl.pathname + request.nextUrl.search;
-      return nextjsMiddlewareRedirect(
-        request,
-        `/signin?next=${encodeURIComponent(next)}`
-      );
-    }
-    if (isAuthPage(request) && authed) {
-      return nextjsMiddlewareRedirect(request, "/");
-    }
-    return undefined;
-  }
-);
+const AUTH_CONFIGURED = Boolean(process.env.NEXT_PUBLIC_CONVEX_URL);
 
 /**
- * Without a deployment there is no session to read, so the middleware steps
- * aside rather than failing every request. The gated pages then handle their
- * own "accounts are unavailable" state.
+ * Built only when there is a deployment to authenticate against. Constructing
+ * it unconditionally meant every build — including deployments with no Convex
+ * URL set — initialised the whole auth stack inside the Edge bundle for no
+ * reason.
  */
-const passthrough = (): NextResponse => NextResponse.next();
+const authMiddleware = AUTH_CONFIGURED
+  ? convexAuthNextjsMiddleware(async (request, { convexAuth }) => {
+      const authed = await convexAuth.isAuthenticated();
 
-const middleware = process.env.NEXT_PUBLIC_CONVEX_URL
-  ? authMiddleware
-  : (passthrough as unknown as (request: NextRequest) => NextResponse);
+      if (isSignedInRoute(request) && !authed) {
+        const next = request.nextUrl.pathname + request.nextUrl.search;
+        return nextjsMiddlewareRedirect(
+          request,
+          `/signin?next=${encodeURIComponent(next)}`
+        );
+      }
+      if (isAuthPage(request) && authed) {
+        return nextjsMiddlewareRedirect(request, "/");
+      }
+      return undefined;
+    })
+  : null;
 
-export default middleware;
+export default function middleware(
+  request: NextRequest,
+  event: unknown
+): ReturnType<NonNullable<typeof authMiddleware>> | NextResponse {
+  // Without a deployment there is no session to read, so the middleware steps
+  // aside rather than failing every request. The gated pages then render their
+  // own "accounts are unavailable" state.
+  if (!authMiddleware) return NextResponse.next();
+  return authMiddleware(request, event as never);
+}
 
 export const config = {
-  matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
+  // Only the routes that actually need a session check. Running auth on every
+  // request in the catalogue was work done for nothing on the 99% of traffic
+  // that is logged-out browsing.
+  matcher: ["/me/:path*", "/submit/:path*", "/admin/:path*", "/signin", "/signup"],
 };

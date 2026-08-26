@@ -1,6 +1,7 @@
 "use client";
 
-import { ArrowRight, Loader2 } from "lucide-react";
+import { Icon } from "@/components/icon";
+
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, type FormEvent, type ReactNode } from "react";
@@ -107,7 +108,7 @@ export function AuthForm({ mode }: { mode: Mode }): ReactNode {
         disabled={pending !== null}
       >
         {pending === "github" ? (
-          <Loader2 className="animate-spin" />
+          <Icon name="loading" className="animate-spin" />
         ) : (
           <GithubMark />
         )}
@@ -160,9 +161,9 @@ export function AuthForm({ mode }: { mode: Mode }): ReactNode {
           className="mt-2 w-full"
           disabled={pending !== null}
         >
-          {pending === "password" ? <Loader2 className="animate-spin" /> : null}
+          {pending === "password" ? <Icon name="loading" className="animate-spin" /> : null}
           {text.submit}
-          {pending === "password" ? null : <ArrowRight />}
+          {pending === "password" ? null : <Icon name="forward" />}
         </Button>
       </form>
 

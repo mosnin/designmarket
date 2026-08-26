@@ -1,4 +1,4 @@
-import { SearchX } from "lucide-react";
+import { Icon } from "@/components/icon";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
@@ -35,7 +35,7 @@ export function EmptyResults({
 
   return (
     <div className="flex flex-col items-center justify-center rounded-md border border-dashed border-border bg-surface-2/50 px-6 py-16 text-center">
-      <SearchX className="size-6 text-subtle-foreground" strokeWidth={1.5} />
+      <Icon name="alert" className="size-6 text-subtle-foreground" strokeWidth={1.5} />
       <h2 className="mt-3 text-[15px] font-semibold">Nothing matches all of that</h2>
 
       {query ? (

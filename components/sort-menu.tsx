@@ -1,4 +1,4 @@
-import { ArrowUpDown, Check } from "lucide-react";
+import { Icon } from "@/components/icon";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
@@ -26,7 +26,7 @@ export function SortMenu({
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="sm" className="gap-2">
-          <ArrowUpDown />
+          <Icon name="sort" />
           <span className="hidden sm:inline">{active.label}</span>
         </Button>
       </DropdownMenuTrigger>
@@ -48,7 +48,7 @@ export function SortMenu({
                 </span>
               </span>
               {sort.value === current ? (
-                <Check className="size-4 shrink-0 !text-accent" />
+                <Icon name="check" className="size-4 shrink-0 !text-accent" />
               ) : null}
             </Link>
           </DropdownMenuItem>

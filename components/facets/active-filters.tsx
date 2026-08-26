@@ -1,4 +1,4 @@
-import { X } from "lucide-react";
+import { Icon } from "@/components/icon";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { facetById, facetOptionLabel } from "@/lib/taxonomy";
@@ -32,7 +32,7 @@ export function ActiveFilters({
         >
           <span className="text-accent/70">{facetById.get(facetId)?.short}</span>
           {facetOptionLabel(facetId, value)}
-          <X className="size-3" />
+          <Icon name="close" className="size-3" />
         </Link>
       ))}
       <Link

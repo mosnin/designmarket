@@ -1,4 +1,4 @@
-import { BadgeCheck, Package } from "lucide-react";
+import { Icon } from "@/components/icon";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { CardArt } from "@/components/cards/card-art";
@@ -79,7 +79,7 @@ export function ListingCard({
           </h3>
           {listing.verified ? (
             <Hint label="Claimed and verified by its maintainers">
-              <BadgeCheck className="mt-0.5 size-4 shrink-0 text-accent" />
+              <Icon name="check" className="mt-0.5 size-4 shrink-0 text-accent" />
             </Hint>
           ) : null}
           <ShipScoreChip listing={listing} className="relative z-10 mt-0.5" />
@@ -111,10 +111,7 @@ export function ListingCard({
               {listing.componentCount} live
             </span>
           ) : (
-            <span className="ml-auto inline-flex items-center gap-1">
-              <Package className="size-3" />
-              {kindLabel(listing.kind)}
-            </span>
+            <span className="ml-auto">{kindLabel(listing.kind)}</span>
           )}
         </div>
       </div>

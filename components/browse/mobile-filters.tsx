@@ -1,6 +1,7 @@
 "use client";
 
-import { SlidersHorizontal } from "lucide-react";
+import { Icon } from "@/components/icon";
+
 import { useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -27,7 +28,7 @@ export function MobileFilters({
         className="gap-2 lg:hidden"
         onClick={() => setOpen(true)}
       >
-        <SlidersHorizontal />
+        <Icon name="filter" />
         Filters
         {activeCount > 0 ? (
           <Badge variant="solid" size="sm">

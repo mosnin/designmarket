@@ -1,4 +1,4 @@
-import { ArrowLeft, ExternalLink } from "lucide-react";
+import { Icon } from "@/components/icon";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -61,7 +61,7 @@ export default async function ComponentPage({
         href="/components"
         className="inline-flex items-center gap-1.5 text-[13px] text-muted-foreground transition-colors hover:text-foreground"
       >
-        <ArrowLeft className="size-3.5" />
+        <Icon name="back" className="size-3.5" />
         All components
       </Link>
 
@@ -163,7 +163,7 @@ export default async function ComponentPage({
                 <Button variant="outline" size="sm" className="mt-2 w-full" asChild>
                   <a href={listing.homepage} target="_blank" rel="noreferrer noopener">
                     Open {listing.name}
-                    <ExternalLink />
+                    <Icon name="external" />
                   </a>
                 </Button>
               ) : null}

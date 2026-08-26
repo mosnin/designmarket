@@ -12,6 +12,13 @@ export const siteConfig = {
   github: "https://github.com/mosnin/designmarket",
 } as const;
 
+/** Feature switches carried over from the purchased theme. */
+export const features = {
+  /** Lenis smooth scrolling on marketing surfaces only — never in the app,
+   *  where hijacking the scroll fights the sidebar and the preview frames. */
+  smoothScroll: true,
+} as const;
+
 export const PRO_PRICE_USD = 9;
 
 export const proFeatures = [

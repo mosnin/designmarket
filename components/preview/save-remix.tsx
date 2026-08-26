@@ -1,7 +1,8 @@
 "use client";
 
+import { Icon } from "@/components/icon";
+
 import { useMutation } from "convex/react";
-import { Bookmark, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useState, type ReactNode } from "react";
 import { toast } from "sonner";
@@ -46,7 +47,7 @@ export function SaveRemix({
     return (
       <Button variant="ghost" size="sm" asChild>
         <Link href={`/signin?next=/components/${componentSlug}`}>
-          <Bookmark />
+          <Icon name="bookmark" />
           Save this setup
         </Link>
       </Button>
@@ -56,7 +57,7 @@ export function SaveRemix({
   return (
     <>
       <Button variant="ghost" size="sm" onClick={() => setOpen(true)}>
-        <Bookmark />
+        <Icon name="bookmark" />
         Save this setup
       </Button>
       <RemixDialog
@@ -146,7 +147,7 @@ function RemixDialog({
               }
             }}
           >
-            {saving ? <Loader2 className="animate-spin" /> : null}
+            {saving ? <Icon name="loading" className="animate-spin" /> : null}
             Save remix
           </Button>
         </DialogFooter>

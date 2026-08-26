@@ -1,4 +1,4 @@
-import { Columns3, Plus } from "lucide-react";
+import { Icon } from "@/components/icon";
 import type { Metadata } from "next";
 import Link from "next/link";
 import type { ReactNode } from "react";
@@ -82,8 +82,7 @@ export default async function ComparePage({
   return (
     <div className="mx-auto max-w-[92rem] px-4 py-6 sm:px-6 lg:py-8">
       <header>
-        <p className="mb-1.5 inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-accent">
-          <Columns3 className="size-3.5" />
+        <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-wider text-accent">
           Compare
         </p>
         <h1 className="text-2xl font-semibold tracking-tight">
@@ -151,7 +150,7 @@ export default async function ComparePage({
                     <span className="text-[11px] text-subtle-foreground">
                       {parent?.name}
                     </span>
-                    <Plus className="size-3.5 text-subtle-foreground" />
+                    <Icon name="plus" className="size-3.5 text-subtle-foreground" />
                   </Link>
                 );
               })}

@@ -1,7 +1,8 @@
 "use client";
 
+import { Icon } from "@/components/icon";
+
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
-import { Check, Minus } from "lucide-react";
 import type { ComponentProps, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
@@ -22,9 +23,9 @@ export function Checkbox({
     >
       <CheckboxPrimitive.Indicator className="flex items-center justify-center text-current">
         {props.checked === "indeterminate" ? (
-          <Minus className="size-3" strokeWidth={3} />
+          <Icon name="minus" className="size-3" strokeWidth={3} />
         ) : (
-          <Check className="size-3" strokeWidth={3} />
+          <Icon name="check" className="size-3" strokeWidth={3} />
         )}
       </CheckboxPrimitive.Indicator>
     </CheckboxPrimitive.Root>

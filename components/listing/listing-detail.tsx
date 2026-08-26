@@ -1,4 +1,4 @@
-import { ArrowLeft, BadgeCheck, ExternalLink, Package } from "lucide-react";
+import { Icon } from "@/components/icon";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -6,7 +6,6 @@ import type { ReactNode } from "react";
 import { CardArt } from "@/components/cards/card-art";
 import { ComponentCard } from "@/components/cards/component-card";
 import { ListingCard } from "@/components/cards/listing-card";
-import { CategoryIcon } from "@/components/category-icon";
 import { CommandLine } from "@/components/preview/code-panel";
 import { CardPreview } from "@/components/preview/card-preview";
 import { ShipScorePanel } from "@/components/ship-score-panel";
@@ -123,7 +122,7 @@ export async function ListingDetail({
         href={section?.href ?? "/explore"}
         className="inline-flex items-center gap-1.5 text-[13px] text-muted-foreground transition-colors hover:text-foreground"
       >
-        <ArrowLeft className="size-3.5" />
+        <Icon name="back" className="size-3.5" />
         {section?.label ?? "Explore"}
       </Link>
 
@@ -135,15 +134,9 @@ export async function ListingDetail({
         />
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
-            <Badge variant="outline">
-              <Package className="size-3" />
-              {kindLabel(listing.kind)}
-            </Badge>
+            <Badge variant="outline">{kindLabel(listing.kind)}</Badge>
             {listing.verified ? (
-              <Badge variant="accent">
-                <BadgeCheck className="size-3" />
-                Verified
-              </Badge>
+              <Badge variant="accent">Verified</Badge>
             ) : null}
             {listing.componentCount > 0 ? <LiveBadge /> : null}
           </div>
@@ -158,7 +151,7 @@ export async function ListingDetail({
               <Button variant="primary" size="sm" asChild>
                 <a href={listing.homepage} target="_blank" rel="noreferrer noopener">
                   Open {listing.name}
-                  <ExternalLink />
+                  <Icon name="external" />
                 </a>
               </Button>
             ) : null}
@@ -333,9 +326,8 @@ export async function ListingDetail({
                   <li key={slug}>
                     <Link
                       href={`/c/${slug}`}
-                      className="flex items-center gap-2 rounded-sm px-2 py-1.5 text-[13px] text-muted-foreground transition-colors hover:bg-surface-2 hover:text-foreground"
+                      className="block rounded-sm px-2 py-1.5 text-[13px] text-muted-foreground transition-colors hover:bg-surface-2 hover:text-foreground"
                     >
-                      <CategoryIcon name={category.icon} className="size-3.5" />
                       {category.name}
                     </Link>
                   </li>

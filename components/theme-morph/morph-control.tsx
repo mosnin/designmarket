@@ -1,6 +1,7 @@
 "use client";
 
-import { Check, Paintbrush, RotateCcw } from "lucide-react";
+import { Icon } from "@/components/icon";
+
 import { useState, type ReactNode } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -42,7 +43,7 @@ export function MorphControl({ className }: { className?: string }): ReactNode {
           className={cn("gap-2", className)}
           aria-label="Theme Morph — render everything in your own tokens"
         >
-          <Paintbrush className="size-4 text-accent" />
+          <Icon name="remix" className="size-4 text-accent" />
           <span className="hidden max-w-24 truncate sm:inline">{active}</span>
         </Button>
       </PopoverTrigger>
@@ -75,7 +76,7 @@ export function MorphControl({ className }: { className?: string }): ReactNode {
                     {p.blurb}
                   </span>
                 </span>
-                {isActive ? <Check className="size-4 shrink-0 text-accent" /> : null}
+                {isActive ? <Icon name="check" className="size-4 shrink-0 text-accent" /> : null}
               </button>
             );
           })}
@@ -125,7 +126,7 @@ export function MorphControl({ className }: { className?: string }): ReactNode {
                 reset();
               }}
             >
-              <RotateCcw />
+              <Icon name="reset" />
             </Button>
           </div>
           <p className="mt-2 text-[11px] leading-relaxed text-subtle-foreground">

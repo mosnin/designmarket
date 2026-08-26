@@ -1,15 +1,16 @@
 "use client";
 
-import { Monitor, Moon, Sun } from "lucide-react";
+import { Icon } from "@/components/icon";
+
 import { useTheme } from "next-themes";
 import type { ReactNode } from "react";
 import { useMounted } from "@/lib/use-mounted";
 import { cn } from "@/lib/utils";
 
 const options = [
-  { value: "light", icon: Sun, label: "Light" },
-  { value: "system", icon: Monitor, label: "System" },
-  { value: "dark", icon: Moon, label: "Dark" },
+  { value: "light", icon: "light", label: "Light" },
+  { value: "system", icon: "system", label: "System" },
+  { value: "dark", icon: "dark", label: "Dark" },
 ] as const;
 
 export function ThemeToggle({ className }: { className?: string }): ReactNode {
@@ -25,7 +26,7 @@ export function ThemeToggle({ className }: { className?: string }): ReactNode {
         className
       )}
     >
-      {options.map(({ value, icon: Icon, label }) => {
+      {options.map(({ value, icon, label }) => {
         const active = mounted && theme === value;
         return (
           <button
@@ -42,7 +43,7 @@ export function ThemeToggle({ className }: { className?: string }): ReactNode {
                 : "text-subtle-foreground hover:text-foreground"
             )}
           >
-            <Icon className="size-3.5" />
+            <Icon name={icon} size={14} />
           </button>
         );
       })}

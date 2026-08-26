@@ -1,6 +1,6 @@
+import { Icon } from "@/components/icon";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { Check } from "lucide-react";
 import { facetsForSection, type SectionId } from "@/lib/taxonomy";
 import {
   clearFacetsHref,
@@ -90,7 +90,7 @@ export function FacetRail({
                             : "border-border-strong group-hover:border-accent"
                         )}
                       >
-                        {isOn ? <Check className="size-3" strokeWidth={3} /> : null}
+                        {isOn ? <Icon name="check" className="size-3" strokeWidth={3} /> : null}
                       </span>
                       <span className="min-w-0 flex-1 truncate">{option.label}</span>
                       {count !== undefined ? (
