@@ -177,3 +177,20 @@ events           analytics: views, renders, copies, installs
 | 12 | Pro, Stripe & MCP | Pricing, checkout, API keys, MCP server |
 | 13 | Marketing, SEO & polish | Landing, OG, a11y, states, mobile |
 | 14 | Ship | Vercel config, docs, green build, PR |
+
+## 7. Deploying
+
+The app is designed to deploy **before** it has a backend. With no
+`NEXT_PUBLIC_CONVEX_URL` set, `lib/data.ts` serves the bundled seed dataset and
+the auth surfaces say accounts are unavailable — so a preview deployment is
+browsable on the first push, and wiring Convex later is additive.
+
+| Environment variable | Needed for | Without it |
+| --- | --- | --- |
+| `NEXT_PUBLIC_CONVEX_URL` | Live data, accounts, submissions | Seed data, read-only |
+| `NEXT_PUBLIC_SITE_URL` | Canonical URLs, OG images | Falls back to the configured domain |
+| `STRIPE_*` | Pro checkout | Pricing page shows, checkout is disabled |
+
+Convex environment variables (`AUTH_GITHUB_ID`, `AUTH_GITHUB_SECRET`,
+`SITE_URL`, `GITHUB_TOKEN`, `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`) are
+set on the deployment with `npx convex env set`, not in Vercel.
