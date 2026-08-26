@@ -28,9 +28,9 @@ export function ActiveFilters({
         <Link
           key={`${facetId}:${value}`}
           href={toggleFacetHref(pathname, params, facetId, value)}
-          className="inline-flex h-6 items-center gap-1.5 rounded-full border border-accent/30 bg-accent-muted px-2.5 text-[12px] font-medium text-accent transition-colors hover:border-accent/60"
+          className="inline-flex h-6 items-center gap-1.5 rounded-full border border-border px-2.5 text-[12px] font-medium text-foreground transition-colors hover:border-foreground/20"
         >
-          <span className="text-accent/70">{facetById.get(facetId)?.short}</span>
+          <span className="text-foreground/50">{facetById.get(facetId)?.short}</span>
           {facetOptionLabel(facetId, value)}
           <Icon name="close" className="size-3" />
         </Link>

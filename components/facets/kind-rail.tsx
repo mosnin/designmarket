@@ -49,7 +49,7 @@ export function KindRail({
             className={cn(
               "flex items-center gap-2 rounded-xs px-1 py-1 text-[13px] transition-colors",
               !current
-                ? "font-medium text-accent"
+                ? "font-medium text-foreground"
                 : "text-muted-foreground hover:text-foreground"
             )}
           >
@@ -66,7 +66,7 @@ export function KindRail({
               className={cn(
                 "flex items-center gap-2 rounded-xs px-1 py-1 text-[13px] transition-colors",
                 current === kind
-                  ? "font-medium text-accent"
+                  ? "font-medium text-foreground"
                   : "text-muted-foreground hover:text-foreground"
               )}
             >

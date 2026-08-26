@@ -58,7 +58,7 @@ export function Pagination({
             className={cn(
               base,
               n === page
-                ? "border-accent bg-accent-muted font-medium text-accent"
+                ? "border-foreground bg-foreground font-medium text-background"
                 : "border-border text-muted-foreground hover:border-foreground/20 hover:text-foreground"
             )}
           >

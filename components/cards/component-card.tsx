@@ -78,7 +78,7 @@ export function ComponentCard({
 
       <div className="flex flex-1 flex-col p-3.5">
         <div className="flex items-baseline gap-2">
-          <h3 className="min-w-0 flex-1 truncate text-[15px] font-semibold tracking-tight">
+          <h3 className="min-w-0 flex-1 truncate font-serif text-lg font-medium">
             <Link
               href={`/components/${component.slug}`}
               className="after:absolute after:inset-0"

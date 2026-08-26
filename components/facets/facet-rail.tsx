@@ -48,7 +48,7 @@ export function FacetRail({
         {activeCount > 0 ? (
           <Link
             href={clearFacetsHref(pathname, params)}
-            className="text-[11px] font-medium text-accent hover:underline"
+            className="text-[11px] font-medium text-foreground/60 hover:text-foreground"
           >
             Clear {activeCount}
           </Link>
@@ -86,7 +86,7 @@ export function FacetRail({
                         className={cn(
                           "flex size-4 shrink-0 items-center justify-center rounded-[4px] border transition-colors",
                           isOn
-                            ? "border-accent bg-accent text-accent-foreground"
+                            ? "border-foreground bg-foreground text-background"
                             : "border-foreground/20 group-hover:border-accent"
                         )}
                       >
