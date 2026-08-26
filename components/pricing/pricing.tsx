@@ -91,9 +91,14 @@ export function Pricing(): ReactNode {
                 transition={{ duration: 0.5, delay: 0.1 * index, ease }}
                 className={cn(
                   "relative flex flex-col rounded-md border border-border bg-background p-6 transition-shadow sm:p-8",
+                  // The theme marks the recommended plan with a shadow step.
+                  // That is a light-mode device — a shadow is invisible on a
+                  // near-black ground, and both cards read identically there.
+                  // Dark falls back to the same idea in the theme's other
+                  // register: the foreground, at a higher alpha, on the edge.
                   plan.featured
-                    ? "shadow-xl hover:shadow-2xl"
-                    : "shadow-sm hover:shadow-lg"
+                    ? "shadow-xl hover:shadow-2xl dark:border-foreground/25 dark:shadow-none"
+                    : "shadow-sm hover:shadow-lg dark:shadow-none"
                 )}
               >
                 <div className="mb-6">
