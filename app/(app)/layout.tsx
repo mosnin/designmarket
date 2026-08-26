@@ -1,10 +1,12 @@
 import type { ReactNode } from "react";
 import { AppShell } from "@/components/shell/app-shell";
+import { getCategoryCounts } from "@/lib/data";
 
-export default function AppLayout({
+export default async function AppLayout({
   children,
 }: {
   children: ReactNode;
-}): ReactNode {
-  return <AppShell>{children}</AppShell>;
+}): Promise<ReactNode> {
+  const counts = await getCategoryCounts();
+  return <AppShell counts={counts}>{children}</AppShell>;
 }

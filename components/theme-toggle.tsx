@@ -2,7 +2,8 @@
 
 import { Monitor, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
-import { useEffect, useState, type ReactNode } from "react";
+import type { ReactNode } from "react";
+import { useMounted } from "@/lib/use-mounted";
 import { cn } from "@/lib/utils";
 
 const options = [
@@ -13,8 +14,7 @@ const options = [
 
 export function ThemeToggle({ className }: { className?: string }): ReactNode {
   const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  const mounted = useMounted();
 
   return (
     <div

@@ -15,11 +15,20 @@ export function AppShell({
   children: ReactNode;
   counts?: Record<string, number>;
 }): ReactNode {
-  const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const pathname = usePathname();
 
-  useEffect(() => setMobileNavOpen(false), [pathname]);
+  // The drawer is remembered against the route it was opened on, so navigating
+  // closes it by derivation rather than by a setState in an effect.
+  const [nav, setNav] = useState<{ open: boolean; at: string }>({
+    open: false,
+    at: pathname,
+  });
+  const mobileNavOpen = nav.open && nav.at === pathname;
+  const setMobileNavOpen = useCallback(
+    (open: boolean) => setNav({ open, at: pathname }),
+    [pathname]
+  );
 
   const openSearch = useCallback(() => setSearchOpen(true), []);
 

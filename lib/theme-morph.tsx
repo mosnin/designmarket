@@ -14,11 +14,11 @@ import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
   useMemo,
-  useState,
+  useSyncExternalStore,
   type ReactNode,
 } from "react";
+import { useMounted } from "./use-mounted";
 
 export const MORPH_TOKEN_KEYS = [
   "background",
@@ -218,71 +218,91 @@ type MorphContextValue = MorphState & {
 };
 
 const defaultPreset = morphPresets[0]!;
+const STORAGE_KEY = "vitrine.theme-morph.v1";
+
+const DEFAULT_STATE: MorphState = {
+  presetId: defaultPreset.id,
+  tokens: { light: defaultPreset.light, dark: defaultPreset.dark },
+  custom: false,
+};
+
+/**
+ * localStorage is genuinely an external store, so it is read through
+ * `useSyncExternalStore` rather than copied into state inside an effect. Two
+ * things fall out of that for free: no cascading render on mount, and the
+ * `storage` event keeps every open tab morphed the same way.
+ */
+const listeners = new Set<() => void>();
+let cached: MorphState | null = null;
+
+function readStore(): MorphState {
+  if (cached) return cached;
+  try {
+    const stored = window.localStorage.getItem(STORAGE_KEY);
+    cached = stored ? (JSON.parse(stored) as MorphState) : DEFAULT_STATE;
+  } catch {
+    cached = DEFAULT_STATE;
+  }
+  return cached;
+}
+
+function writeStore(next: MorphState): void {
+  cached = next;
+  try {
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+  } catch {
+    /* private mode — the morph still applies for this session */
+  }
+  for (const listener of listeners) listener();
+}
+
+function subscribe(onChange: () => void): () => void {
+  listeners.add(onChange);
+  const onStorage = (event: StorageEvent): void => {
+    if (event.key !== STORAGE_KEY) return;
+    cached = null;
+    onChange();
+  };
+  window.addEventListener("storage", onStorage);
+  return () => {
+    listeners.delete(onChange);
+    window.removeEventListener("storage", onStorage);
+  };
+}
 
 const MorphContext = createContext<MorphContextValue | null>(null);
 
-const STORAGE_KEY = "vitrine.theme-morph.v1";
-
 export function ThemeMorphProvider({ children }: { children: ReactNode }): ReactNode {
-  const [state, setState] = useState<MorphState>({
-    presetId: defaultPreset.id,
-    tokens: { light: defaultPreset.light, dark: defaultPreset.dark },
-    custom: false,
-  });
-  const [ready, setReady] = useState(false);
+  const state = useSyncExternalStore(subscribe, readStore, () => DEFAULT_STATE);
+  const ready = useMounted();
 
-  useEffect(() => {
-    try {
-      const stored = window.localStorage.getItem(STORAGE_KEY);
-      if (stored) setState(JSON.parse(stored) as MorphState);
-    } catch {
-      /* corrupt or unavailable storage is not worth surfacing */
-    }
-    setReady(true);
+  const applyPreset = useCallback((id: string) => {
+    const preset = morphPresets.find((p) => p.id === id) ?? defaultPreset;
+    writeStore({
+      presetId: preset.id,
+      tokens: { light: preset.light, dark: preset.dark },
+      custom: false,
+    });
   }, []);
 
-  const persist = useCallback((next: MorphState) => {
-    setState(next);
-    try {
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-    } catch {
-      /* private mode */
-    }
-  }, []);
-
-  const applyPreset = useCallback(
-    (id: string) => {
-      const preset = morphPresets.find((p) => p.id === id) ?? defaultPreset;
-      persist({
-        presetId: preset.id,
-        tokens: { light: preset.light, dark: preset.dark },
-        custom: false,
-      });
-    },
-    [persist]
-  );
-
-  const applyCss = useCallback(
-    (css: string) => {
-      const parsed = parseTokenCss(css);
-      const found =
-        Object.keys(parsed.light).length + Object.keys(parsed.dark).length;
-      if (found === 0) return { ok: false, found: 0 };
-      persist({
-        presetId: "custom",
-        tokens: {
-          light: { ...defaultPreset.light, ...parsed.light },
-          dark: {
-            ...defaultPreset.dark,
-            ...(Object.keys(parsed.dark).length ? parsed.dark : parsed.light),
-          },
+  const applyCss = useCallback((css: string) => {
+    const parsed = parseTokenCss(css);
+    const found =
+      Object.keys(parsed.light).length + Object.keys(parsed.dark).length;
+    if (found === 0) return { ok: false, found: 0 };
+    writeStore({
+      presetId: "custom",
+      tokens: {
+        light: { ...defaultPreset.light, ...parsed.light },
+        dark: {
+          ...defaultPreset.dark,
+          ...(Object.keys(parsed.dark).length ? parsed.dark : parsed.light),
         },
-        custom: true,
-      });
-      return { ok: true, found };
-    },
-    [persist]
-  );
+      },
+      custom: true,
+    });
+    return { ok: true, found };
+  }, []);
 
   const reset = useCallback(() => applyPreset(defaultPreset.id), [applyPreset]);
 
