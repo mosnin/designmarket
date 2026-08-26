@@ -8,7 +8,7 @@ import { pageMetadata } from "@/lib/metadata";
 import type { SearchParamsInput } from "@/lib/search-params";
 
 export const metadata: Metadata = pageMetadata({
-  title: "UI libraries",
+  title: "Component libraries",
   description:
     "Component libraries, design systems and headless primitives, graded on evidence and filterable by stack.",
   path: "/libraries",
@@ -27,7 +27,7 @@ export default async function LibrariesPage({
 
   return (
     <BrowsePage
-      eyebrow="Libraries"
+      eyebrow="UI & Design"
       title="Component libraries & design systems"
       description="The kits you install once and live with for years. Every one is graded on licence clarity, maintenance, adoption, accessibility, types, weight and dependencies — and you can see the arithmetic."
       pathname="/libraries"
@@ -39,6 +39,7 @@ export default async function LibrariesPage({
       page={pageNumber}
       limit={limit}
       noun="library"
+      sectionId="ui"
     >
       {page.items.length ? (
         <ResultGrid>

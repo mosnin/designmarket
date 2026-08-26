@@ -5,15 +5,10 @@ import { CardArt } from "@/components/cards/card-art";
 import { ShipScoreChip } from "@/components/ship-score-chip";
 import { Badge } from "@/components/ui/badge";
 import { Hint } from "@/components/ui/tooltip";
+import { kindLabel, listingHref } from "@/lib/links";
 import { facetOptionLabel } from "@/lib/taxonomy";
 import type { Listing } from "@/lib/types";
 import { cn, compactNumber, formatBytes } from "@/lib/utils";
-
-function listingHref(listing: Listing): string {
-  return listing.kind === "library"
-    ? `/libraries/${listing.slug}`
-    : `/tools/${listing.slug}`;
-}
 
 /** The two or three facts that actually decide whether you keep reading. */
 function factLine(listing: Listing): { label: string; value: string; hint: string }[] {
@@ -118,7 +113,7 @@ export function ListingCard({
           ) : (
             <span className="ml-auto inline-flex items-center gap-1">
               <Package className="size-3" />
-              {listing.kind}
+              {kindLabel(listing.kind)}
             </span>
           )}
         </div>

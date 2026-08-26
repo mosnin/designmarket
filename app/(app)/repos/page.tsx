@@ -5,23 +5,21 @@ import { pageMetadata } from "@/lib/metadata";
 import type { SearchParamsInput } from "@/lib/search-params";
 
 export const metadata: Metadata = pageMetadata({
-  title: "Tools",
-  description:
-    "AI and software tools, graded on evidence rather than upvotes.",
-  path: "/tools",
+  title: "Repositories",
+  description: "Open-source repositories worth reading, cloning or stealing from.",
+  path: "/repos",
 });
 
-export default async function ToolsPage({
+export default async function ReposPage({
   searchParams,
 }: {
   searchParams: Promise<SearchParamsInput>;
 }): Promise<ReactNode> {
   return (
     <SectionBrowse
-      sectionId="tools"
+      sectionId="repos"
       searchParams={await searchParams}
-      noun="tool"
-      description="Everything from AI agents to the boring parts of the stack. Same grading as the rest of the catalogue: licence, maintenance, adoption and docs, with the dimensions that cannot apply to a hosted product marked N/A rather than scored zero."
+      noun="repository"
     />
   );
 }

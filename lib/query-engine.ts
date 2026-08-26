@@ -61,9 +61,28 @@ function listingHasFacetValue(listing: Listing, facetId: string, value: string):
       return listing.stack.a11y === value;
     case "install":
       return listing.stack.install.includes(value);
+    case "transport":
+      return listing.details?.transport === value ||
+        (value !== "both" && listing.details?.transport === "both");
+    case "authmode":
+      return authMode(listing.details?.auth) === value;
     default:
       return true;
   }
+}
+
+/**
+ * The auth facet is derived from the prose we already record rather than being
+ * a second field to keep in sync — "Restricted API key" and "Figma personal
+ * access token" are both a token, and a listing should not have to say so
+ * twice.
+ */
+function authMode(auth: string | undefined): "none" | "oauth" | "token" | null {
+  if (!auth) return null;
+  const value = auth.toLowerCase();
+  if (value.startsWith("none")) return "none";
+  if (value.includes("oauth")) return "oauth";
+  return "token";
 }
 
 /** How many facet groups a listing satisfies — used to rank near-misses. */
@@ -205,11 +224,19 @@ export function queryListings(
   query: ListingQuery,
   now = Date.now()
 ): Page<Listing> {
-  const { kind, category, q, facets, sort = "trending", limit = 24, offset = 0, featuredOnly } = query;
+  const {
+    kind, kinds, category, q, facets,
+    sort = "trending", limit = 24, offset = 0, featuredOnly,
+  } = query;
   const tokens = q ? tokenize(q) : [];
 
   let items = all.filter((l) => l.status === "live");
-  if (kind && kind !== "all") items = items.filter((l) => l.kind === kind);
+  if (kinds?.length) {
+    const wanted = new Set(kinds);
+    items = items.filter((l) => wanted.has(l.kind));
+  } else if (kind && kind !== "all") {
+    items = items.filter((l) => l.kind === kind);
+  }
   if (category) items = items.filter((l) => l.categories.includes(category));
   if (featuredOnly) items = items.filter((l) => l.featured);
   items = items.filter((l) => matchesFacets(l, facets));
@@ -314,11 +341,16 @@ export function queryComponents(
  */
 export function facetCounts(
   all: Listing[],
-  base: { kind?: string; category?: string; q?: string },
+  base: { kind?: string; kinds?: string[]; category?: string; q?: string },
   active: Record<string, string[]>
 ): Record<string, Record<string, number>> {
   let pool = all.filter((l) => l.status === "live");
-  if (base.kind && base.kind !== "all") pool = pool.filter((l) => l.kind === base.kind);
+  if (base.kinds?.length) {
+    const wanted = new Set(base.kinds);
+    pool = pool.filter((l) => wanted.has(l.kind));
+  } else if (base.kind && base.kind !== "all") {
+    pool = pool.filter((l) => l.kind === base.kind);
+  }
   if (base.category) pool = pool.filter((l) => l.categories.includes(base.category!));
   if (base.q) {
     const tokens = tokenize(base.q);

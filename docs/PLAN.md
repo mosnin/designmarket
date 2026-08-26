@@ -83,7 +83,41 @@ bootstrapped to `admin`; after that it is granted explicitly.
 
 ---
 
-## 2. Information architecture
+## 2. Navigation architecture
+
+The catalogue is built to hold a lot. Navigation is split in three so that
+adding listings never lengthens a menu:
+
+```
+┌────────┬──────────────────┬───────────────────────────────┐
+│  rail  │ section sidebar  │  content                      │
+│ never  │ rebuilt per      │                               │
+│ changes│ section          │                               │
+└────────┴──────────────────┴───────────────────────────────┘
+```
+
+**The rail** lists the markets: Explore · UI & Design · Tools · MCP Servers ·
+Skills · APIs · Repositories · Stacks · The Drop · Compare. Ten rows, forever.
+
+**The section sidebar** is rebuilt from the selected section's own categories —
+roughly fifteen rows. A category belongs to exactly one section, so the sidebar
+is a lookup rather than a filter over everything, and a thousand new Tools
+listings never add a row to the UI sidebar.
+
+**The topbar** carries the second level: the current section plus its busiest
+categories, so a sideways move is one click even with the sidebar collapsed.
+
+Facets are section-aware too. A "React version" filter is meaningless in APIs
+and an "RSC-safe" filter is meaningless in Skills, so neither is offered there;
+MCP gets transport and auth facets instead. A facet that can never match is
+worse than no facet at all.
+
+Listings live at `/<section>/<slug>` — `/mcp/mcp-playwright`,
+`/skills/skill-dataviz` — so the sidebar knows which market you are in from the
+URL alone, with no context threading. `/l/<slug>` still resolves and redirects,
+so a listing that changes kind during moderation keeps its old links working.
+
+## 3. Information architecture
 
 ```
 /                       Explore (logged-in shell) · marketing landing (logged out)
@@ -119,7 +153,7 @@ bootstrapped to `admin`; after that it is granted explicitly.
 /admin/users            Roles, plans, API keys
 ```
 
-## 3. Categories (Product-Hunt breadth, design-first depth)
+## 4. Categories (Product-Hunt breadth, design-first depth)
 
 **UI & Design** — Component libraries · Design systems · Icons · Illustrations · Fonts & type · Color & palettes · Animation & motion · 3D & WebGL · Charts & data viz · Tables & data grids · Forms & inputs · Blocks & sections · Landing page kits · Dashboard kits · Email templates · Templates & starters · Figma resources · Mockups · Backgrounds & patterns · Cursors & micro-interactions
 
@@ -129,7 +163,7 @@ bootstrapped to `admin`; after that it is granted explicitly.
 
 **Craft** — Accessibility · Performance · Documentation · Design engineering · Portfolio & inspiration
 
-## 4. Data model (Convex)
+## 5. Data model (Convex)
 
 ```
 users            profile, handle, plan(free|pro), stripeCustomerId
@@ -149,7 +183,7 @@ submissions      moderation queue
 events           analytics: views, renders, copies, installs
 ```
 
-## 5. Technical decisions
+## 6. Technical decisions
 
 - **Next.js 16 (App Router) + React 19 + TypeScript strict + Tailwind v4** — inherited from the supplied theme, which also donates its token system, motion helpers, and dark/light switch.
 - **Convex** for database, realtime queries, auth (`@convex-dev/auth`: password + GitHub OAuth), scheduled jobs, and HTTP actions.
@@ -159,7 +193,7 @@ events           analytics: views, renders, copies, installs
 - **MCP:** JSON-RPC over Streamable HTTP served from a Convex HTTP action, authenticated by `vt_live_*` API keys.
 - **Hosting:** Vercel, `NEXT_PUBLIC_CONVEX_URL` + Convex deploy key in project env.
 
-## 6. Phases
+## 7. Phases
 
 | # | Phase | Ships |
 |---|---|---|
@@ -178,7 +212,7 @@ events           analytics: views, renders, copies, installs
 | 13 | Marketing, SEO & polish | Landing, OG, a11y, states, mobile |
 | 14 | Ship | Vercel config, docs, green build, PR |
 
-## 7. Deploying
+## 8. Deploying
 
 The app is designed to deploy **before** it has a backend. With no
 `NEXT_PUBLIC_CONVEX_URL` set, `lib/data.ts` serves the bundled seed dataset and

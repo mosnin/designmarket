@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getComponents, getListings } from "@/lib/data";
+import { listingHref } from "@/lib/links";
 import { categories } from "@/lib/taxonomy";
 
 /**
@@ -57,7 +58,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       slug: l.slug,
       title: l.name,
       subtitle: l.tagline,
-      href: l.kind === "library" ? `/libraries/${l.slug}` : `/tools/${l.slug}`,
+      href: listingHref(l),
       meta: l.componentCount ? `${l.componentCount} components` : l.license,
       color: l.color,
       monogram: l.monogram,

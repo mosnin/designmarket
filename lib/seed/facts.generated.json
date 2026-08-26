@@ -1,5 +1,5 @@
 {
-  "fetchedAt": 1787776982548,
+  "fetchedAt": 1787781631539,
   "facts": {
     "shadcn-ui": {
       "hasDocs": true
@@ -283,10 +283,10 @@
     },
     "mastra": {
       "hasDocs": true,
-      "version": "1.62.0",
+      "version": "1.63.0",
       "npmLicense": "Apache-2.0",
       "dependencies": 32,
-      "lastPublish": 1787742543983,
+      "lastPublish": 1787781335960,
       "firstRelease": 1727900592342,
       "weeklyDownloads": 1516912,
       "bundleBytes": 999459
@@ -434,7 +434,250 @@
     "wcag-patterns": {
       "hasDocs": false
     },
-    "vitrine-registry": {
+    "mcp-github": {
+      "hasDocs": true
+    },
+    "mcp-playwright": {
+      "hasDocs": false,
+      "version": "0.0.79",
+      "npmLicense": "Apache-2.0",
+      "dependencies": 2,
+      "lastPublish": 1785975645023,
+      "firstRelease": 1741826183518,
+      "weeklyDownloads": 5908579,
+      "bundleBytes": 944041
+    },
+    "mcp-context7": {
+      "hasDocs": false,
+      "version": "4.0.3",
+      "npmLicense": "MIT",
+      "dependencies": 8,
+      "lastPublish": 1787299417917,
+      "firstRelease": 1744110393196,
+      "weeklyDownloads": 914496
+    },
+    "mcp-filesystem": {
+      "hasDocs": true,
+      "version": "2026.7.10",
+      "npmLicense": "SEE LICENSE IN LICENSE",
+      "dependencies": 4,
+      "lastPublish": 1783654270875,
+      "firstRelease": 1732216494330,
+      "weeklyDownloads": 604764
+    },
+    "mcp-memory": {
+      "hasDocs": false,
+      "version": "2026.7.4",
+      "npmLicense": "SEE LICENSE IN LICENSE",
+      "dependencies": 1,
+      "lastPublish": 1783206312015,
+      "firstRelease": 1732216520357,
+      "weeklyDownloads": 78049
+    },
+    "mcp-figma": {
+      "hasDocs": false,
+      "version": "0.13.2",
+      "npmLicense": "MIT",
+      "dependencies": 16,
+      "lastPublish": 1781800733910,
+      "firstRelease": 1740255373687,
+      "weeklyDownloads": 81119,
+      "bundleBytes": 10075
+    },
+    "mcp-postgres": {
+      "hasDocs": false,
+      "version": "0.6.2",
+      "npmLicense": "MIT",
+      "dependencies": 2,
+      "lastPublish": 1733328891820,
+      "firstRelease": 1732025676513,
+      "weeklyDownloads": 108234
+    },
+    "mcp-sentry": {
+      "hasDocs": false
+    },
+    "mcp-stripe": {
+      "hasDocs": false,
+      "version": "0.3.3",
+      "npmLicense": "MIT",
+      "dependencies": 2,
+      "lastPublish": 1774362197263,
+      "firstRelease": 1739993300086,
+      "weeklyDownloads": 15845
+    },
+    "mcp-chrome-devtools": {
+      "hasDocs": false,
+      "version": "1.8.0",
+      "npmLicense": "Apache-2.0",
+      "dependencies": 0,
+      "lastPublish": 1787658262188,
+      "firstRelease": 1747136396873,
+      "weeklyDownloads": 2714332,
+      "bundleBytes": 1898
+    },
+    "mcp-notion": {
+      "hasDocs": false,
+      "version": "2.5.1",
+      "npmLicense": "MIT",
+      "dependencies": 12,
+      "lastPublish": 1784996434018,
+      "firstRelease": 1743711695010,
+      "weeklyDownloads": 172062
+    },
+    "mcp-fetch": {
+      "hasDocs": false
+    },
+    "skill-docx": {
+      "hasDocs": false
+    },
+    "skill-xlsx": {
+      "hasDocs": false
+    },
+    "skill-pptx": {
+      "hasDocs": false
+    },
+    "skill-pdf": {
+      "hasDocs": false
+    },
+    "skill-code-review": {
+      "hasDocs": false
+    },
+    "skill-security-review": {
+      "hasDocs": false
+    },
+    "skill-dataviz": {
+      "hasDocs": false
+    },
+    "skill-creator": {
+      "hasDocs": false
+    },
+    "api-stripe": {
+      "hasDocs": true,
+      "version": "22.5.0",
+      "npmLicense": "MIT",
+      "dependencies": 0,
+      "lastPublish": 1786400343055,
+      "firstRelease": 1317169967349,
+      "weeklyDownloads": 19018606,
+      "bundleBytes": 26947
+    },
+    "api-resend": {
+      "hasDocs": true,
+      "version": "6.24.0",
+      "npmLicense": "MIT",
+      "dependencies": 2,
+      "lastPublish": 1787751840498,
+      "firstRelease": 1488027665309,
+      "weeklyDownloads": 10228642,
+      "bundleBytes": 30768
+    },
+    "api-anthropic": {
+      "hasDocs": true,
+      "version": "0.121.0",
+      "npmLicense": "MIT",
+      "dependencies": 2,
+      "lastPublish": 1787765457989,
+      "firstRelease": 1675179840076,
+      "weeklyDownloads": 35921466,
+      "bundleBytes": 47893
+    },
+    "api-github": {
+      "hasDocs": true,
+      "version": "5.0.5",
+      "npmLicense": "MIT",
+      "dependencies": 11,
+      "lastPublish": 1761877654676,
+      "firstRelease": 1374515381061,
+      "weeklyDownloads": 3695600,
+      "bundleBytes": 41768
+    },
+    "api-mapbox": {
+      "hasDocs": true,
+      "version": "0.16.2",
+      "npmLicense": "BSD-2-Clause",
+      "dependencies": 8,
+      "lastPublish": 1757669044071,
+      "firstRelease": 1528739514535,
+      "weeklyDownloads": 405815,
+      "bundleBytes": 4498
+    },
+    "api-cloudinary": {
+      "hasDocs": true,
+      "version": "2.10.1",
+      "npmLicense": "MIT",
+      "dependencies": 1,
+      "lastPublish": 1787153322890,
+      "firstRelease": 1340628259918,
+      "weeklyDownloads": 930703,
+      "bundleBytes": 59717
+    },
+    "api-deepgram": {
+      "hasDocs": true,
+      "version": "5.8.0",
+      "npmLicense": "MIT",
+      "dependencies": 1,
+      "lastPublish": 1786541634876,
+      "firstRelease": 1620165625026,
+      "weeklyDownloads": 821912,
+      "bundleBytes": 26395
+    },
+    "api-clerk": {
+      "hasDocs": true,
+      "version": "3.16.12",
+      "npmLicense": "MIT",
+      "dependencies": 3,
+      "lastPublish": 1787617559026,
+      "firstRelease": 1669720330488,
+      "weeklyDownloads": 4262630,
+      "bundleBytes": 38863
+    },
+    "repo-public-apis": {
+      "hasDocs": false
+    },
+    "repo-system-design-primer": {
+      "hasDocs": false
+    },
+    "repo-build-your-own-x": {
+      "hasDocs": false
+    },
+    "repo-biome": {
+      "hasDocs": true,
+      "version": "2.5.10",
+      "npmLicense": "MIT OR Apache-2.0",
+      "dependencies": 0,
+      "lastPublish": 1787334042374,
+      "firstRelease": 1692291825233,
+      "weeklyDownloads": 13959709
+    },
+    "repo-create-t3-app": {
+      "hasDocs": true,
+      "version": "7.40.0",
+      "npmLicense": "MIT",
+      "dependencies": 10,
+      "lastPublish": 1762316916219,
+      "firstRelease": 1653409341833,
+      "weeklyDownloads": 1131,
+      "bundleBytes": 95180
+    },
+    "repo-bun": {
+      "hasDocs": true,
+      "version": "1.4.0",
+      "npmLicense": "MIT",
+      "dependencies": 0,
+      "lastPublish": 1787235291965,
+      "firstRelease": 1363208686269,
+      "weeklyDownloads": 3314443
+    },
+    "repo-vite": {
+      "hasDocs": true,
+      "version": "8.2.2",
+      "npmLicense": "MIT",
+      "dependencies": 5,
+      "lastPublish": 1787199279107,
+      "firstRelease": 1587445515476,
+      "weeklyDownloads": 173273525
+    },
+    "repo-modelcontextprotocol-servers": {
       "hasDocs": true
     }
   }

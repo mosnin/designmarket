@@ -8,7 +8,7 @@ import { CategoryIcon } from "@/components/category-icon";
 import { loadBrowse } from "@/lib/browse";
 import { pageMetadata } from "@/lib/metadata";
 import type { SearchParamsInput } from "@/lib/search-params";
-import { categories, categoryBySlug } from "@/lib/taxonomy";
+import { categories, categoryBySlug, sectionById } from "@/lib/taxonomy";
 
 export function generateStaticParams(): { category: string }[] {
   return categories.map((c) => ({ category: c.slug }));
@@ -42,6 +42,7 @@ export default async function CategoryPage({
 
   const search = await searchParams;
   const pathname = `/c/${slug}`;
+  const section = sectionById.get(category.section);
   const { page, counts, active, limit, pageNumber, sort, q } = await loadBrowse({
     searchParams: search,
     category: slug,
@@ -52,7 +53,7 @@ export default async function CategoryPage({
       eyebrow={
         <span className="inline-flex items-center gap-1.5">
           <CategoryIcon name={category.icon} className="size-3.5" />
-          Category
+          {section?.label ?? "Category"}
         </span>
       }
       title={category.name}
@@ -66,6 +67,7 @@ export default async function CategoryPage({
       page={pageNumber}
       limit={limit}
       noun="listing"
+      sectionId={category.section}
     >
       {page.items.length ? (
         <ResultGrid>

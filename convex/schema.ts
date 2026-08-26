@@ -82,7 +82,15 @@ export default defineSchema({
     .index("by_stripe_customer", ["stripeCustomerId"]),
 
   listings: defineTable({
-    kind: v.union(v.literal("library"), v.literal("tool"), v.literal("resource")),
+    kind: v.union(
+      v.literal("library"),
+      v.literal("tool"),
+      v.literal("resource"),
+      v.literal("mcp"),
+      v.literal("skill"),
+      v.literal("api"),
+      v.literal("repo")
+    ),
     slug: v.string(),
     name: v.string(),
     tagline: v.string(),
@@ -100,6 +108,20 @@ export default defineSchema({
     stack: stackProfile,
     facts: listingFacts,
     componentCount: v.number(),
+    details: v.optional(
+      v.object({
+        transport: v.optional(v.string()),
+        tools: v.optional(v.array(v.string())),
+        auth: v.optional(v.string()),
+        trigger: v.optional(v.string()),
+        runsIn: v.optional(v.array(v.string())),
+        baseUrl: v.optional(v.string()),
+        rateLimit: v.optional(v.string()),
+        openapi: v.optional(v.boolean()),
+        language: v.optional(v.string()),
+        shape: v.optional(v.string()),
+      })
+    ),
     color: v.string(),
     monogram: v.string(),
     featured: v.boolean(),

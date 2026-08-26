@@ -20,16 +20,19 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const source = readFileSync(join(root, "lib/seed/listings.ts"), "utf8");
+const source = [
+  readFileSync(join(root, "lib/seed/listings.ts"), "utf8"),
+  readFileSync(join(root, "lib/seed/listings-extra.ts"), "utf8"),
+].join("\n");
 
 // Pull (slug, npm) pairs straight out of the seed source so the script has no
 // build step and stays in sync with whatever is listed.
 const entries = [];
-const blocks = source.split(/\n  \{\n/).slice(1);
+const blocks = source.split(/\n  \{\n?/).slice(1);
 for (const block of blocks) {
-  const slug = /^\s*slug: "([^"]+)"/m.exec(block)?.[1];
-  const npm = /^\s*npm: "([^"]+)"/m.exec(block)?.[1];
-  const docs = /^\s*docs: "/m.test(block);
+  const slug = /\bslug: "([^"]+)"/.exec(block)?.[1];
+  const npm = /\bnpm: "([^"]+)"/.exec(block)?.[1];
+  const docs = /\bdocs: "/.test(block);
   if (slug) entries.push({ slug, npm, docs });
 }
 

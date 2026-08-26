@@ -3,12 +3,26 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useState, type ReactNode } from "react";
-import { Wordmark } from "@/components/brand/logo";
+import { LogoMark, Wordmark } from "@/components/brand/logo";
+import { siteConfig } from "@/lib/config";
 import { CommandPalette } from "@/components/command-palette";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
-import { Sidebar } from "./sidebar";
+import { Rail } from "./rail";
+import { SectionSidebar } from "./section-sidebar";
 import { Topbar } from "./topbar";
 
+/**
+ * THE SHELL
+ *
+ * Three columns, and the split is the point:
+ *
+ *   rail      never changes — the markets this catalogue covers
+ *   sidebar   rebuilt per section — only that section's categories
+ *   content   the section itself
+ *
+ * The catalogue can grow to any size and the rail stays nine rows, because
+ * nothing here ever renders "all categories".
+ */
 export function AppShell({
   children,
   counts,
@@ -19,8 +33,6 @@ export function AppShell({
   const [searchOpen, setSearchOpen] = useState(false);
   const pathname = usePathname();
 
-  // The drawer is remembered against the route it was opened on, so navigating
-  // closes it by derivation rather than by a setState in an effect.
   const [nav, setNav] = useState<{ open: boolean; at: string }>({
     open: false,
     at: pathname,
@@ -47,14 +59,34 @@ export function AppShell({
   return (
     <div className="min-h-dvh">
       <div className="flex">
-        <aside className="sticky top-0 hidden h-dvh w-[var(--sidebar-w)] shrink-0 border-r border-border bg-surface lg:block">
-          <div className="flex h-[var(--header-h)] items-center border-b border-border px-4">
+        {/* master rail */}
+        <aside className="sticky top-0 hidden h-dvh w-[4.5rem] shrink-0 border-r border-border bg-surface-2 lg:block">
+          <div className="flex h-[var(--header-h)] items-center justify-center border-b border-border">
             <Link href="/" aria-label="Vitrine home">
-              <Wordmark />
+              <LogoMark className="size-6" />
             </Link>
           </div>
           <div className="h-[calc(100dvh-var(--header-h))]">
-            <Sidebar {...(counts ? { counts } : {})} onOpenSearch={openSearch} />
+            <Rail />
+          </div>
+        </aside>
+
+        {/* section sidebar */}
+        <aside className="sticky top-0 hidden h-dvh w-[15rem] shrink-0 border-r border-border bg-surface xl:block">
+          <div className="flex h-[var(--header-h)] items-center border-b border-border px-3">
+            <Link
+              href="/"
+              aria-label="Vitrine home"
+              className="text-[15px] font-semibold tracking-tight"
+            >
+              {siteConfig.name}
+            </Link>
+          </div>
+          <div className="h-[calc(100dvh-var(--header-h))]">
+            <SectionSidebar
+              {...(counts ? { counts } : {})}
+              onOpenSearch={openSearch}
+            />
           </div>
         </aside>
 
@@ -69,20 +101,26 @@ export function AppShell({
         </div>
       </div>
 
+      {/* Below xl the two rails collapse into one drawer, side by side. */}
       <Dialog open={mobileNavOpen} onOpenChange={setMobileNavOpen}>
-        <DialogContent className="left-0 top-0 h-dvh max-w-[17rem] translate-x-0 translate-y-0 gap-0 rounded-none border-y-0 border-l-0 p-0">
-          <DialogTitle className="flex h-[var(--header-h)] items-center border-b border-border px-4">
+        <DialogContent className="left-0 top-0 flex h-dvh max-w-[20rem] translate-x-0 translate-y-0 flex-col gap-0 rounded-none border-y-0 border-l-0 p-0">
+          <DialogTitle className="flex h-[var(--header-h)] shrink-0 items-center border-b border-border px-4">
             <Wordmark />
           </DialogTitle>
-          <div className="min-h-0 flex-1 overflow-hidden">
-            <Sidebar
-              {...(counts ? { counts } : {})}
-              onNavigate={() => setMobileNavOpen(false)}
-              onOpenSearch={() => {
-                setMobileNavOpen(false);
-                setSearchOpen(true);
-              }}
-            />
+          <div className="flex min-h-0 flex-1">
+            <div className="w-[4.5rem] shrink-0 border-r border-border bg-surface-2">
+              <Rail onNavigate={() => setMobileNavOpen(false)} />
+            </div>
+            <div className="min-w-0 flex-1">
+              <SectionSidebar
+                {...(counts ? { counts } : {})}
+                onNavigate={() => setMobileNavOpen(false)}
+                onOpenSearch={() => {
+                  setMobileNavOpen(false);
+                  setSearchOpen(true);
+                }}
+              />
+            </div>
           </div>
         </DialogContent>
       </Dialog>

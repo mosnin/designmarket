@@ -69,6 +69,7 @@ export async function getListings(query: ListingQuery = {}): Promise<Page<Listin
     () =>
       fetchQuery(api.listings.list, {
         ...(query.kind ? { kind: query.kind } : {}),
+        ...(query.kinds?.length ? { kinds: query.kinds } : {}),
         ...(query.category ? { category: query.category } : {}),
         ...(query.q ? { q: query.q } : {}),
         ...(query.facets ? { facets: query.facets } : {}),
@@ -115,7 +116,7 @@ export async function getCategoryCounts(): Promise<Record<string, number>> {
 export type FacetCounts = Record<string, Record<string, number>>;
 
 export async function getFacetCounts(
-  base: { kind?: string; category?: string; q?: string },
+  base: { kind?: string; kinds?: string[]; category?: string; q?: string },
   active: Record<string, string[]>
 ): Promise<FacetCounts> {
   return viaConvex(

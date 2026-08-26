@@ -14,6 +14,7 @@ import { pageMetadata } from "@/lib/metadata";
 import { canRender } from "@/lib/registry-manifest";
 import { componentKindLabel } from "@/lib/taxonomy";
 import { brandInk, brandWash } from "@/lib/brand-color";
+import { listingHref } from "@/lib/links";
 import { compactNumber, formatBytes } from "@/lib/utils";
 
 export async function generateMetadata({
@@ -83,7 +84,7 @@ export default async function ComponentPage({
 
         {listing ? (
           <Link
-            href={`/libraries/${listing.slug}`}
+            href={listingHref(listing)}
             className="flex shrink-0 items-center gap-3 rounded-md border border-border bg-surface p-3 shadow-card transition-colors hover:border-border-strong"
           >
             <span

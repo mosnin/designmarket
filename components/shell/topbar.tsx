@@ -10,7 +10,9 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { MorphControl } from "@/components/theme-morph/morph-control";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { topTabs } from "./nav-config";
+import { sectionForPath } from "@/lib/section-nav";
+import { categoriesForSection } from "@/lib/taxonomy";
+import { CategoryIcon } from "@/components/category-icon";
 
 export function Topbar({
   onOpenSidebar,
@@ -20,6 +22,11 @@ export function Topbar({
   onOpenSearch: () => void;
 }): ReactNode {
   const pathname = usePathname();
+  const section = sectionForPath(pathname);
+  const onSectionRoot = pathname === section.href;
+  const shortcuts = categoriesForSection(section.id)
+    .flatMap((entry) => entry.items)
+    .slice(0, 5);
 
   return (
     <header className="sticky top-0 z-40 flex h-[var(--header-h)] items-center gap-2 border-b border-border glass px-3 sm:px-4">
@@ -37,25 +44,42 @@ export function Topbar({
         <Wordmark />
       </Link>
 
-      <nav aria-label="Sections" className="hidden items-center gap-0.5 lg:flex">
-        {topTabs.map((tab) => {
-          const active =
-            pathname === tab.href || pathname.startsWith(`${tab.href}/`);
+      {/* Second level: the current section, then its busiest categories, so
+          the sideways move is one click even with the sidebar collapsed. */}
+      <nav
+        aria-label="Section"
+        className="hidden min-w-0 items-center gap-1 overflow-x-auto scrollbar-none lg:flex"
+      >
+        <Link
+          href={section.href}
+          className={cn(
+            "flex shrink-0 items-center gap-1.5 rounded-sm px-2.5 py-1.5 text-[13px] font-medium transition-colors",
+            onSectionRoot
+              ? "bg-surface-2 text-foreground"
+              : "text-muted-foreground hover:text-foreground"
+          )}
+        >
+          <CategoryIcon name={section.icon} className="size-3.5" />
+          {section.label}
+        </Link>
+        {shortcuts.length ? (
+          <span aria-hidden className="mx-1 h-4 w-px shrink-0 bg-border" />
+        ) : null}
+        {shortcuts.map((category) => {
+          const href = `/c/${category.slug}`;
+          const active = pathname === href;
           return (
             <Link
-              key={tab.href}
-              href={tab.href}
+              key={category.slug}
+              href={href}
               className={cn(
-                "relative rounded-sm px-3 py-1.5 text-[13px] font-medium transition-colors",
+                "shrink-0 rounded-sm px-2.5 py-1.5 text-[13px] transition-colors",
                 active
-                  ? "text-foreground"
+                  ? "bg-accent-muted font-medium text-accent"
                   : "text-muted-foreground hover:text-foreground"
               )}
             >
-              {tab.label}
-              {active ? (
-                <span className="absolute inset-x-3 -bottom-[13px] h-0.5 rounded-full bg-accent" />
-              ) : null}
+              {category.name}
             </Link>
           );
         })}

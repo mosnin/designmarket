@@ -5,6 +5,7 @@ import { MobileFilters } from "@/components/browse/mobile-filters";
 import { Pagination } from "@/components/browse/pagination";
 import { SortMenu } from "@/components/sort-menu";
 import { countActiveFacets, type SearchParamsInput } from "@/lib/search-params";
+import type { SectionId } from "@/lib/taxonomy";
 import type { SortKey } from "@/lib/types";
 import { cn, pluralize } from "@/lib/utils";
 
@@ -21,6 +22,7 @@ export function BrowsePage({
   page,
   limit,
   noun = "result",
+  sectionId,
   children,
   aside,
 }: {
@@ -36,6 +38,8 @@ export function BrowsePage({
   page: number;
   limit: number;
   noun?: string;
+  /** narrows the facet rail to the facets that mean something here */
+  sectionId?: SectionId;
   children: ReactNode;
   /** extra content above the facet rail, e.g. a component-kind filter */
   aside?: ReactNode;
@@ -49,6 +53,7 @@ export function BrowsePage({
         params={params}
         active={active}
         {...(counts ? { counts } : {})}
+        {...(sectionId ? { sectionId } : {})}
       />
     </>
   );

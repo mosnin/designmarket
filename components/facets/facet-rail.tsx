@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Check } from "lucide-react";
-import { facets as facetDefs } from "@/lib/taxonomy";
+import { facetsForSection, type SectionId } from "@/lib/taxonomy";
 import {
   clearFacetsHref,
   countActiveFacets,
@@ -24,6 +24,7 @@ export function FacetRail({
   active,
   counts,
   className,
+  sectionId,
 }: {
   pathname: string;
   params: SearchParamsInput;
@@ -31,8 +32,12 @@ export function FacetRail({
   /** facetId -> value -> number of results if this value were added */
   counts?: Record<string, Record<string, number>>;
   className?: string;
+  sectionId?: SectionId;
 }): ReactNode {
   const activeCount = countActiveFacets(active);
+  // An RSC-safety filter is meaningless in the APIs section, and a facet that
+  // can never match is worse than no facet at all.
+  const facetDefs = facetsForSection(sectionId);
 
   return (
     <aside className={cn("flex flex-col gap-5", className)} aria-label="Filters">

@@ -997,7 +997,7 @@ const raw: SeedListing[] = [
     tagline: "One TypeScript API across every model provider",
     description:
       "Unified generation, streaming, tool calling and structured output across providers, plus React hooks for chat and completion UI. Swapping models becomes a config change rather than a rewrite.",
-    categories: ["llm-infrastructure", "agent-frameworks", "apis"],
+    categories: ["llm-infrastructure", "agent-frameworks"],
     tags: ["streaming", "tool-calling", "providers", "typescript"],
     homepage: "https://ai-sdk.dev",
     repo: "https://github.com/vercel/ai",
@@ -1054,7 +1054,7 @@ const raw: SeedListing[] = [
     tagline: "The open standard for wiring tools into agents",
     description:
       "A JSON-RPC protocol for exposing tools, resources and prompts to any model client. Write a server once and every MCP-aware agent can use it — the reason a marketplace can be consumed by machines at all.",
-    categories: ["mcp-servers", "agent-frameworks", "apis"],
+    categories: ["agent-frameworks", "devtools"],
     tags: ["mcp", "json-rpc", "standard", "tools"],
     homepage: "https://modelcontextprotocol.io",
     repo: "https://github.com/modelcontextprotocol/servers",
@@ -1083,7 +1083,7 @@ const raw: SeedListing[] = [
     tagline: "Speech synthesis that stopped sounding synthetic",
     description:
       "Text to speech, voice cloning, dubbing and a low-latency streaming API. The quality bar that made voice interfaces viable in consumer products rather than just in demos.",
-    categories: ["audio-voice", "apis"],
+    categories: ["audio-voice"],
     tags: ["tts", "voice", "dubbing", "streaming"],
     homepage: "https://elevenlabs.io",
     docs: "https://elevenlabs.io/docs",
@@ -1379,7 +1379,7 @@ const raw: SeedListing[] = [
     tagline: "Transactional email you write as React",
     description:
       "An email API from the people behind React Email, so templates are components rather than table soup. Deliverability tooling and a genuinely pleasant DX for the least pleasant part of the stack.",
-    categories: ["email-messaging", "email-templates", "apis"],
+    categories: ["email-messaging", "email-templates"],
     tags: ["transactional", "react-email", "deliverability"],
     homepage: "https://resend.com",
     npm: "resend",

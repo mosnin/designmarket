@@ -13,22 +13,30 @@ import type { ListingKind } from "./types";
 export async function loadBrowse({
   searchParams,
   kind,
+  kinds,
   category,
 }: {
   searchParams: SearchParamsInput;
   kind?: ListingKind;
+  kinds?: string[];
   category?: string;
 }) {
   const query = parseListingQuery(searchParams);
   const active = parseFacets(searchParams);
   const base = {
     ...(kind ? { kind } : {}),
+    ...(kinds?.length ? { kinds } : {}),
     ...(category ? { category } : {}),
     ...(query.q ? { q: query.q } : {}),
   };
 
   const [page, counts] = await Promise.all([
-    getListings({ ...query, ...(kind ? { kind } : {}), ...(category ? { category } : {}) }),
+    getListings({
+      ...query,
+      ...(kind ? { kind } : {}),
+      ...(kinds?.length ? { kinds } : {}),
+      ...(category ? { category } : {}),
+    }),
     getFacetCounts(base, active),
   ]);
 

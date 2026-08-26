@@ -6,7 +6,14 @@
  * they are talking to.
  */
 
-export type ListingKind = "library" | "tool" | "resource";
+export type ListingKind =
+  | "library"
+  | "tool"
+  | "resource"
+  | "mcp"
+  | "skill"
+  | "api"
+  | "repo";
 export type ListingStatus = "draft" | "pending" | "live" | "rejected";
 export type PreviewMode = "registry" | "compiled" | "static";
 
@@ -58,6 +65,34 @@ export type ListingFacts = {
   fetchedAt?: number;
 };
 
+/**
+ * Fields that only make sense for one kind of listing. Kept in one optional
+ * bag rather than spread across the root, so adding a seventh kind later does
+ * not widen every record in the catalogue.
+ */
+export type KindDetails = {
+  /** mcp: how the server is reached */
+  transport?: "stdio" | "http" | "sse" | "both";
+  /** mcp: the tools it exposes */
+  tools?: string[];
+  /** mcp / api: what authentication it needs */
+  auth?: string;
+  /** skill: the one-line trigger that tells an agent to reach for it */
+  trigger?: string;
+  /** skill: which agents it runs in */
+  runsIn?: string[];
+  /** api: base URL */
+  baseUrl?: string;
+  /** api: rate limit, in plain words */
+  rateLimit?: string;
+  /** api: does it publish an OpenAPI document */
+  openapi?: boolean;
+  /** repo: primary language */
+  language?: string;
+  /** repo: what shape of thing this is */
+  shape?: string;
+};
+
 export type Listing = {
   _id: string;
   kind: ListingKind;
@@ -81,6 +116,8 @@ export type Listing = {
   stack: StackProfile;
   facts: ListingFacts;
   componentCount: number;
+  /** fields that only apply to this kind of listing */
+  details?: KindDetails;
   /** brand hue used for generated card art, as an oklch/hex string */
   color: string;
   /** two-letter monogram used when no logo is available */
@@ -176,6 +213,8 @@ export type SortKey =
 
 export type ListingQuery = {
   kind?: ListingKind | "all";
+  /** several kinds at once — a section is a lens over one or more kinds */
+  kinds?: string[];
   category?: string;
   q?: string;
   facets?: Record<string, string[]>;

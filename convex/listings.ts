@@ -28,6 +28,7 @@ const facetsValidator = v.optional(v.record(v.string(), v.array(v.string())));
 export const list = query({
   args: {
     kind: v.optional(v.string()),
+    kinds: v.optional(v.array(v.string())),
     category: v.optional(v.string()),
     q: v.optional(v.string()),
     facets: facetsValidator,
@@ -64,6 +65,7 @@ export const list = query({
 
     const query_: ListingQuery = {
       ...(args.kind ? { kind: args.kind as ListingQuery["kind"] } : {}),
+      ...(args.kinds?.length ? { kinds: args.kinds } : {}),
       ...(args.category ? { category: args.category } : {}),
       ...(args.q ? { q: args.q } : {}),
       ...(args.facets ? { facets: args.facets } : {}),
@@ -107,6 +109,7 @@ export const related = query({
 export const facetOptionCounts = query({
   args: {
     kind: v.optional(v.string()),
+    kinds: v.optional(v.array(v.string())),
     category: v.optional(v.string()),
     q: v.optional(v.string()),
     facets: facetsValidator,
@@ -120,6 +123,7 @@ export const facetOptionCounts = query({
       all.map(toListing),
       {
         ...(args.kind ? { kind: args.kind } : {}),
+        ...(args.kinds?.length ? { kinds: args.kinds } : {}),
         ...(args.category ? { category: args.category } : {}),
         ...(args.q ? { q: args.q } : {}),
       },

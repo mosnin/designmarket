@@ -4,6 +4,7 @@ import { Badge, LiveBadge } from "@/components/ui/badge";
 import { componentKindLabel } from "@/lib/taxonomy";
 import type { Listing, UIComponent } from "@/lib/types";
 import { brandInk, brandWash } from "@/lib/brand-color";
+import { listingHref } from "@/lib/links";
 import { cn } from "@/lib/utils";
 
 /**
@@ -98,7 +99,7 @@ export function ComponentCard({
             {listing?.monogram ?? "??"}
           </span>
           <Link
-            href={`/libraries/${component.listingSlug}`}
+            href={listing ? listingHref(listing) : `/l/${component.listingSlug}`}
             className="relative z-10 truncate hover:text-foreground hover:underline"
           >
             {listing?.name ?? component.listingSlug}
