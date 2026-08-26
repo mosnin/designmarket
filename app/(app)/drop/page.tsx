@@ -3,10 +3,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { ComponentCard } from "@/components/cards/component-card";
+import { CardPreview } from "@/components/preview/card-preview";
 import { ListingCard } from "@/components/cards/listing-card";
 import { Badge } from "@/components/ui/badge";
 import { getComponent, getDrop, getListing, getRecentDrops } from "@/lib/data";
 import { pageMetadata } from "@/lib/metadata";
+import { canRender } from "@/lib/registry-manifest";
 import { formatDate } from "@/lib/utils";
 
 export const metadata: Metadata = pageMetadata({
@@ -81,6 +83,11 @@ export default async function DropPage({
                 key={component.slug}
                 component={component}
                 listing={listingBySlug.get(component.listingSlug)}
+                preview={
+                  canRender(component) && component.registryKey ? (
+                    <CardPreview registryKey={component.registryKey} />
+                  ) : undefined
+                }
               />
             ))}
           </div>

@@ -8,5 +8,12 @@ export default async function AppLayout({
   children: ReactNode;
 }): Promise<ReactNode> {
   const counts = await getCategoryCounts();
-  return <AppShell counts={counts}>{children}</AppShell>;
+  return (
+    <>
+      <a href="#main" className="skip-to-content">
+        Skip to content
+      </a>
+      <AppShell counts={counts}>{children}</AppShell>
+    </>
+  );
 }

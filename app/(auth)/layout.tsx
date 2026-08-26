@@ -10,6 +10,9 @@ export default function AuthLayout({
 }): ReactNode {
   return (
     <div className="grid min-h-dvh lg:grid-cols-2">
+      <a href="#main" className="skip-to-content">
+        Skip to content
+      </a>
       <div className="flex flex-col px-6 py-8 sm:px-10">
         <Link href="/" aria-label="Vitrine home" className="w-fit">
           <Wordmark />

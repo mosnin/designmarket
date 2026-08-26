@@ -47,9 +47,6 @@ function Document({ children }: { children: ReactNode }): ReactNode {
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable} font-sans`}
       >
-        <a href="#main" className="skip-to-content">
-          Skip to content
-        </a>
         <ConvexClientProvider>
           <SessionProvider>
             <Providers>

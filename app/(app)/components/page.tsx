@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { BrowsePage, ResultGrid } from "@/components/browse/browse-page";
 import { EmptyResults } from "@/components/browse/empty-results";
 import { ComponentCard } from "@/components/cards/component-card";
+import { CardPreview } from "@/components/preview/card-preview";
 import { KindRail } from "@/components/facets/kind-rail";
 import {
   getComponentFacetCounts,
@@ -11,6 +12,7 @@ import {
   getListings,
 } from "@/lib/data";
 import { pageMetadata } from "@/lib/metadata";
+import { canRender } from "@/lib/registry-manifest";
 import { parseFacets, type SearchParamsInput } from "@/lib/search-params";
 import { componentKindLabel } from "@/lib/taxonomy";
 import type { SortKey } from "@/lib/types";
@@ -94,6 +96,11 @@ export default async function ComponentsPage({
               key={component.slug}
               component={component}
               listing={listingBySlug.get(component.listingSlug)}
+              preview={
+                canRender(component) && component.registryKey ? (
+                  <CardPreview registryKey={component.registryKey} />
+                ) : undefined
+              }
             />
           ))}
         </ResultGrid>

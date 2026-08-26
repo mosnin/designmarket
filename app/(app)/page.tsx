@@ -2,6 +2,7 @@ import { ArrowRight, CalendarDays } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { ComponentCard } from "@/components/cards/component-card";
+import { CardPreview } from "@/components/preview/card-preview";
 import { ListingCard } from "@/components/cards/listing-card";
 import { CategoryIcon } from "@/components/category-icon";
 import { Badge, LiveBadge } from "@/components/ui/badge";
@@ -13,6 +14,7 @@ import {
   getListings,
   getStacks,
 } from "@/lib/data";
+import { canRender } from "@/lib/registry-manifest";
 import { categories } from "@/lib/taxonomy";
 
 function SectionHeader({
@@ -108,6 +110,11 @@ export default async function HomePage(): Promise<ReactNode> {
               key={component.slug}
               component={component}
               listing={listingBySlug.get(component.listingSlug)}
+              preview={
+                canRender(component) && component.registryKey ? (
+                  <CardPreview registryKey={component.registryKey} />
+                ) : undefined
+              }
             />
           ))}
         </div>

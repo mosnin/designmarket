@@ -115,6 +115,83 @@
   --tw-shadow-color: rgb(0 0 0 / 0.6);
 }
 
+/* --------------------------------------------------------------------------
+   PREVIEW TOKENS
+   The render sandbox does NOT inherit Vitrine's palette. It runs on its own
+   `--pv-*` set, which Theme Morph overwrites with whatever tokens the viewer
+   pasted in. Namespacing them keeps the app's own chrome from being repainted
+   when someone morphs the previews, and the names map 1:1 onto shadcn/ui's so
+   a pasted globals.css lands without translation.
+   -------------------------------------------------------------------------- */
+
+:root {
+  --pv-background: #fbfbf9;
+  --pv-foreground: #0b0b0f;
+  --pv-card: #ffffff;
+  --pv-card-foreground: #0b0b0f;
+  --pv-popover: #ffffff;
+  --pv-popover-foreground: #0b0b0f;
+  --pv-primary: #6244f5;
+  --pv-primary-foreground: #ffffff;
+  --pv-secondary: #f1f1ec;
+  --pv-secondary-foreground: #0b0b0f;
+  --pv-muted: #f1f1ec;
+  --pv-muted-foreground: #6b6b73;
+  --pv-accent: #efecff;
+  --pv-accent-foreground: #6244f5;
+  --pv-destructive: #d1373a;
+  --pv-destructive-foreground: #ffffff;
+  --pv-border: #e7e5e0;
+  --pv-input: #e7e5e0;
+  --pv-ring: #6244f5;
+  --pv-radius: 0.75rem;
+}
+
+@theme inline {
+  --color-pv-background: var(--pv-background);
+  --color-pv-foreground: var(--pv-foreground);
+  --color-pv-card: var(--pv-card);
+  --color-pv-card-foreground: var(--pv-card-foreground);
+  --color-pv-popover: var(--pv-popover);
+  --color-pv-popover-foreground: var(--pv-popover-foreground);
+  --color-pv-primary: var(--pv-primary);
+  --color-pv-primary-foreground: var(--pv-primary-foreground);
+  --color-pv-secondary: var(--pv-secondary);
+  --color-pv-secondary-foreground: var(--pv-secondary-foreground);
+  --color-pv-muted: var(--pv-muted);
+  --color-pv-muted-foreground: var(--pv-muted-foreground);
+  --color-pv-accent: var(--pv-accent);
+  --color-pv-accent-foreground: var(--pv-accent-foreground);
+  --color-pv-destructive: var(--pv-destructive);
+  --color-pv-destructive-foreground: var(--pv-destructive-foreground);
+  --color-pv-border: var(--pv-border);
+  --color-pv-input: var(--pv-input);
+  --color-pv-ring: var(--pv-ring);
+
+  --radius-pv: var(--pv-radius);
+  --radius-pv-sm: calc(var(--pv-radius) * 0.55);
+  --radius-pv-lg: calc(var(--pv-radius) * 1.4);
+}
+
+/* The sandbox document itself. */
+body.vitrine-preview {
+  background-color: var(--pv-background);
+  color: var(--pv-foreground);
+}
+
+body.vitrine-preview ::selection {
+  background-color: var(--pv-primary);
+  color: var(--pv-primary-foreground);
+}
+
+body.vitrine-preview a:focus-visible,
+body.vitrine-preview button:focus-visible,
+body.vitrine-preview input:focus-visible,
+body.vitrine-preview [tabindex]:focus-visible {
+  outline: 2px solid var(--pv-ring);
+  outline-offset: 2px;
+}
+
 html {
   color-scheme: light;
   scroll-behavior: smooth;
@@ -239,6 +316,27 @@ textarea:focus-visible,
 
 .live-dot {
   animation: vt-live-pulse 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Preview-only keyframes used by registry entries. */
+@keyframes pv-marquee-left {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes pv-marquee-right {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes pv-text-shimmer {
+  from { background-position: 200% center; }
+  to { background-position: -200% center; }
+}
+
+@keyframes pv-cell-pulse {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
 }
 
 @keyframes vt-shimmer {
