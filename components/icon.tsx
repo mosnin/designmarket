@@ -1,47 +1,52 @@
 "use client";
 
-import {
-  AiMagicIcon,
-  Alert02Icon,
-  ArrowDataTransferVerticalIcon,
-  ArrowLeft02Icon,
-  ArrowRight02Icon,
-  ArrowUpRight01Icon,
-  ApiIcon,
-  Bookmark02Icon,
-  Cancel01Icon,
-  ChevronDownIcon,
-  Compass01Icon,
-  ComponentIcon,
-  ComputerIcon,
-  ConnectIcon,
-  Copy01Icon,
-  Delete02Icon,
-  FilterIcon,
-  Folder02Icon,
-  GitForkIcon,
-  Grid2X2Icon,
-  Layers01Icon,
-  Link02Icon,
-  Loading03Icon,
-  LogoutSquare01Icon,
-  MagicWand01Icon,
-  Menu02Icon,
-  MinusIcon,
-  Moon02Icon,
-  Mortarboard02Icon,
-  PlusIcon,
-  RefreshIcon,
-  Search01Icon,
-  Setting06Icon,
-  Shield01Icon,
-  SparklesIcon,
-  Sun02Icon,
-  Tick02Icon,
-  Upload02Icon,
-  UserCircleIcon,
-  ViewIcon,
-} from "@hugeicons/core-free-icons";
+// Deep imports, one file per icon.
+//
+// The barrel at the package root re-exports 14,716 icons across 24,122
+// files. Naming forty of them in a `{ ... } from "@hugeicons/core-free-icons"`
+// import asks the bundler to parse the whole set on every compile and
+// trusts tree-shaking to throw the rest away. Pointing at the forty files
+// we actually use costs nothing and leaves nothing to trust.
+import AiMagicIcon from "@hugeicons/core-free-icons/dist/esm/AiMagicIcon";
+import Alert02Icon from "@hugeicons/core-free-icons/dist/esm/Alert02Icon";
+import ApiIcon from "@hugeicons/core-free-icons/dist/esm/ApiIcon";
+import ArrowDataTransferVerticalIcon from "@hugeicons/core-free-icons/dist/esm/ArrowDataTransferVerticalIcon";
+import ArrowLeft02Icon from "@hugeicons/core-free-icons/dist/esm/ArrowLeft02Icon";
+import ArrowRight02Icon from "@hugeicons/core-free-icons/dist/esm/ArrowRight02Icon";
+import ArrowUpRight01Icon from "@hugeicons/core-free-icons/dist/esm/ArrowUpRight01Icon";
+import Bookmark02Icon from "@hugeicons/core-free-icons/dist/esm/Bookmark02Icon";
+import Cancel01Icon from "@hugeicons/core-free-icons/dist/esm/Cancel01Icon";
+import ChevronDownIcon from "@hugeicons/core-free-icons/dist/esm/ChevronDownIcon";
+import Compass01Icon from "@hugeicons/core-free-icons/dist/esm/Compass01Icon";
+import ComponentIcon from "@hugeicons/core-free-icons/dist/esm/ComponentIcon";
+import ComputerIcon from "@hugeicons/core-free-icons/dist/esm/ComputerIcon";
+import ConnectIcon from "@hugeicons/core-free-icons/dist/esm/ConnectIcon";
+import Copy01Icon from "@hugeicons/core-free-icons/dist/esm/Copy01Icon";
+import Delete02Icon from "@hugeicons/core-free-icons/dist/esm/Delete02Icon";
+import FilterIcon from "@hugeicons/core-free-icons/dist/esm/FilterIcon";
+import Folder02Icon from "@hugeicons/core-free-icons/dist/esm/Folder02Icon";
+import GitForkIcon from "@hugeicons/core-free-icons/dist/esm/GitForkIcon";
+import Grid2X2Icon from "@hugeicons/core-free-icons/dist/esm/Grid2X2Icon";
+import Layers01Icon from "@hugeicons/core-free-icons/dist/esm/Layers01Icon";
+import Link02Icon from "@hugeicons/core-free-icons/dist/esm/Link02Icon";
+import Loading03Icon from "@hugeicons/core-free-icons/dist/esm/Loading03Icon";
+import LogoutSquare01Icon from "@hugeicons/core-free-icons/dist/esm/LogoutSquare01Icon";
+import MagicWand01Icon from "@hugeicons/core-free-icons/dist/esm/MagicWand01Icon";
+import Menu02Icon from "@hugeicons/core-free-icons/dist/esm/Menu02Icon";
+import MinusIcon from "@hugeicons/core-free-icons/dist/esm/MinusIcon";
+import Moon02Icon from "@hugeicons/core-free-icons/dist/esm/Moon02Icon";
+import Mortarboard02Icon from "@hugeicons/core-free-icons/dist/esm/Mortarboard02Icon";
+import PlusIcon from "@hugeicons/core-free-icons/dist/esm/PlusIcon";
+import RefreshIcon from "@hugeicons/core-free-icons/dist/esm/RefreshIcon";
+import Search01Icon from "@hugeicons/core-free-icons/dist/esm/Search01Icon";
+import Setting06Icon from "@hugeicons/core-free-icons/dist/esm/Setting06Icon";
+import Shield01Icon from "@hugeicons/core-free-icons/dist/esm/Shield01Icon";
+import SparklesIcon from "@hugeicons/core-free-icons/dist/esm/SparklesIcon";
+import Sun02Icon from "@hugeicons/core-free-icons/dist/esm/Sun02Icon";
+import Tick02Icon from "@hugeicons/core-free-icons/dist/esm/Tick02Icon";
+import Upload02Icon from "@hugeicons/core-free-icons/dist/esm/Upload02Icon";
+import UserCircleIcon from "@hugeicons/core-free-icons/dist/esm/UserCircleIcon";
+import ViewIcon from "@hugeicons/core-free-icons/dist/esm/ViewIcon";
 import { HugeiconsIcon } from "@hugeicons/react";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";

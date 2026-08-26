@@ -8,9 +8,8 @@ import { IconTile } from "@/components/surface/icon-tile";
 import { FAQ } from "@/components/theme/faq";
 import { Frame, SectionTitle } from "@/components/theme/frame";
 import { ShaderHero } from "@/components/theme/shader-hero";
-import { Stats } from "@/components/theme/stats";
 import { Button } from "@/components/ui/button";
-import { getCategoryCounts, getComponents, getListings, getStacks } from "@/lib/data";
+import { getComponents, getListings, getStacks } from "@/lib/data";
 import { listingHref } from "@/lib/links";
 import { pageMetadata } from "@/lib/metadata";
 import { canRender } from "@/lib/registry-manifest";
@@ -26,17 +25,15 @@ export const metadata: Metadata = pageMetadata({
 const ease = "cubic-bezier(0.16,1,0.3,1)";
 
 export default async function HomePage(): Promise<ReactNode> {
-  const [live, newest, stacks, counts, all] = await Promise.all([
+  const [live, newest, stacks, all] = await Promise.all([
     getComponents({ limit: 3, renderableOnly: true }),
     getListings({ limit: 8, sort: "newest" }),
     getStacks(3),
-    getCategoryCounts(),
     getListings({ limit: 500 }),
   ]);
 
   const bySlug = new Map(all.items.map((l) => [l.slug, l]));
   const renderable = all.items.reduce((sum, l) => sum + l.componentCount, 0);
-  const categoryCount = Object.values(counts).filter((n) => n > 0).length;
 
   return (
     <>
@@ -93,14 +90,6 @@ export default async function HomePage(): Promise<ReactNode> {
         </Frame>
       </section>
 
-      <Stats
-        items={[
-          { value: all.total, label: "Listings, every figure fetched" },
-          { value: renderable, label: "Components rendering live" },
-          { value: categoryCount, label: "Categories with something in them" },
-          { value: sections.filter((s) => s.hasCategories).length, label: "Markets indexed" },
-        ]}
-      />
 
       {/* --------------------------------------------------------- the markets */}
       <section className="w-full bg-background py-24 sm:py-32">
