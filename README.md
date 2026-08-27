@@ -132,6 +132,28 @@ from either surface — status, featured and verified are human decisions;
 download counts are not. Approving a listing schedules a fact refresh, because
 the moment its numbers start being shown is the moment they should be true.
 
+## Deploying
+
+Vercel's build command is pinned in `vercel.json`:
+
+```
+npx convex deploy --cmd 'next build'
+```
+
+That single command does three things in order: pushes the Convex
+functions and schema, injects `NEXT_PUBLIC_CONVEX_URL` and
+`NEXT_PUBLIC_CONVEX_SITE_URL` into the environment, then runs the Next
+build against them. Those two variables do **not** need to be set by hand
+in the Vercel project — the deploy command provides them, and setting a
+stale one by hand is worse than leaving it unset.
+
+The only variable the project needs is `CONVEX_DEPLOY_KEY`, and it must
+belong to **this project's own** Convex deployment. Pointing it at a
+deployment shared with another application fails the build at schema
+validation, because Convex checks a declared schema against the documents
+already in the database. That failure is the guard working: it is the only
+thing standing between two unrelated products and a merged database.
+
 ## Tests
 
 The load-bearing promises here are the kind that a comment cannot keep, so
