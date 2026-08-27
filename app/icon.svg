@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+  <!-- The vitrine: an outer case with a component running inside it. Drawn
+       with literal colours rather than currentColor, because a favicon is
+       rendered by the browser chrome and inherits nothing from the page. -->
+  <rect width="24" height="24" rx="5" fill="#0a0a0a"/>
+  <rect x="4.5" y="4.5" width="15" height="15" rx="3" fill="#fafafa"/>
+  <path d="M8.6 12.3 11.2 14.9 15.6 9.6" stroke="#0a0a0a" stroke-width="2.1"
+        stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
