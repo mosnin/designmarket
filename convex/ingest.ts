@@ -62,11 +62,30 @@ async function getJson(
       // repo moved or went private, which is worth knowing about too.
       const remaining = res.headers.get("x-ratelimit-remaining");
       const rateLimited = res.status === 403 && remaining === "0";
-      console.warn(
-        rateLimited
-          ? `[ingest] ${source} rate limit exhausted — set GITHUB_TOKEN on this deployment to raise it`
-          : `[ingest] ${source} returned ${res.status} for ${url}`
-      );
+      if (rateLimited) {
+        // Report the ceiling and the reset, not just the fact of refusal. A
+        // limit of 60 means we are calling GitHub anonymously and the fix is a
+        // token; 5,000 means the token is working and we are simply asking too
+        // fast. And Convex actions run from shared egress addresses, so the
+        // anonymous 60/hr is pooled with other tenants — a reset far in the
+        // future is somebody else's traffic, not ours, which is the difference
+        // between "wait" and "pace differently".
+        const limit = res.headers.get("x-ratelimit-limit") ?? "?";
+        const reset = Number(res.headers.get("x-ratelimit-reset"));
+        const waitSeconds = Number.isFinite(reset)
+          ? Math.max(0, Math.round(reset - Date.now() / 1_000))
+          : null;
+        console.warn(
+          `[ingest] ${source} refused: 0 of ${limit} requests/hr left` +
+            (waitSeconds === null ? "" : `, resets in ${waitSeconds}s`) +
+            (limit === "60"
+              ? " — anonymous quota, shared across this Convex deployment's egress." +
+                " Set GITHUB_TOKEN to get a private 5,000/hr allowance."
+              : "")
+        );
+      } else {
+        console.warn(`[ingest] ${source} returned ${res.status} for ${url}`);
+      }
       return null;
     }
     return await res.json();
