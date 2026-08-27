@@ -143,22 +143,46 @@ async function fetchNpm(pkg: string): Promise<Partial<FetchedFacts>> {
 
 export const refreshOne = internalAction({
   args: { slug: v.string() },
-  handler: async (ctx, args): Promise<{ slug: string; fields: number }> => {
+  handler: async (
+    ctx,
+    args
+  ): Promise<{ slug: string; fields: number; complete: boolean }> => {
     const listing = await ctx.runQuery(internal.ingestData.listingForIngest, {
       slug: args.slug,
     });
-    if (!listing) return { slug: args.slug, fields: 0 };
+    if (!listing) return { slug: args.slug, fields: 0, complete: false };
 
     const facts: FetchedFacts = {};
     const repo = parseRepo(listing.repo);
-    if (repo) Object.assign(facts, await fetchGitHub(repo));
-    if (listing.npm) Object.assign(facts, await fetchNpm(listing.npm));
+
+    // `complete` means every source this listing declares actually answered.
+    // It is not the same as "we got some facts": a listing with an npm package
+    // and a repo can come back with full npm data and nothing from GitHub, and
+    // treating that as a successful refresh is what buries the failure.
+    let complete = true;
+
+    if (repo) {
+      const github = await fetchGitHub(repo);
+      Object.assign(facts, github);
+      // The repo endpoint always carries `stargazers_count`, so its absence is
+      // GitHub refusing us — never a project that genuinely has no stars.
+      if (github.githubStars === undefined) complete = false;
+    }
+    if (listing.npm) {
+      const npm = await fetchNpm(listing.npm);
+      Object.assign(facts, npm);
+      // Likewise `dist-tags.latest`: every published package has one. (Bundle
+      // size is not checked — bundlephobia legitimately 404s for packages it
+      // cannot build, and that is an absent fact, not a failed refresh.)
+      if (npm.version === undefined) complete = false;
+    }
 
     await ctx.runMutation(internal.ingestData.applyFacts, {
       slug: args.slug,
       facts,
+      complete,
     });
-    return { slug: args.slug, fields: Object.keys(facts).length };
+    return { slug: args.slug, fields: Object.keys(facts).length, complete };
   },
 });
 
@@ -168,11 +192,23 @@ export const refreshAll = internalAction({
     const slugs = await ctx.runQuery(internal.ingestData.slugsForIngest, {
       limit: args.limit ?? 500,
     });
-    // Spread the work out — bundlephobia in particular rate-limits hard, and a
-    // stale figure is much cheaper than a blocked source.
-    slugs.forEach((slug: string, index: number) => {
-      void ctx.scheduler.runAfter(index * 3_000, internal.ingest.refreshOne, { slug });
-    });
-    return { scheduled: slugs.length };
+
+    // Pace the batch to whichever GitHub rate limit is actually in force.
+    // Unauthenticated callers get 60 requests an hour, so a 3s spread burns the
+    // quota inside four minutes and 403s the rest of the catalogue — which is
+    // exactly what a wall of blank star counts looks like from the outside. A
+    // token raises the ceiling to 5,000/hr, and then the binding constraint is
+    // bundlephobia again, which is what the 3s was for.
+    const spacingMs = process.env.GITHUB_TOKEN ? 3_000 : 65_000;
+
+    // Scheduling is a write, and awaiting it is not optional: discarding these
+    // promises let the action return — and the request finish — before they
+    // committed, so `scheduled` reported intent and nothing ever ran.
+    const scheduled = await Promise.all(
+      slugs.map((slug: string, index: number) =>
+        ctx.scheduler.runAfter(index * spacingMs, internal.ingest.refreshOne, { slug })
+      )
+    );
+    return { scheduled: scheduled.length };
   },
 });
