@@ -53,8 +53,23 @@ export default function middleware(
 }
 
 export const config = {
-  // Only the routes that actually need a session check. Running auth on every
-  // request in the catalogue was work done for nothing on the 99% of traffic
+  // Only the routes that actually need a session check — running auth on every
+  // request in the catalogue is work done for nothing on the 99% of traffic
   // that is logged-out browsing.
-  matcher: ["/me/:path*", "/submit/:path*", "/admin/:path*", "/signin", "/signup"],
+  //
+  // `/api/auth` is not a page and is not gated: it is the endpoint
+  // `convexAuthNextjsMiddleware` itself serves, and the client posts every
+  // sign-in, sign-up and token refresh to it. Leaving it out of the matcher
+  // meant the middleware never ran for it, Next answered with its 404 page,
+  // and the client tried to parse that HTML as JSON. Nobody could create an
+  // account or sign in — on any deployment, by any method.
+  matcher: [
+    "/api/auth",
+    "/api/auth/:path*",
+    "/me/:path*",
+    "/submit/:path*",
+    "/admin/:path*",
+    "/signin",
+    "/signup",
+  ],
 };
