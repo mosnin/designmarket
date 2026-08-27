@@ -40,7 +40,7 @@ export function AccountMenu(): ReactNode {
   if (!isAuthenticated || !viewer) {
     return (
       <div className="flex items-center gap-1.5">
-        <Button variant="ghost" size="sm" asChild>
+        <Button variant="ghost" size="sm" className="hidden sm:inline-flex" asChild>
           <Link href="/signin">Log in</Link>
         </Button>
         <Button variant="primary" size="sm" asChild className="rounded-full">

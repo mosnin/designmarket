@@ -98,9 +98,15 @@ export function Topbar({
           <Icon name="search" />
         </Button>
 
-        <MorphControl />
+        <MorphControl className="hidden md:inline-flex" />
 
-        <Button variant="ghost" size="icon-sm" asChild aria-label="Bookmarks">
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          className="hidden sm:inline-flex"
+          asChild
+          aria-label="Bookmarks"
+        >
           <Link href="/me/bookmarks">
             <Icon name="bookmark" />
           </Link>
@@ -108,7 +114,7 @@ export function Topbar({
 
         <ThemeToggle className="hidden sm:inline-flex" />
 
-        <div className="ml-1">
+        <div className="sm:ml-1">
           <AccountMenu />
         </div>
       </div>
