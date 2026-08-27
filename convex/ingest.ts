@@ -37,18 +37,43 @@ type FetchedFacts = {
 /** External JSON of unknown shape — read defensively at every access. */
 type Json = Record<string, unknown> | null;
 
+/**
+ * Every failure here becomes an absent field, which is the right outcome — we
+ * would rather print nothing than a number we cannot stand behind.
+ *
+ * But absent-because-nobody-published-it and absent-because-GitHub-refused-us
+ * look identical from the catalogue, and only one of those is fixable. So a
+ * refusal says so in the logs. Without this the whole GitHub half of ingestion
+ * can fail for every listing and the only symptom is a column of blanks that
+ * looks like the projects are simply quiet.
+ */
 async function getJson(
   url: string,
   headers: Record<string, string> = {}
 ): Promise<Json> {
+  const source = new URL(url).host;
   try {
     const res = await fetch(url, {
       headers: { "user-agent": "vitrine-ingest", ...headers },
       signal: AbortSignal.timeout(20_000),
     });
-    if (!res.ok) return null;
+    if (!res.ok) {
+      // 403 with no remaining quota is the rate limit; 404 usually means the
+      // repo moved or went private, which is worth knowing about too.
+      const remaining = res.headers.get("x-ratelimit-remaining");
+      const rateLimited = res.status === 403 && remaining === "0";
+      console.warn(
+        rateLimited
+          ? `[ingest] ${source} rate limit exhausted — set GITHUB_TOKEN on this deployment to raise it`
+          : `[ingest] ${source} returned ${res.status} for ${url}`
+      );
+      return null;
+    }
     return await res.json();
-  } catch {
+  } catch (error) {
+    console.warn(
+      `[ingest] ${source} unreachable: ${error instanceof Error ? error.message : "unknown"}`
+    );
     return null;
   }
 }
