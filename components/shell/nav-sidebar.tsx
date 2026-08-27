@@ -190,9 +190,9 @@ function SectionMenu({
       </div>
 
       <div className="px-4 pb-2 pt-2">
-        <h2 className="text-[14px] font-semibold tracking-tight">
+        <p className="text-[14px] font-semibold tracking-tight">
           {section.label}
-        </h2>
+        </p>
         <p className="mt-1 text-[11px] leading-relaxed text-muted-foreground">
           {section.blurb}
         </p>

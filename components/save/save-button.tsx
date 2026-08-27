@@ -42,7 +42,7 @@ export function SaveButton(props: SaveButtonProps): ReactNode {
         onClick={offlineNotice}
       >
         <Icon name="bookmark" />
-        {props.label ? "Save" : null}
+        {props.label ? "Save" : <span className="sr-only">Save</span>}
       </Button>
     );
   }
@@ -63,7 +63,7 @@ function LiveSaveButton({
       <Button variant="outline" size={size} className={cn("rounded-full", className)} asChild>
         <Link href={state.signInHref}>
           <Icon name="bookmark" />
-          {text}
+          {text ?? <span className="sr-only">Sign in to save</span>}
         </Link>
       </Button>
     );
