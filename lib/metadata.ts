@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { siteConfig } from "./config";
 
+const OG_IMAGE = "/opengraph-image";
+
 export const baseMetadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
@@ -26,12 +28,18 @@ export const baseMetadata: Metadata = {
     siteName: siteConfig.name,
     title: `${siteConfig.name} — ${siteConfig.tagline}`,
     description: siteConfig.description,
+    // Referenced by path rather than left to the opengraph-image file
+    // convention. Declaring `openGraph` explicitly in a segment suppresses the
+    // automatic merge, so the generated card was never reaching the document —
+    // while `twitter:card` went on promising a large image that did not exist.
+    images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: siteConfig.tagline }],
   },
   twitter: {
     card: "summary_large_image",
     site: siteConfig.twitter,
     title: `${siteConfig.name} — ${siteConfig.tagline}`,
     description: siteConfig.description,
+    images: [OG_IMAGE],
   },
   robots: { index: true, follow: true },
 };
@@ -55,6 +63,16 @@ export function pageMetadata({
       ...(description ? { description } : {}),
       url,
       siteName: siteConfig.name,
+      images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: title }],
+    },
+    // Twitter does not fall back to openGraph when a `twitter` block exists
+    // anywhere in the tree, and the root layout defines one. Without this the
+    // card for every page in the app quoted the site's own homepage title.
+    twitter: {
+      card: "summary_large_image",
+      title,
+      ...(description ? { description } : {}),
+      images: [OG_IMAGE],
     },
   };
 }
