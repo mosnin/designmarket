@@ -7,6 +7,7 @@ import { Icon } from "@/components/icon";
 import { IconTile } from "@/components/surface/icon-tile";
 import { SectionHeading } from "@/components/surface/section-heading";
 import { Badge } from "@/components/ui/badge";
+import { UserAvatar } from "@/components/ui/user-avatar";
 import { api } from "@/convex/_generated/api";
 import { AUTH_ENABLED } from "@/lib/auth-server";
 import { pageMetadata } from "@/lib/metadata";
@@ -165,12 +166,16 @@ export default async function ProfilePage({
 function ProfileHeader({ profile }: { profile: NonNullable<Profile> }): ReactNode {
   return (
     <header className="flex flex-wrap items-start gap-4">
-      <span
-        className="flex size-16 items-center justify-center rounded-sm text-[20px] font-semibold text-white ring-1 ring-inset ring-white/10"
-        style={{ background: `linear-gradient(140deg, #2a2a2a, #141414)` }}
-      >
-        {profile.displayName.slice(0, 2).toUpperCase()}
-      </span>
+      {/* This header used to draw initials on a fixed gradient and never read
+          `avatarUrl` at all, so a member who had set a photo still saw two
+          letters on their own profile. */}
+      <UserAvatar
+        seed={profile.handle}
+        src={profile.avatarUrl}
+        size={64}
+        // The one avatar on the page, and the largest — worth the frame loop.
+        animated
+      />
       <div className="min-w-0 flex-1">
         <div className="flex flex-wrap items-center gap-2">
           <h1 className="font-serif text-[26px] font-medium">

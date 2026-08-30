@@ -270,6 +270,7 @@ export const members = query({
         id: r._id as string,
         handle: r.handle,
         displayName: r.displayName,
+        avatarUrl: r.avatarUrl ?? null,
         role: r.role,
         plan: r.plan,
         createdAt: r.createdAt,

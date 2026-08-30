@@ -5,7 +5,6 @@ import { Icon } from "@/components/icon";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { ReactNode } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,15 +16,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
+import { UserAvatar } from "@/components/ui/user-avatar";
 import { useAuth, useSession } from "@/lib/session";
-
-function initials(name: string): string {
-  return name
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((part) => part.charAt(0))
-    .join("");
-}
 
 export function AccountMenu(): ReactNode {
   const { authEnabled, isLoading, isAuthenticated, viewer, isStaff, isPro } =
@@ -60,12 +52,7 @@ export function AccountMenu(): ReactNode {
           className="rounded-full transition-opacity hover:opacity-80"
           aria-label="Account menu"
         >
-          <Avatar>
-            {viewer.avatarUrl ? (
-              <AvatarImage src={viewer.avatarUrl} alt="" />
-            ) : null}
-            <AvatarFallback>{initials(viewer.displayName)}</AvatarFallback>
-          </Avatar>
+          <UserAvatar seed={viewer.handle} src={viewer.avatarUrl} size={32} />
         </button>
       </DropdownMenuTrigger>
 

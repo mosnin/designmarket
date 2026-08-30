@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
+import { UserAvatar } from "@/components/ui/user-avatar";
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
 import { formatDate } from "@/lib/utils";
@@ -51,6 +52,9 @@ export function AdminMemberTable({ role }: { role: string }): ReactNode {
         <ul className="mt-4 divide-y divide-foreground/10 border-y border-border">
           {members.map((member) => (
             <li key={member.id} className="flex flex-wrap items-center gap-3 py-3">
+              {/* Static: a list this long should not hold one animation loop
+                  per row. */}
+              <UserAvatar seed={member.handle} src={member.avatarUrl} size={28} />
               <div className="min-w-0 flex-1">
                 <Link
                   href={`/u/${member.handle}`}
