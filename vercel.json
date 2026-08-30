@@ -1,0 +1,9 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nextjs",
+  "buildCommand": "npx convex deploy --cmd 'next build'",
+  "installCommand": "npm ci",
+  "github": {
+    "silent": false
+  }
+}

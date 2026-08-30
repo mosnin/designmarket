@@ -1,0 +1,537 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ==========================================================================
+   TOKENS — taken from the purchased theme, not reinvented
+
+   The theme defines seven colours and nothing else: background, foreground,
+   muted, muted-foreground, border, ring, accent. There is no surface ladder,
+   no elevation scale, no shadow palette. Depth is expressed as the FOREGROUND
+   at low alpha — `border-foreground/10`, `text-foreground/60`,
+   `hover:border-foreground/20` — which is why the theme reads as one flat
+   material in both light and dark instead of a stack of grey boxes.
+
+   The aliases below exist because this app was built against invented names
+   before the theme was read properly. They now resolve to the theme's own
+   values, so `bg-surface` renders the theme's card, not a third grey.
+   ========================================================================== */
+
+:root {
+  --background: #fafaf8;
+  --foreground: #0a0a0a;
+  --muted: #f3f3ee;
+  --muted-foreground: #737373;
+  --border: #e5e5e5;
+  --ring: #0066ff;
+  --accent: #0066ff;
+
+  /* Aliases onto the seven. Nothing here introduces a new colour. */
+  --surface: color-mix(in srgb, var(--muted) 50%, var(--background));
+  --surface-2: var(--muted);
+  --elevated: var(--background);
+  --subtle-foreground: color-mix(in srgb, var(--foreground) 45%, transparent);
+  --border-strong: color-mix(in srgb, var(--foreground) 20%, transparent);
+  --accent-hover: #0052cc;
+  --accent-foreground: #ffffff;
+  --accent-muted: color-mix(in srgb, var(--accent) 8%, transparent);
+  --accent-ring: var(--accent);
+
+  --live: #0066ff;
+  --live-glow: #3b82f6;
+  --success: #0a0a0a;
+  --warning: #737373;
+  --danger: #dc2626;
+
+  --grid-line: color-mix(in srgb, var(--foreground) 4%, transparent);
+  --glass: color-mix(in srgb, var(--background) 82%, transparent);
+
+  --header-h: 3.5rem;
+  --sidebar-w: 16rem;
+}
+
+.dark {
+  /* The theme's dark ground is #070712 — near-black with a blue cast. The
+     structure is kept (one background, one muted, one border) but the hue is
+     neutralised to the charcoal you asked for, because a navy tint under
+     every surface was the thing you called out. */
+  --background: #0a0a0a;
+  --foreground: #fafafa;
+  --muted: #141414;
+  --muted-foreground: #a3a3a3;
+  --border: #262626;
+  --ring: #3b82f6;
+  --accent: #3b82f6;
+
+  --accent-hover: #60a5fa;
+  --accent-foreground: #ffffff;
+  --live: #3b82f6;
+  --live-glow: #60a5fa;
+  --success: #fafafa;
+  --warning: #a3a3a3;
+  --danger: #f87171;
+
+  --glass: color-mix(in srgb, var(--background) 88%, transparent);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-elevated: var(--elevated);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-subtle-foreground: var(--subtle-foreground);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-muted: var(--accent-muted);
+  --color-live: var(--live);
+  --color-live-glow: var(--live-glow);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-ring: var(--ring);
+
+  /* The theme's radii: rounded-sm on cards, rounded-md on panels,
+     rounded-full on controls. These are Tailwind's own defaults — the scale
+     this app had inflated every step, which is where the pill-shaped cards
+     came from. */
+  --radius-xs: 0.125rem;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+
+  --font-sans: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  /* The theme sets every heading in the default serif stack. That is its
+     voice, and dropping it for a second grotesque is how this stopped looking
+     like the theme at all. */
+  --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-display: var(--font-serif);
+}
+
+/* --------------------------------------------------------------------------
+   PREVIEW TOKENS
+   The render sandbox does NOT inherit Vitrine's palette. It runs on its own
+   `--pv-*` set, which Theme Morph overwrites with whatever tokens the viewer
+   pasted in. Namespacing them keeps the app's own chrome from being repainted
+   when someone morphs the previews, and the names map 1:1 onto shadcn/ui's so
+   a pasted globals.css lands without translation.
+   -------------------------------------------------------------------------- */
+
+:root {
+  --pv-background: #ffffff;
+  --pv-foreground: #0a0a0a;
+  --pv-card: #ffffff;
+  --pv-card-foreground: #0a0a0a;
+  --pv-popover: #ffffff;
+  --pv-popover-foreground: #0a0a0a;
+  --pv-primary: #0066ff;
+  --pv-primary-foreground: #ffffff;
+  --pv-secondary: #f5f5f5;
+  --pv-secondary-foreground: #0a0a0a;
+  --pv-muted: #f5f5f5;
+  --pv-muted-foreground: #737373;
+  --pv-accent: #eff5ff;
+  --pv-accent-foreground: #0066ff;
+  --pv-destructive: #dc2626;
+  --pv-destructive-foreground: #ffffff;
+  --pv-border: #e5e5e5;
+  --pv-input: #e5e5e5;
+  --pv-ring: #0066ff;
+  --pv-radius: 0.625rem;
+}
+
+@theme inline {
+  --color-pv-background: var(--pv-background);
+  --color-pv-foreground: var(--pv-foreground);
+  --color-pv-card: var(--pv-card);
+  --color-pv-card-foreground: var(--pv-card-foreground);
+  --color-pv-popover: var(--pv-popover);
+  --color-pv-popover-foreground: var(--pv-popover-foreground);
+  --color-pv-primary: var(--pv-primary);
+  --color-pv-primary-foreground: var(--pv-primary-foreground);
+  --color-pv-secondary: var(--pv-secondary);
+  --color-pv-secondary-foreground: var(--pv-secondary-foreground);
+  --color-pv-muted: var(--pv-muted);
+  --color-pv-muted-foreground: var(--pv-muted-foreground);
+  --color-pv-accent: var(--pv-accent);
+  --color-pv-accent-foreground: var(--pv-accent-foreground);
+  --color-pv-destructive: var(--pv-destructive);
+  --color-pv-destructive-foreground: var(--pv-destructive-foreground);
+  --color-pv-border: var(--pv-border);
+  --color-pv-input: var(--pv-input);
+  --color-pv-ring: var(--pv-ring);
+
+  --radius-pv: var(--pv-radius);
+  --radius-pv-sm: calc(var(--pv-radius) * 0.55);
+  --radius-pv-lg: calc(var(--pv-radius) * 1.4);
+}
+
+/* The sandbox document itself. */
+body.vitrine-preview {
+  background-color: var(--pv-background);
+  color: var(--pv-foreground);
+}
+
+body.vitrine-preview ::selection {
+  background-color: var(--pv-primary);
+  color: var(--pv-primary-foreground);
+}
+
+body.vitrine-preview a:focus-visible,
+body.vitrine-preview button:focus-visible,
+body.vitrine-preview input:focus-visible,
+body.vitrine-preview [tabindex]:focus-visible {
+  outline: 2px solid var(--pv-ring);
+  outline-offset: 2px;
+}
+
+html {
+  color-scheme: light;
+  scroll-behavior: smooth;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overscroll-behavior-x: none;
+}
+
+::selection {
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: var(--radius-xs);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   MOTION TOKENS
+   The scale from transitions.dev (Jakub Antalík), used verbatim so every
+   duration and curve in the product comes from one considered system rather
+   than from whatever felt right in the moment. Components reference the tokens;
+   nothing hard-codes a cubic-bezier.
+   -------------------------------------------------------------------------- */
+
+:root {
+  --duration-stagger: 40ms;
+  --duration-micro: 80ms;
+  --duration-quick: 150ms;
+  --duration-fast: 250ms;
+  --duration-medium: 350ms;
+  --duration-slow: 400ms;
+  --duration-very-slow: 500ms;
+
+  --ease-smooth-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: ease-in-out;
+  --ease-out: ease-out;
+  --ease-linear: linear;
+  --ease-bounce: cubic-bezier(0.34, 1.36, 0.64, 1);
+  --ease-bounce-strong: cubic-bezier(0.34, 3.85, 0.64, 1);
+
+  --distance-micro: 4px;
+  --distance-small: 6px;
+  --distance-base: 8px;
+  --distance-medium: 12px;
+  --distance-large: 30px;
+
+  --scale-large: 0.96;
+  --scale-medium: 0.97;
+  --scale-small: 0.98;
+  --scale-tiny: 0.99;
+
+  --blur-small: 2px;
+  --blur-medium: 3px;
+  --blur-large: 8px;
+}
+
+/* Sidebar level change — the page-side-by-side recipe. Going deeper enters
+   from the right, coming back up enters from the left, so the direction of
+   travel is legible without a label. */
+.t-level {
+  animation: t-level-in var(--duration-fast) var(--ease-smooth-out) both;
+}
+
+.t-level[data-direction="down"] {
+  --t-level-from: var(--distance-base);
+}
+
+.t-level[data-direction="up"] {
+  --t-level-from: calc(var(--distance-base) * -1);
+}
+
+@keyframes t-level-in {
+  from {
+    opacity: 0;
+    transform: translateX(var(--t-level-from, 8px));
+    filter: blur(var(--blur-medium));
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+  }
+}
+
+/* Panel reveal, for facet groups and disclosures. */
+.t-panel {
+  transition:
+    transform var(--duration-slow) var(--ease-smooth-out),
+    opacity var(--duration-slow) var(--ease-smooth-out),
+    filter var(--duration-slow) var(--ease-smooth-out);
+}
+
+.t-panel[data-open="false"] {
+  transform: translateY(calc(var(--distance-medium) * -1));
+  opacity: 0;
+  filter: blur(var(--blur-small));
+  pointer-events: none;
+}
+
+/* Digit pop-in, for counts that change. */
+@keyframes t-digit-pop-in {
+  from {
+    transform: translateY(var(--distance-base));
+    opacity: 0;
+    filter: blur(var(--blur-small));
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+.t-digit {
+  display: inline-block;
+  animation: t-digit-pop-in var(--duration-very-slow) var(--ease-bounce) both;
+}
+
+/* The press. Every clickable surface in the product uses this one curve, so
+   the whole interface feels like it is made of the same material. */
+.t-press {
+  transition:
+    transform var(--duration-quick) var(--ease-smooth-out),
+    background-color var(--duration-quick) var(--ease-smooth-out),
+    border-color var(--duration-quick) var(--ease-smooth-out),
+    color var(--duration-quick) var(--ease-smooth-out),
+    box-shadow var(--duration-fast) var(--ease-smooth-out);
+}
+
+.t-press:active {
+  transform: scale(var(--scale-small));
+}
+
+/* A card that lifts. Deliberately small — a 2px rise reads as responsive, a
+   6px rise reads as a demo. */
+.t-lift {
+  transition:
+    transform var(--duration-fast) var(--ease-smooth-out),
+    background-color var(--duration-fast) var(--ease-smooth-out),
+    border-color var(--duration-fast) var(--ease-smooth-out),
+    box-shadow var(--duration-fast) var(--ease-smooth-out);
+}
+
+@media (hover: hover) {
+  .t-lift:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.t-lift:active {
+  transform: translateY(0) scale(var(--scale-tiny));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .t-level,
+  .t-digit {
+    animation: none !important;
+  }
+  .t-panel,
+  .t-press,
+  .t-lift {
+    transition: none !important;
+  }
+  .t-lift:hover,
+  .t-press:active,
+  .t-lift:active {
+    transform: none !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Utilities
+   -------------------------------------------------------------------------- */
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--border-strong);
+    border-radius: 999px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+/* The graph-paper backdrop used behind live render surfaces. */
+@utility bg-grid {
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+@utility bg-dots {
+  background-image: radial-gradient(var(--grid-line) 1px, transparent 1px);
+  background-size: 14px 14px;
+}
+
+@utility glass {
+  background-color: var(--glass);
+  backdrop-filter: saturate(180%) blur(12px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
+}
+
+/* Radix overlays run on the same scale: dropdowns and modals open on
+   --duration-fast and close on --duration-quick, both smooth-out. */
+[data-radix-popper-content-wrapper] > *,
+[data-slot="dialog-content"],
+[role="menu"],
+[role="listbox"],
+[role="tooltip"] {
+  animation-timing-function: var(--ease-smooth-out) !important;
+}
+
+[data-state="open"][data-slot="dialog-content"],
+[data-state="open"][role="menu"],
+[data-state="open"][role="listbox"] {
+  animation-duration: var(--duration-fast) !important;
+}
+
+[data-state="closed"][data-slot="dialog-content"],
+[data-state="closed"][role="menu"],
+[data-state="closed"][role="listbox"] {
+  animation-duration: var(--duration-quick) !important;
+}
+
+.skip-to-content {
+  position: absolute;
+  left: -9999px;
+  top: 0.5rem;
+  z-index: 9999;
+  padding: 0.625rem 1rem;
+  background: var(--surface);
+  border: 2px solid var(--ring);
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.skip-to-content:focus {
+  left: 0.5rem;
+}
+
+/* The "running" pulse on live preview badges. Signature motion. */
+@keyframes vt-live-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--live) 55%, transparent);
+  }
+  70% {
+    opacity: 0.85;
+    box-shadow: 0 0 0 5px color-mix(in oklab, var(--live) 0%, transparent);
+  }
+}
+
+.live-dot {
+  animation: vt-live-pulse 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Preview-only keyframes used by registry entries. */
+@keyframes pv-marquee-left {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes pv-marquee-right {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes pv-text-shimmer {
+  from { background-position: 200% center; }
+  to { background-position: -200% center; }
+}
+
+@keyframes pv-cell-pulse {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
+@keyframes vt-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in oklab, var(--foreground) 6%, transparent),
+    transparent
+  );
+  animation: vt-shimmer 1.6s infinite;
+}
